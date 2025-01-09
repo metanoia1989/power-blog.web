@@ -3,6 +3,7 @@ import { computed, onMounted } from 'vue'
 import { useRoute } from '#app'
 import { useArticleStore } from '@/stores/article'
 import { useNuxtApp } from '#app'
+import { getCategories } from '@/api/article'
 
 const route = useRoute()
 const articleStore = useArticleStore()

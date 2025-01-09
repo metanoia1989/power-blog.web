@@ -2,6 +2,7 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter, useRoute } from '#app'
 import { useStyleStore } from '@/stores/style'
+import SvgIcon from '@/components/svg_icon/index.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -10,7 +11,7 @@ const styleStore = useStyleStore()
 const menus = [
   { id: 0, title: '首页', path: '/', icon: 'home' },
   { id: 1, title: '归档', path: '/archives', icon: 'archives' },
-  { id: 2, title: '灵感', path: '/inspiration', icon: 'inspire' },
+  { id: 2, title: '灵感', path: '/weibo', icon: 'inspire' },
   { id: 3, title: '关于', path: '/about', icon: 'about' },
 ]
 
