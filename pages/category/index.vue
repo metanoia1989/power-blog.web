@@ -2,14 +2,15 @@
 import { ref, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useArticleStore } from '@/stores/article'
-import { useMessage } from '@/hooks/useMessage'
 import Loading from '@/components/loading/index.vue'
 import PostCard from '@/components/post_card/index.vue'
 import Pagination from '@/components/pagination/index.vue'
+import { useNuxtApp } from '#app'
+
+const { $message } = useNuxtApp()
 
 const route = useRoute()
 const store = useArticleStore()
-const message = useMessage()
 
 // 状态
 const posts = ref([])
@@ -45,7 +46,10 @@ const getPostsCountFn = async () => {
       ? store.currentCategory.open_issues
       : await store.getPostsCount()
   } catch (err) {
-    message.error('获取文章总数失败')
+    $message({
+      content: '获取文章总数失败',
+      type: 'error',
+    })
     throw new Error(err)
   }
 }
@@ -80,7 +84,10 @@ const getPostsFn = async () => {
     
     store.setAllPosts(res)
   } catch (err) {
-    message.error('获取文章列表失败')
+    $message({
+      content: '获取文章列表失败',
+      type: 'error',
+    })
     throw new Error(err)
   } finally {
     loading.value = false

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch, onCreated } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 
 // Props 定义
 const props = defineProps({
@@ -107,7 +107,7 @@ watch(totalPage, () => {
 })
 
 // Lifecycle
-onCreated(() => {
+onMounted(() => {
   initData()
   calcPage(props.currentPage)
 })

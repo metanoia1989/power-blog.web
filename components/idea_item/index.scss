@@ -40,7 +40,7 @@
       color: var(--major);
       background-color: var(--bg-weak);
 
-      .markdown::v-deep {
+      .markdown :deep {
         width: 100%;
 
         h1:first-child, h2:first-child, p:first-child, ul:first-child, ol:first-child, blockquote:first-child {

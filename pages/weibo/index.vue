@@ -1,11 +1,11 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useArticleStore } from '@/stores/article'
-import { useMessage } from '@/hooks/useMessage'
 import IdeaItem from '@/components/idea_item/index.vue'
+import { useNuxtApp } from '#app'
 
+const { $message } = useNuxtApp()
 const store = useArticleStore()
-const message = useMessage()
 
 // 状态
 const ideas = ref([])
@@ -16,7 +16,10 @@ const getInspirationCount = async () => {
   try {
     return await store.getWeiboListCount()
   } catch (err) {
-    message.error('获取灵感总数失败')
+    $message({
+      content: '获取灵感总数失败',
+      type: 'error',
+    })
     throw new Error(err)
   }
 }
@@ -29,7 +32,10 @@ const getInspiration = async () => {
       pageSize: totalCount
     })
   } catch (err) {
-    message.error('获取灵感失败')
+    $message({
+      content: '获取灵感失败',
+      type: 'error',
+    })
     throw new Error(err)
   } finally {
     loading.value = false

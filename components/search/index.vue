@@ -2,11 +2,13 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useArticleStore } from '@/stores/article'
-import { useMessage } from '@/composables/useMessage' // 假设你有一个消息组合式函数
+import { useNuxtApp } from '#app'
+
+const { $message } = useNuxtApp()
 
 const router = useRouter()
 const articleStore = useArticleStore()
-const { message } = useMessage()
+
 
 // Refs
 const searchValue = ref('')
@@ -46,7 +48,7 @@ const searchPostsFn = async () => {
     searchCount.value = res.searchCount
     posts.value = res.posts
   } catch (err) {
-    message({
+    $message({
       content: '搜索文章失败',
       type: 'error',
     })

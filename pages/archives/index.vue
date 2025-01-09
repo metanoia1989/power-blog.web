@@ -1,13 +1,14 @@
 <script setup>
 import { ref, computed, onBeforeUnmount } from 'vue'
 import { useArticleStore } from '@/stores/article'
-import { useMessage } from '@/hooks/useMessage'
 import ArchiveCard from '@/components/archive_card/index.vue'
 import Loading from '@/components/loading/index.vue'
 import { hexToHsl, parseArchives, sortArchiveMap } from '@/utils'
+import { useNuxtApp } from '#app'
+
+const { $message } = useNuxtApp()
 
 const store = useArticleStore()
-const message = useMessage()
 
 // 状态
 const totalCount = ref(0)
@@ -33,7 +34,10 @@ const getArchiveCountFn = async () => {
   try {
     totalCount.value = await store.getPostsCount()
   } catch (err) {
-    message.error('获取文章总数失败')
+    $message({
+      content: '获取文章总数失败',
+      type: 'error',
+    })
     throw new Error(err)
   }
 }
@@ -45,7 +49,10 @@ const getArchivesFn = async () => {
     const parsedArchiveMap = parseArchives(archives.value)
     archiveMap.value = sortArchiveMap(parsedArchiveMap)
   } catch (err) {
-    message.error('获取文章列表失败')
+    $message({
+      content: '获取文章列表失败',
+      type: 'error',
+    })
     throw new Error(err)
   } finally {
     loading.value = false
@@ -61,7 +68,10 @@ const getTagsFn = async () => {
       hslColor: hexToHsl(`#${tag.color}`)
     }))
   } catch (err) {
-    message.error('获取标签列表失败')
+    $message({
+      content: '获取标签列表失败',
+      type: 'error',
+    })
     throw new Error(err)
   }
 }

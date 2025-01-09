@@ -1,8 +1,10 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useMessage } from '@/composables/useMessage'  // 假设你有一个消息组合式函数
 import Markdown from '@/components/markdown/index.vue'
 import MarkIt from '@/components/markdown/mark_it.js'
+import { useNuxtApp } from '#app'
+
+const { $message } = useNuxtApp()
 
 // Props 定义
 const props = defineProps({
@@ -13,7 +15,6 @@ const props = defineProps({
 })
 
 const content = ref('')
-const { message } = useMessage()
 
 // 处理 Markdown 内容
 const initContent = async () => {
@@ -22,7 +23,7 @@ const initContent = async () => {
     const parsedMarked = await markIt.parse(props.post.summary)
     content.value = parsedMarked?.content
   } catch (err) {
-    message({
+    $message({
       content: '解析 markdown 失败',
       type: 'error',
     })

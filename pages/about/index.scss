@@ -120,7 +120,7 @@
       }
     }
 
-    ::v-deep .markdown {
+    :deep(.markdown) {
       min-height: 200px;
 
       svg {

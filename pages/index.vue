@@ -1,21 +1,21 @@
 <script setup>
 import { computed, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useStore } from 'vuex'
-import Category from '@/views/category/index.vue'
+import { useRoute } from 'vue-router'
+import { useArticleStore } from '@/stores/article'
+import Category from '@/pages/category/index.vue'
 
 const route = useRoute()
-const store = useStore()
+const articleStore = useArticleStore()
 
 // computed
 const isHome = computed(() => route.name === 'Home')
-const categories = computed(() => store.state.github.categories)
+const categories = computed(() => articleStore.categories)
 
 // methods
 const getCategoriesFn = async () => {
   try {
-    const res = await store.dispatch('github/getCategoriesAction')
-    store.commit('github/setCategories', res)
+    const res = await getCategories()
+    articleStore.setCategories(res)
   } catch (err) {
     // 假设 $message 是全局注册的组件/方法
     $message({
@@ -27,12 +27,12 @@ const getCategoriesFn = async () => {
 }
 
 // lifecycle hooks
-if (store.state.github.categories.length === 0) {
+if (articleStore.categories.length === 0) {
   getCategoriesFn()
 }
 
 onMounted(() => {
-  store.commit('github/setCurrentCategory', '')
+  articleStore.setCurrentCategory('')
 })
 </script>
 

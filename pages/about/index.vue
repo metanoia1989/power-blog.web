@@ -1,13 +1,14 @@
 <script setup>
-import { ref, onMounted, onCreated } from 'vue'
-import { useMessage } from '@/hooks/useMessage'
+import { ref, onMounted } from 'vue'
 import { useArticleStore } from '@/stores/article'
 import Comment from '@/components/comment/index.vue'
 import MarkIt from '@/components/markdown/mark_it'
 import Markdown from '@/components/markdown/index.vue'
 
+import { useNuxtApp } from '#app'
+
+const { $message } = useNuxtApp()
 const store = useArticleStore()
-const message = useMessage()
 
 // state
 const about = ref('')
@@ -26,7 +27,10 @@ const getAboutFn = async () => {
     appendBusuanzi(parsedString?.content)
   }
   catch (err) {
-    message.error('获取关于内容失败')
+    $message({
+      content: '获取关于内容失败',
+      type: 'error',
+    })
     throw new Error(err)
   }
   finally {
@@ -41,18 +45,27 @@ const queryLikeFn = async () => {
       likeTimes.value = res
   }
   catch (err) {
-    message.error('获取点赞次数失败')
+    $message({
+      content: '获取点赞次数失败',
+      type: 'error',
+    })
     throw new Error(err)
   }
 }
 
 const likeClick = async () => {
   if (localStorage.getItem('configLeancloud') === 'no') {
-    message.error('博主还没有设置 Leancloud，点赞无效')
+    $message({
+      content: '博主还没有设置 Leancloud，点赞无效',
+      type: 'error',
+    })
     return
   }
   if (isLiked.value === 'isLiked') {
-    message.warning('您已经点过赞了哦~')
+    $message({
+      content: '您已经点过赞了哦~',
+      type: 'warning',
+    })
     return
   }
   
@@ -60,10 +73,16 @@ const likeClick = async () => {
     likeTimes.value = await store.queryLike()
     isLiked.value = 'isLiked'
     localStorage.setItem('isLiked', 'isLiked')
-    message.success('谢谢您的点赞~')
+    $message({
+      content: '谢谢您的点赞~',
+      type: 'success',
+    })
   }
   catch (err) {
-    message.error('点赞失败')
+    $message({
+      content: '点赞失败',
+      type: 'error',
+    })
     throw new Error(err)
   }
 }
@@ -83,7 +102,7 @@ const appendBusuanzi = (string) => {
 }
 
 // lifecycle
-onCreated(() => {
+onMounted(() => {
   if (localStorage.getItem('isLiked') === 'undefined') {
     localStorage.setItem('isLiked', 'notLiked')
     isLiked.value = 'notLiked'
@@ -92,9 +111,6 @@ onCreated(() => {
     isLiked.value = localStorage.getItem('isLiked')
   }
   getAboutFn()
-})
-
-onMounted(() => {
   if (localStorage.getItem('configLeancloud') === 'yes')
     queryLikeFn()
 })

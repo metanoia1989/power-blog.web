@@ -1,3 +1,5 @@
+@use '~/assets/styles/mixins.scss' as *;
+
 .post {
   margin: 0 auto;
   margin-top: 100px;
@@ -60,7 +62,7 @@
       }
     }
 
-    ::v-deep .toc {
+    :deep(.toc) {
       ul {
         font-size: .9rem;
         ul {
