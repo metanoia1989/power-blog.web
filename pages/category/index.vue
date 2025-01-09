@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute } from '#app'
 import { useArticleStore } from '@/stores/article'
 import Loading from '@/components/loading/index.vue'
 import PostCard from '@/components/post_card/index.vue'
@@ -116,15 +116,15 @@ getPostsCountFn()
       <Loading v-if="loading" />
       <transition name="from-bottom">
         <div v-if="!loading" class="posts">
-          <router-link
+          <NuxtLink
             v-for="post in posts"
             :key="post.id"
-            :to="{ name: 'Post', params: { number: post.number } }"
+            :to="`/posts/${post.number}`"
           >
             <PostCard
               :post="post"
             />
-          </router-link>
+          </NuxtLink>
         </div>
       </transition>
     </div>

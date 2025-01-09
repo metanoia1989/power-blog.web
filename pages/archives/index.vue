@@ -4,7 +4,7 @@ import { useArticleStore } from '@/stores/article'
 import ArchiveCard from '@/components/archive_card/index.vue'
 import Loading from '@/components/loading/index.vue'
 import { hexToHsl, parseArchives, sortArchiveMap } from '@/utils'
-import { useNuxtApp } from '#app'
+import { useNuxtApp, useRoute } from '#app'
 
 const { $message } = useNuxtApp()
 
@@ -161,13 +161,13 @@ getTagsFn()
                   {{ year }}
                 </div>
                 <div class="archive-item-list">
-                  <router-link
+                  <NuxtLink
                     v-for="archive in archiveMap[year]"
                     :key="archive.id"
-                    :to="{ name: 'Post', params: { number: archive.number } }"
+                    :to="`/posts/${archive.number}`"
                   >
                     <ArchiveCard :cover="archive.cover" :title="archive.title" :created-at="archive.created_at" />
-                  </router-link>
+                  </NuxtLink>
                 </div>
               </div>
             </div>

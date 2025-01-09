@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter } from '#app'
 import { useArticleStore } from '@/stores/article'
 import { useNuxtApp } from '#app'
 
@@ -34,7 +34,7 @@ const hideSearchWrap = () => {
 }
 
 const pushToPost = (number) => {
-  router.push({ name: 'Post', params: { number } })
+  router.push(`/posts/${number}`)
   hideSearchWrap()
 }
 

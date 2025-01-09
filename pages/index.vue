@@ -1,14 +1,15 @@
 <script setup>
 import { computed, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute } from '#app'
 import { useArticleStore } from '@/stores/article'
-import Category from '@/pages/category/index.vue'
+import { useNuxtApp } from '#app'
 
 const route = useRoute()
 const articleStore = useArticleStore()
+const { $message } = useNuxtApp()
 
 // computed
-const isHome = computed(() => route.name === 'Home')
+const isHome = computed(() => route.path === '/')
 const categories = computed(() => articleStore.categories)
 
 // methods
@@ -40,22 +41,20 @@ onMounted(() => {
   <div class="home-page">
     <div class="categories-bar">
       <div class="categories">
-        <router-link to="/">
+        <NuxtLink to="/">
           近期文章
-        </router-link>
-        <router-link v-for="category in categories" :key="category.id" :to="{ name: 'Category', params: { number: category.number, category } }">
+        </NuxtLink>
+        <NuxtLink 
+          v-for="category in categories" 
+          :key="category.id" 
+          :to="`/category/${category.title}/${category.number}`"
+        >
           {{ category.title }}
-        </router-link>
+        </NuxtLink>
       </div>
     </div>
-    <transition name="fade">
-      <template v-if="isHome">
-        <Category />
-      </template>
-      <template v-else>
-        <router-view />
-      </template>
-    </transition>
+    
+    <NuxtPage />
   </div>
 </template>
 

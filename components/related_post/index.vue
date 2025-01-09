@@ -20,7 +20,7 @@ const showTagText = computed(() => {
 </script>
 
 <template>
-  <router-link :to="{ name: 'Post', params: { number: post.number } }" class="related-post">
+  <NuxtLink :to="`/posts/${post.number}`" class="related-post">
     <figure class="post-cover">
       <img v-if="post.cover" :src="post.cover" alt="Cover">
       <img v-else :src="$config.defaultCover" alt="Cover">
@@ -42,7 +42,7 @@ const showTagText = computed(() => {
         </h2>
       </div>
     </div>
-  </router-link>
+  </NuxtLink>
 </template>
 
 <style lang="scss" scoped>

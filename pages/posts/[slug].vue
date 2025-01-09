@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter } from '#app'
 import { useArticleStore } from '@/stores/article'
 import Comment from '@/components/comment/index.vue'
 import RelatedPost from '@/components/related_post/index.vue'
@@ -24,7 +24,7 @@ const tocWrap = ref(null)
 const postNumber = computed(() => {
   const url = window.location.href
   const postId = url.match(/\/post\/(\d+)/)?.[1]
-  return route?.params?.number || Number(postId)
+  return route?.params?.slug || Number(postId)
 })
 
 const showTagText = computed(() => 
@@ -154,12 +154,12 @@ const hideToc = () => {
           <div class="cate-wrap">
             <span v-if="!post.category" class="cate-text">未分类</span>
             <template v-else>
-              <router-link
+              <NuxtLink
                 class="cate-link"
-                :to="{ name: 'Category', params: { category: post.category?.title, number: post.category.number } }"
+                :to="`/category/${post.category?.title}/${post.category.number}`"
               >
                 {{ post.category.title }}
-              </router-link>
+              </NuxtLink>
             </template>
           </div>
           <h1 class="post-title">

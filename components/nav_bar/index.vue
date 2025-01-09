@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter, useRoute } from '#app'
 import { useStyleStore } from '@/stores/style'
 
 const router = useRouter()
@@ -64,18 +64,18 @@ onMounted(() => {
   <div class="nav-bar" @dblclick="backToTop">
     <div class="site-title">
       <h1>
-        <RouterLink class="title" to="/">
+        <NuxtLink class="title" to="/">
           {{ $config.title }}
-        </RouterLink>
+        </NuxtLink>
         <span class="subtitle">{{ $config.subtitle }}</span>
       </h1>
     </div>
     <nav class="site-nav">
       <ul ref="menu-wrap">
         <li v-for="menu in menus" :key="menu.id">
-          <RouterLink :to="menu.path">
+          <NuxtLink :to="menu.path">
             <SvgIcon :name="menu.icon" color="currentColor" /> {{ menu.title }}
-          </RouterLink>
+          </NuxtLink>
         </li>
       </ul>
     </nav>
@@ -102,3 +102,4 @@ onMounted(() => {
 <style lang="scss" scoped>
 @import './index.scss';
 </style>
+
