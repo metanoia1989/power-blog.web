@@ -60,18 +60,18 @@ const getPostsFn = async () => {
   try {
     let res = []
     if (categorySlug.value) {
-      const filter = `&category=${categorySlug.value}`
-      res = await store.searchPosts({ page: currentPage.value, filter })
+      const filter = `&category_slug=${categorySlug.value}`
+      res = await store.fetchArticleList({ page: currentPage.value, filter })
     }
     else {
-      res = await store.searchPosts({ page: currentPage.value })
+      res = await store.fetchArticleList({ page: currentPage.value })
     }
 
     posts.value = res.posts.map(post => ({
       ...post,
       hot: 1,
     }))
-    
+
     
     store.setAllPosts(res.posts)
   } catch (err) {
@@ -102,29 +102,32 @@ getPostsCountFn()
 </script>
 
 <template>
-  <div class="post-list">
-    <div class="posts-wrap">
-      <Loading v-if="loading" />
-      <transition name="from-bottom">
-        <div v-if="!loading" class="posts">
-          <NuxtLink
-            v-for="post in posts"
-            :key="post.id"
-            :to="`/posts/${post.slug}`"
-          >
-            <PostCard
-              :post="post"
-            />
-          </NuxtLink>
-        </div>
-      </transition>
+  <div class="category-page"> 
+    <CategoryBar />
+    <div class="post-list">
+      <div class="posts-wrap">
+        <Loading v-if="loading" />
+        <transition name="from-bottom">
+          <div v-if="!loading" class="posts">
+            <NuxtLink
+              v-for="post in posts"
+              :key="post.id"
+              :to="`/posts/${post.slug}`"
+            >
+              <PostCard
+                :post="post"
+              />
+            </NuxtLink>
+          </div>
+        </transition>
+      </div>
+      <Pagination
+        :current-page.sync="currentPage"
+        :total="totalCount"
+        :page-size="$config.pageSize"
+        @pageChange="pageChangeFn"
+      />
     </div>
-    <Pagination
-      :current-page.sync="currentPage"
-      :total="totalCount"
-      :page-size="$config.pageSize"
-      @pageChange="pageChangeFn"
-    />
   </div>
 </template>
 
@@ -135,6 +138,9 @@ getPostsCountFn()
 .from-bottom-enter {
   opacity: 0;
   transform: translateY(30px);
+}
+.category-page {
+  margin-top: 1em;
 }
 .post-list {
   .posts-wrap {

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { getArticleCount, searchArticle } from '@/api/article'
+import { getArticleCount, searchArticle, getArticleList } from '@/api/article'
 import { getWeiboCount, getWeiboList, searchWeibo } from '@/api/weibo'
 
 export const useArticleStore = defineStore('article', () => {
@@ -39,6 +39,22 @@ export const useArticleStore = defineStore('article', () => {
       created_at: parseDate(post.created_at),
     }))
     return { searchCount, posts }
+  }
+  async function fetchArticleList(params: any) {
+    const res = await getArticleList(params).catch((err) => {
+      throw new Error(err)
+    })
+    const posts = res?.lists.map((post: any) => ({
+      id: post.id,
+      slug: post.slug,
+      title: post.title,
+      desc: post.desc,
+      tags: post.tags,
+      feature_image: post.feature_image,
+      article_count: post.article_count,
+      created_at: parseDate(post.created_at),
+    })) || []
+    return { searchCount: posts.length, posts }
   }
 
   async function getWeiboListCount() {
@@ -108,6 +124,7 @@ export const useArticleStore = defineStore('article', () => {
     getWeiboListCount,
     fetchWeiboList,
     searchWeiboList,
+    fetchArticleList,
 
     // mutations
     setAllPosts,
