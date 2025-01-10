@@ -11,6 +11,7 @@ import MarkIt from '@/components/markdown/mark_it.js'
 const route = useRoute()
 const router = useRouter()
 const articleStore = useArticleStore()
+const $config = useAppConfig()
 
 const post = ref({})
 const relates = ref([])

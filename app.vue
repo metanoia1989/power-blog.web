@@ -1,7 +1,6 @@
 <template>
     <ElConfigProvider v-bind="config">
         <NuxtLayout>
-            <NuxtLoadingIndicator color="#6F7BC7" :height="2" />
             <NuxtPage />
         </NuxtLayout>
     </ElConfigProvider>

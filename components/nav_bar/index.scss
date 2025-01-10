@@ -14,7 +14,7 @@
     h1 {
       margin: 0;
       font-size: 24px;
-      letter-spacing: 4px;
+      letter-spacing: 1px;
       font-weight: bold;
       .title {
         position: relative;
@@ -73,13 +73,13 @@
           border-radius: .4em;
           font-size: 16px;
           text-decoration: none;
-          svg {
+          .svg-icon {
             margin-right: 5px;
           }
           &.router-link-exact-active {
             color: white;
             background-color: var(--primary);
-            svg {
+            .svg-icon {
               color: white;
             }
           }
@@ -94,7 +94,7 @@
     .change-theme {
       position: relative;
       cursor: pointer;
-      svg {
+      .svg-icon {
         position: absolute;
         right: 0;
         top: 0;
@@ -196,14 +196,14 @@
             font-size: 12px;
             color: var(--accent);
             text-decoration: none;
-            svg {
+            .svg-icon {
               font-size: 1.6rem;
               margin-right: 0;
             }
             &.router-link-exact-active {
               color: var(--primary);
               background: transparent;
-              svg {
+              .svg-icon {
                 color: var(--primary);
               }
             }

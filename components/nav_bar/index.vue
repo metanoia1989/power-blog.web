@@ -2,11 +2,12 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter, useRoute } from '#app'
 import { useStyleStore } from '@/stores/style'
-import SvgIcon from '@/components/svg_icon/index.vue'
+import SvgIcon from '@/components/svg-icon/index.vue'
 
 const router = useRouter()
 const route = useRoute()
 const styleStore = useStyleStore()
+const $config = useAppConfig()
 
 const menus = [
   { id: 0, title: '首页', path: '/', icon: 'home' },
@@ -75,7 +76,8 @@ onMounted(() => {
       <ul ref="menu-wrap">
         <li v-for="menu in menus" :key="menu.id">
           <NuxtLink :to="menu.path">
-            <SvgIcon :name="menu.icon" color="currentColor" /> {{ menu.title }}
+            <SvgIcon :name="menu.icon" color="currentColor" />
+             {{ menu.title }}
           </NuxtLink>
         </li>
       </ul>

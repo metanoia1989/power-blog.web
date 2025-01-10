@@ -3,9 +3,9 @@
     <NavBar />
     <Search v-if="showSearch" />
     <main class="main">
-      <transition :name="transitionName">
+      <!-- <transition :name="transitionName">
+      </transition> -->
         <slot />
-      </transition>
     </main>
     <Copyright />
     <BackToTop />

@@ -17,6 +17,9 @@ const postCategory = computed(() => {
 const showTagText = computed(() => {
   return props.post.tags && props.post.tags.length > 0
 })
+
+const $config = useAppConfig()
+
 </script>
 
 <template>

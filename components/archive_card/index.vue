@@ -16,7 +16,9 @@ const props = defineProps({
   },
 })
 
+const $config = useAppConfig()
 const create = computed(() => props.createdAt.slice(5, 10))
+
 </script>
 
 <template>

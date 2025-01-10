@@ -8,6 +8,7 @@ import Pagination from '@/components/pagination/index.vue'
 import { useNuxtApp } from '#app'
 
 const { $message } = useNuxtApp()
+const $config = useAppConfig()
 
 const route = useRoute()
 const store = useArticleStore()

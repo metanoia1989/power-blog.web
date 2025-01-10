@@ -1,11 +1,13 @@
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 
-import { svgBuilder } from './components/svg_icon/svgBuilder'
 import { getEnvConfig } from './nuxt/env'
+import { fileURLToPath, URL } from 'url'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
 const envConfig = getEnvConfig()
+console.log('ssr', !!envConfig.ssr)
 export default defineNuxtConfig({
-    debug: true,
+    // debug: true,
     css: ['@/assets/styles/index.scss'],
     vite: {
         css: {
@@ -15,6 +17,13 @@ export default defineNuxtConfig({
                 }
             }
         },
+        server: {
+            hmr: {
+                overlay: false
+            }
+        },
+        plugins: [
+        ]
     },
     modules: [
         '@pinia/nuxt', 
@@ -31,12 +40,4 @@ export default defineNuxtConfig({
         }
     },
     ssr: !!envConfig.ssr,
-    icon: {
-        customCollections: [
-            {
-                dir: './assets/images/icons/',
-                prefix: 'svg'
-            }
-        ]
-    }
 })

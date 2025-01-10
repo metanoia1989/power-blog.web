@@ -5,6 +5,7 @@ import MarkIt from '@/components/markdown/mark_it.js'
 import { useNuxtApp } from '#app'
 
 const { $message } = useNuxtApp()
+const $config = useAppConfig()
 
 // Props 定义
 const props = defineProps({
