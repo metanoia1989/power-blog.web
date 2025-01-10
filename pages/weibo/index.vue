@@ -7,6 +7,11 @@ import { useNuxtApp } from '#app'
 const { $message } = useNuxtApp()
 const store = useArticleStore()
 
+definePageMeta({
+  index: 2,
+  title: '絮絮叨叨',
+})
+
 // 状态
 const ideas = ref([])
 const loading = ref(true)

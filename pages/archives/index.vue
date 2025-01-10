@@ -3,12 +3,17 @@ import { ref, computed, onBeforeUnmount } from 'vue'
 import { useArticleStore } from '@/stores/article'
 import ArchiveCard from '@/components/archive_card/index.vue'
 import Loading from '@/components/loading/index.vue'
-import { hexToHsl, parseArchives, sortArchiveMap } from '@/utils'
-import { useNuxtApp, useRoute } from '#app'
+import { hexToHsl, parseArchives, sortArchiveMap } from '@/utils/blog'
+import { useNuxtApp } from '#app'
 
 const { $message } = useNuxtApp()
 
 const store = useArticleStore()
+
+definePageMeta({
+  index: 1,
+  title: '归档',
+})
 
 // 状态
 const totalCount = ref(0)

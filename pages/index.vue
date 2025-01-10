@@ -4,10 +4,16 @@ import { useRoute } from '#app'
 import { useArticleStore } from '@/stores/article'
 import { useNuxtApp } from '#app'
 import { getCategories } from '@/api/article'
+import Category from '@/pages/category/[slug].vue'
 
 const route = useRoute()
 const articleStore = useArticleStore()
 const { $message } = useNuxtApp()
+
+definePageMeta({
+  index: 0,
+  title: '首页',
+})
 
 // computed
 const isHome = computed(() => route.path === '/')
@@ -48,14 +54,21 @@ onMounted(() => {
         <NuxtLink 
           v-for="category in categories" 
           :key="category.id" 
-          :to="`/category/${category.title}/${category.number}`"
+          :to="`/category/${category.slug}`"
         >
-          {{ category.title }}
+          {{ category.name}}
         </NuxtLink>
       </div>
     </div>
-    
-    <NuxtPage />
+
+    <transition name="fade">
+      <template v-if="isHome">
+        <Category />
+      </template>
+      <template v-else>
+        <NuxtPage />
+      </template>
+    </transition>
   </div>
 </template>
 

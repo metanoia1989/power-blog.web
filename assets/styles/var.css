@@ -1,5 +1,7 @@
 /* <html data-theme="default"> */
 :root {
+  --nav-height: 76px;
+
     /* colors */
     --primary-h: 218;
     --primary-s: 95;

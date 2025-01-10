@@ -5,6 +5,8 @@ import Clipboard from 'clipboard'
 import VueEasyLightbox from 'vue-easy-lightbox'
 import MarkIt from './mark_it.js'
 
+const { $message } = useNuxtApp()
+
 // Props
 const props = defineProps({
   content: {

@@ -19,8 +19,8 @@ const totalCount = ref(0)
 const loading = ref(true)
 
 // 计算属性
-const categoryNumber = computed(() => {
-  return store.currentCategory.number || route.params.number
+const categorySlug = computed(() => {
+  return store.currentCategory.slug || route.params.slug
 })
 
 const currentPage = computed({
@@ -43,8 +43,8 @@ const pageChangeFn = () => {
 
 const getPostsCountFn = async () => {
   try {
-    totalCount.value = categoryNumber.value
-      ? store.currentCategory.open_issues
+    totalCount.value = categorySlug.value
+      ? store.currentCategory.article_count
       : await store.getPostsCount()
   } catch (err) {
     $message({
@@ -59,31 +59,21 @@ const getPostsFn = async () => {
   loading.value = true
   try {
     let res = []
-    if (categoryNumber.value) {
-      const filter = `&milestone=${categoryNumber.value}`
-      res = await store.fetchPosts({ page: currentPage.value, filter })
+    if (categorySlug.value) {
+      const filter = `&category=${categorySlug.value}`
+      res = await store.searchPosts({ page: currentPage.value, filter })
     }
     else {
-      res = await store.fetchPosts({ page: currentPage.value })
+      res = await store.searchPosts({ page: currentPage.value })
     }
 
-    const ids = res.map(post => post.id)
-    if (localStorage.getItem('configLeancloud') === 'yes') {
-      const hot = await store.queryHot({ ids })
-      if (hot) {
-        posts.value = res.map((post) => ({
-          ...post,
-          hot: hot[post.id] || 1
-        }))
-      }
-    } else {
-      posts.value = res.map(post => ({
-        ...post,
-        hot: 1
-      }))
-    }
+    posts.value = res.posts.map(post => ({
+      ...post,
+      hot: 1,
+    }))
     
-    store.setAllPosts(res)
+    
+    store.setAllPosts(res.posts)
   } catch (err) {
     $message({
       content: '获取文章列表失败',
@@ -120,7 +110,7 @@ getPostsCountFn()
           <NuxtLink
             v-for="post in posts"
             :key="post.id"
-            :to="`/posts/${post.number}`"
+            :to="`/posts/${post.slug}`"
           >
             <PostCard
               :post="post"

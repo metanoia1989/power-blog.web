@@ -33,9 +33,17 @@ const hideSearchWrap = () => {
   searchWrap.value.classList.remove('active')
 }
 
-const pushToPost = (number) => {
-  router.push(`/posts/${number}`)
-  hideSearchWrap()
+const pushToPost = (slug) => {
+  try {
+    router.push(`/posts/${slug}`)
+    hideSearchWrap()
+  } catch (err) {
+    $message({
+      content: '跳转文章失败',
+      type: 'error',
+    })
+    throw new Error(err)
+  }
 }
 
 const searchPostsFn = async () => {
@@ -46,7 +54,7 @@ const searchPostsFn = async () => {
     const res = await articleStore.searchPosts({ q: searchValue.value })
     searchValue.value = ''
     searchCount.value = res.searchCount
-    posts.value = res.posts
+    posts.value = res.posts.slice(0, 10)
   } catch (err) {
     $message({
       content: '搜索文章失败',
@@ -85,7 +93,7 @@ const searchPostsFn = async () => {
                 v-for="post in posts"
                 :key="post.id"
                 class="item"
-                @click="pushToPost(post.number)"
+                @click="pushToPost(post.slug)"
               >
                 <SvgIcon name="arrow" />
                 <span>{{ post.title }}</span>

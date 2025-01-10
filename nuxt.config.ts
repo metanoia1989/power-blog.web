@@ -1,11 +1,9 @@
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 
 import { getEnvConfig } from './nuxt/env'
-import { fileURLToPath, URL } from 'url'
-import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
 const envConfig = getEnvConfig()
-console.log('ssr', !!envConfig.ssr)
+
 export default defineNuxtConfig({
     // debug: true,
     css: ['@/assets/styles/index.scss'],

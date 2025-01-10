@@ -65,6 +65,9 @@ onMounted(() => {
 <template>
   <div class="nav-bar" @dblclick="backToTop">
     <div class="site-title">
+      <div class="site-logo">
+        <img src="/logo-center.png" alt="site logo">
+      </div>
       <h1>
         <NuxtLink class="title" to="/">
           {{ $config.title }}

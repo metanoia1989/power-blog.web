@@ -19,24 +19,24 @@ export const useArticleStore = defineStore('article', () => {
     const res = await getArticleCount().catch((err) => {
       throw new Error(err)
     })
-    if (res.status !== 200)
-      return Promise.reject(res || 'error')
-    return res.data.data?.repository?.issues.totalCount || 0
+    return res?.count || 0
   }
 
   async function searchPosts(params: any) {
-    const res = await searchArticle(params).catch((err) => {
+    const data = await searchArticle(params).catch((err) => {
       throw new Error(err)
     })
-    if (res.status !== 200)
-      return Promise.reject(res || 'error')
     
-    const searchCount = res.data.total_count
-    const posts = res.data.items.map((post: any) => ({
+    const searchCount = data.length
+    const posts = data.map((post: any) => ({
       id: post.id,
-      number: post.number,
+      slug: post.slug,
       title: post.title,
-      url: post.url,
+      desc: post.desc,
+      tags: post.tags,
+      feature_image: post.feature_image,
+      article_count: post.article_count,
+      created_at: parseDate(post.created_at),
     }))
     return { searchCount, posts }
   }
@@ -45,27 +45,21 @@ export const useArticleStore = defineStore('article', () => {
     const res = await getWeiboCount().catch((err) => {
       throw new Error(err)
     })
-    if (res.status !== 200)
-      return Promise.reject(res || 'error')
-    return res.data.total || 0
+    return res?.count || 0
   }
 
   async function fetchWeiboList(params: { page?: number; pageSize?: number; filter?: string } = {}) {
     const res = await getWeiboList(params).catch((err) => {
       throw new Error(err)
     })
-    if (res.status !== 200)
-      return Promise.reject(res || 'error')
-    return res.data.items || []
+    return res?.lists || []
   }
 
   async function searchWeiboList(keyword: string) {
     const res = await searchWeibo({ q: keyword }).catch((err) => {
       throw new Error(err)
     })
-    if (res.status !== 200)
-      return Promise.reject(res || 'error')
-    return res.data.items || []
+    return res?.lists || []
   }
 
   // mutations become simple assignments

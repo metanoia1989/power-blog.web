@@ -2,10 +2,15 @@
 import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { useRoute, useRouter } from '#app'
 import { useArticleStore } from '@/stores/article'
-import Comment from '@/components/comment/index.vue'
 import RelatedPost from '@/components/related_post/index.vue'
 import Markdown from '@/components/markdown/index.vue'
 import MarkIt from '@/components/markdown/mark_it.js'
+import { updateCurrentLink } from '@/utils/blog'
+
+definePageMeta({
+  index: 99,
+  title: '文章',
+})
 
 // State
 const route = useRoute()
@@ -22,10 +27,13 @@ const commentVisible = ref(false)
 const tocWrap = ref(null)
 
 // Computed
-const postNumber = computed(() => {
+const postSlug = computed(() => {
+  if (route.params?.slug) {
+    return route.params.slug
+  }
   const url = window.location.href
-  const postId = url.match(/\/post\/(\d+)/)?.[1]
-  return route?.params?.slug || Number(postId)
+  const slug = url.match(/\/post\/(\w+)/)?.[1]
+  return slug
 })
 
 const showTagText = computed(() => 
@@ -37,12 +45,7 @@ const getPostFn = async () => {
   const markIt = new MarkIt()
   try {
     loading.value = true
-    post.value = await articleStore.getArticleDetail(postNumber.value)
-    
-    if (localStorage.getItem('configLeancloud') === 'yes') {
-      const hot = await articleStore.increaseHot({ post: post.value })
-      post.value.hot = hot
-    }
+    post.value = await articleStore.getArticleDetail(postSlug.value)
 
     const parsedMarked = await markIt.parse(post.value.body)
     window.document.title = post.value.title
@@ -58,7 +61,7 @@ const getPostFn = async () => {
 
 const generateRelatesFn = async () => {
   try {
-    const postList = await articleStore.getRelativePosts(postNumber.value)
+    const postList = await articleStore.getRelativePosts(postSlug.value)
     relates.value = postList
   } catch (err) {
     console.error(err)
@@ -109,6 +112,10 @@ const handleClick = (e) => {
   }
 }
 
+const updateCurrentTocLink = () => {
+  updateCurrentLink('.toc-link')
+}
+
 const backLastPage = () => {
   router.back()
 }
@@ -157,7 +164,7 @@ const hideToc = () => {
             <template v-else>
               <NuxtLink
                 class="cate-link"
-                :to="`/category/${post.category?.title}/${post.category.number}`"
+                :to="`/category/${post.category.slug}`"
               >
                 {{ post.category.title }}
               </NuxtLink>
@@ -202,7 +209,6 @@ const hideToc = () => {
         <RelatedPost v-for="relate in relates" :key="relate.id" :post="relate" />
       </div>
     </section>
-    <Comment v-if="commentVisible" />
   </article>
 </template>
 

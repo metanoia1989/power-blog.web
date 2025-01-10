@@ -23,9 +23,9 @@ const $config = useAppConfig()
 </script>
 
 <template>
-  <NuxtLink :to="`/posts/${post.number}`" class="related-post">
+  <NuxtLink :to="`/posts/${post.slug}`" class="related-post">
     <figure class="post-cover">
-      <img v-if="post.cover" :src="post.cover" alt="Cover">
+      <img v-if="post.feature_image" :src="post.feature_image" alt="Cover">
       <img v-else :src="$config.defaultCover" alt="Cover">
     </figure>
     <div class="post-info">
@@ -34,9 +34,9 @@ const $config = useAppConfig()
         <span class="post-tags">
           <template v-if="showTagText">
             <SvgIcon name="biaoqian" />
-            <span v-for="tag in post.tags" :key="tag.id" class="post-tag">{{ tag.name }}</span>
+            <span v-for="tag in post?.tags" :key="tag.id" class="post-tag">{{ tag.name }}</span>
           </template>
-          <span v-if="post.tags.length === 0" class="post-tag">暂无标签</span>
+          <span v-if="!post?.tags?.length" class="post-tag">暂无标签</span>
         </span>
       </div>
       <div class="post-text">

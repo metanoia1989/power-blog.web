@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useArticleStore } from '@/stores/article'
-import Comment from '@/components/comment/index.vue'
 import MarkIt from '@/components/markdown/mark_it'
 import Markdown from '@/components/markdown/index.vue'
 
@@ -9,6 +8,11 @@ import { useNuxtApp } from '#app'
 
 const { $message } = useNuxtApp()
 const store = useArticleStore()
+
+definePageMeta({
+  index: 4,
+  title: '关于',
+})
 
 // state
 const about = ref('')
@@ -111,8 +115,6 @@ onMounted(() => {
     isLiked.value = localStorage.getItem('isLiked')
   }
   getAboutFn()
-  if (localStorage.getItem('configLeancloud') === 'yes')
-    queryLikeFn()
 })
 </script>
 
@@ -123,7 +125,6 @@ onMounted(() => {
         <Markdown :content="about" />
       </div>
     </div>
-    <Comment />
   </div>
 </template>
 
