@@ -12,12 +12,15 @@ export function getWeiboCount() {
 
 /**
  * 获取微博列表
- * @param {number} page 当前页码 pageSize 每页数量
+ * @param {number} page_no 当前页码 page_size 每页数量
  * @returns Promise
  */
-export function getWeiboList({ page = 1, pageSize = 20, filter = '' }) {
+export function getWeiboList(params: any) {
   return $request.get({
-    url: `/weibo/lists?page=${page}&per_page=${pageSize}${filter}`,
+    url: `/weibo/lists`,
+    params: {
+      ...params,
+    },
   })
 }
 

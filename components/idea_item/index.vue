@@ -1,6 +1,6 @@
 <script setup>
 import Markdown from '@/components/markdown/index.vue'
-import { useRuntimeConfig } from '#app'
+import { useAppStore } from '~/stores/app';
 
 // Props 定义
 const props = defineProps({
@@ -14,7 +14,9 @@ const props = defineProps({
   }
 })
 
-const config = useRuntimeConfig().public
+const appStore = useAppStore()
+const config = computed(() => appStore.config)
+
 </script>
 
 <template>

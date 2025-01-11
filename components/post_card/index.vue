@@ -2,10 +2,10 @@
 import { ref, onMounted } from 'vue'
 import Markdown from '@/components/markdown/index.vue'
 import { useNuxtApp, useRouter } from '#app'
+import { useAppStore } from '@/stores/app';
 
-const { $message } = useNuxtApp()
-const $config = useAppConfig()
-const router = useRouter()
+const appStore = useAppStore()
+const $config = computed(() => appStore.config)
 
 // Props 定义
 const props = defineProps({

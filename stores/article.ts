@@ -9,10 +9,7 @@ export const useArticleStore = defineStore('article', () => {
   const allWeibo = ref([])
   const categories = ref([])
   const currentCategory = ref({})
-  const currentPage = ref(1)
   const currentLink = ref(0)
-  const weiboCurrentPage = ref(1)
-  const weiboPageSize = ref(20)
 
   // actions
   async function getPostsCount() {
@@ -38,7 +35,13 @@ export const useArticleStore = defineStore('article', () => {
       article_count: post.article_count,
       created_at: parseDate(post.created_at),
     }))
-    return { searchCount, posts }
+    return { 
+      searchCount, 
+      posts, 
+      count: data?.count,
+      page_no: data?.page_no,
+      page_size: data?.page_size,
+    }
   }
   async function fetchArticleList(params: any) {
     const res = await getArticleList(params).catch((err) => {
@@ -55,7 +58,12 @@ export const useArticleStore = defineStore('article', () => {
       created_at: parseDate(post.created_at),
       created_at_raw: post.created_at,
     })) || []
-    return { searchCount: posts.length, posts }
+    return { 
+      searchCount: posts.length, posts, 
+      count: res?.count,
+      page_no: res?.page_no,
+      page_size: res?.page_size,
+    }
   }
 
   async function getWeiboListCount() {
@@ -65,7 +73,7 @@ export const useArticleStore = defineStore('article', () => {
     return res?.count || 0
   }
 
-  async function fetchWeiboList(params: { page?: number; pageSize?: number; filter?: string } = {}) {
+  async function fetchWeiboList(params: { page_no?: number; page_size?: number; filter?: string } = {}) {
     const res = await getWeiboList(params).catch((err) => {
       throw new Error(err)
     })
@@ -92,10 +100,6 @@ export const useArticleStore = defineStore('article', () => {
     currentCategory.value = category
   }
 
-  function setCurrentPage(page: any) {
-    currentPage.value = page
-  }
-
   function setCurrentLink(link: any) {
     currentLink.value = link
   }
@@ -104,20 +108,14 @@ export const useArticleStore = defineStore('article', () => {
     allWeibo.value = weibo
   }
 
-  function setWeiboCurrentPage(page: number) {
-    weiboCurrentPage.value = page
-  }
 
   return {
     // state
     allPosts,
     categories,
     currentCategory,
-    currentPage,
     currentLink,
     allWeibo,
-    weiboCurrentPage,
-    weiboPageSize,
 
     // actions
     getPostsCount,
@@ -131,9 +129,7 @@ export const useArticleStore = defineStore('article', () => {
     setAllPosts,
     setCategories,
     setCurrentCategory,
-    setCurrentPage,
     setCurrentLink,
     setAllWeibo,
-    setWeiboCurrentPage,
   }
 })

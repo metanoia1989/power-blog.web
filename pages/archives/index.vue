@@ -6,9 +6,11 @@ import Loading from '@/components/loading/index.vue'
 import { hexToHsl, parseArchives, sortArchiveMap } from '@/utils/blog'
 import { useNuxtApp } from '#app'
 import { getTags } from '@/api/article'
+import { useAppStore } from '~/stores/app'
 
 const { $message } = useNuxtApp()
-const $config = useAppConfig()
+const appStore = useAppStore()
+const $config = computed(() => appStore.config)
 
 const store = useArticleStore()
 

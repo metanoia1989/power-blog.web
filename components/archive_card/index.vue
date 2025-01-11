@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import { useAppStore } from '~/stores/app';
 
 const props = defineProps({
   cover: {
@@ -16,7 +17,8 @@ const props = defineProps({
   },
 })
 
-const $config = useAppConfig()
+const appStore = useAppStore()
+const $config = computed(() => appStore.config)
 const create = computed(() => props.createdAt.slice(5, 10))
 
 </script>

@@ -4,7 +4,7 @@ export function smsSend(params: any) {
 }
 
 // 获取配置
-export function getConfig() {
+export function getSiteConfig() {
     return $request.get({ url: '/index/config' })
 }
 

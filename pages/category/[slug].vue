@@ -4,11 +4,12 @@ import { useRoute } from '#app'
 import { useArticleStore } from '@/stores/article'
 import Loading from '@/components/loading/index.vue'
 import PostCard from '@/components/post_card/index.vue'
+import CategoryBar from '@/components/category_bar/index.vue'
 import Pagination from '@/components/pagination/index.vue'
 import { useNuxtApp } from '#app'
+import { getCategories } from '@/api/article'
 
 const { $message } = useNuxtApp()
-const $config = useAppConfig()
 
 const route = useRoute()
 const store = useArticleStore()
@@ -17,22 +18,18 @@ const store = useArticleStore()
 const posts = ref([])
 const totalCount = ref(0)
 const loading = ref(true)
+const { currentPage, pageSize } = usePagination()
+
+console.log('pageSize', pageSize.value)
+pageSize.value = 2
 
 // 计算属性
 const categorySlug = computed(() => {
   return store.currentCategory.slug || route.params.slug
 })
 
-const currentPage = computed({
-  get: () => store.currentPage || 1,
-  set: (val) => {
-    store.setCurrentPage(val)
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    })
-  }
-})
+
+console.log('categorySlug', categorySlug.value)
 
 // 方法
 const pageChangeFn = () => {
@@ -41,17 +38,40 @@ const pageChangeFn = () => {
   getPostsFn()
 }
 
+// methods
+const getCategoriesFn = async () => {
+  if (store.categories.length != 0) {
+    return Promise.resolve()
+  }
+  try {
+    const res = await getCategories()
+    store.setCategories(res)
+  } catch (err) {
+    $message({
+      content: '获取分类失败',
+      type: 'error',
+    })
+    throw new Error(err)
+  }
+}
+
 const getPostsCountFn = async () => {
   try {
     totalCount.value = categorySlug.value
       ? store.currentCategory.article_count
       : await store.getPostsCount()
+    
+      console.log('getPostsCountFn', {
+        'totalCount': totalCount.value,
+        'categorySlug': categorySlug.value,
+        'currentCategory': store.currentCategory,
+      })
   } catch (err) {
     $message({
       content: '获取文章总数失败',
       type: 'error',
     })
-    throw new Error(err)
+    console.log('err', err)
   }
 }
 
@@ -61,10 +81,18 @@ const getPostsFn = async () => {
     let res = []
     if (categorySlug.value) {
       const filter = `&category_slug=${categorySlug.value}`
-      res = await store.fetchArticleList({ page_no: currentPage.value, filter })
+      console.log('filter', filter)
+      res = await store.fetchArticleList({
+        page_no: currentPage.value,
+        page_size: pageSize.value,
+        filter,
+      })
     }
     else {
-      res = await store.fetchArticleList({ page_no: currentPage.value })
+      res = await store.fetchArticleList({
+        page_no: currentPage.value,
+        page_size: pageSize.value,
+      })
     }
 
     posts.value = res.posts.map(post => ({
@@ -85,20 +113,32 @@ const getPostsFn = async () => {
   }
 }
 
+const setCurrentCategory = () => {
+  if (store.categories.length != 0) {
+    const category = store.categories.find(item => item.slug === route.params.slug)
+    if (category) {
+      store.setCurrentCategory(category)
+    } else {
+      store.setCurrentCategory('')
+    }
+  }
+}
+
 // 监听
 watch(() => route, () => {
   posts.value = []
   currentPage.value = 1
-  store.setCurrentCategory(route.params.category || '')
+  setCurrentCategory()
   getPostsFn()
   getPostsCountFn()
 }, { deep: true })
 
 // 初始化
-currentPage.value = 1
-store.setCurrentCategory(route.params.category || '')
-getPostsFn()
-getPostsCountFn()
+getCategoriesFn().then(() => {
+  setCurrentCategory()
+  getPostsFn()
+  getPostsCountFn()
+})
 </script>
 
 <template>
@@ -124,7 +164,7 @@ getPostsCountFn()
       <Pagination
         v-model:current-page="currentPage"
         :total="totalCount"
-        :page-size="$config.pageSize"
+        :page-size="pageSize"
         @pageChange="pageChangeFn"
       />
     </div>

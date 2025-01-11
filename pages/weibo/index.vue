@@ -2,9 +2,11 @@
 import { ref, onMounted } from 'vue'
 import { useArticleStore } from '@/stores/article'
 import IdeaItem from '@/components/idea_item/index.vue'
-import { useNuxtApp } from '#app'
+import Pagination from '@/components/pagination/index.vue'
+import { useAppStore } from '@/stores/app'
 
-const { $message } = useNuxtApp()
+const appStore = useAppStore()
+const $config = computed(() => appStore.config)
 const store = useArticleStore()
 
 definePageMeta({
@@ -15,11 +17,19 @@ definePageMeta({
 // 状态
 const ideas = ref([])
 const loading = ref(true)
+const totalCount = ref(0)
+const currentPage = ref(1)
 
 // 方法
+const pageChangeFn = () => {
+  ideas.value = []
+  loading.value = true
+  getInspiration()
+}
+
 const getInspirationCount = async () => {
   try {
-    return await store.getWeiboListCount()
+    totalCount.value = await store.getWeiboListCount()
   } catch (err) {
     $message({
       content: '获取灵感总数失败',
@@ -31,10 +41,10 @@ const getInspirationCount = async () => {
 
 const getInspiration = async () => {
   try {
-    const totalCount = await getInspirationCount()
+    await getInspirationCount()
     ideas.value = await store.fetchWeiboList({
-      page: 1,
-      pageSize: totalCount
+      page_no: currentPage.value,
+      page_size: $config.pageSize
     })
   } catch (err) {
     $message({
@@ -62,13 +72,19 @@ onMounted(() => {
           <div v-if="!loading">
             <div v-for="idea in ideas" :key="idea.id" class="idea-item">
               <IdeaItem
-                :idea="idea.body"
-                :create="idea.created_at.slice(0, 10)"
+                :idea="idea.plaintext"
+                :create="idea.created_at"
               />
             </div>
           </div>
         </transition>
       </div>
+      <Pagination
+        v-model:current-page="currentPage"
+        :total="totalCount"
+        :page-size="$config.pageSize"
+        @pageChange="pageChangeFn"
+      />
     </div>
   </div>
 </template>

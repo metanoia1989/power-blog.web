@@ -1,13 +1,16 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useArticleStore } from '@/stores/article'
 import MarkIt from '@/components/markdown/mark_it'
 import Markdown from '@/components/markdown/index.vue'
 
 import { useNuxtApp } from '#app'
+import { useAppStore } from '~/stores/app'
 
 const { $message } = useNuxtApp()
-const store = useArticleStore()
+const appStore = useAppStore()
+
+const config = computed(() => appStore.config)
+const about = ref('')
 
 definePageMeta({
   index: 4,
@@ -15,7 +18,6 @@ definePageMeta({
 })
 
 // state
-const about = ref('')
 const isLiked = ref('notLiked')
 const likeTimes = ref(0)
 const loading = ref(true)
@@ -23,8 +25,7 @@ const loading = ref(true)
 // methods
 const getAboutFn = async () => {
   try {
-    const res = await store.getAbout()
-    const content = res?.body || ''
+    const content = config.value.about || ''
     const markIt = new MarkIt()
     const parsedString = await markIt.parse(content)
     about.value = parsedString?.content
@@ -68,7 +69,7 @@ const likeClick = async () => {
   if (isLiked.value === 'isLiked') {
     $message({
       content: '您已经点过赞了哦~',
-      type: 'warning',
+      type: 'warning'
     })
     return
   }

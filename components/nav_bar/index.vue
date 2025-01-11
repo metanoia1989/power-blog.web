@@ -3,11 +3,13 @@ import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter, useRoute } from '#app'
 import { useStyleStore } from '@/stores/style'
 import SvgIcon from '@/components/svg-icon/index.vue'
+import { useAppStore } from '@/stores/app'
 
 const router = useRouter()
 const route = useRoute()
 const styleStore = useStyleStore()
-const $config = useAppConfig()
+const appStore = useAppStore()
+const $config = computed(() => appStore.config)
 
 const menus = [
   { id: 0, title: '首页', path: '/', icon: 'home' },
@@ -18,7 +20,7 @@ const menus = [
 
 const routerChanged = ref(false)
 const theme = ref('light')
-const menuWrap = ref(null)
+const menuWrap = ref(null) // 将与template中的ref名称保持一致
 
 const darkMode = computed(() => theme.value === 'dark')
 
@@ -76,7 +78,7 @@ onMounted(() => {
       </h1>
     </div>
     <nav class="site-nav">
-      <ul ref="menu-wrap">
+      <ul ref="menuWrap">
         <li v-for="menu in menus" :key="menu.id">
           <NuxtLink :to="menu.path">
             <SvgIcon :name="menu.icon" color="currentColor" />

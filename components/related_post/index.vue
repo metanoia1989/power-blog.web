@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import { useAppStore } from '~/stores/app'
 
 // Props 定义
 const props = defineProps({
@@ -18,7 +19,8 @@ const showTagText = computed(() => {
   return props.post.tags && props.post.tags.length > 0
 })
 
-const $config = useAppConfig()
+const appStore = useAppStore()
+const $config = computed(() => appStore.config)
 
 </script>
 

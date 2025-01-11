@@ -80,7 +80,6 @@ class MarkIt {
       `
 
       const toc = this.renderer.getTocHtml()
-      console.log('toc', toc)
       return { content, toc }
     }
     else {

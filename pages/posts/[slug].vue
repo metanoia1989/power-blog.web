@@ -6,6 +6,7 @@ import Markdown from '@/components/markdown/index.vue'
 import MarkIt from '@/components/markdown/mark_it'
 import { updateCurrentLink } from '@/utils/blog'
 import { getArticleDetail, getRelativePosts } from '@/api/article'
+import { useAppStore } from '~/stores/app'
 
 definePageMeta({
   index: 99,
@@ -15,7 +16,8 @@ definePageMeta({
 // State
 const route = useRoute()
 const router = useRouter()
-const $config = useAppConfig()
+const appStore = useAppStore()
+const $config = computed(() => appStore.config)
 
 const post = ref({})
 const relates = ref([])

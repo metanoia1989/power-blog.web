@@ -15,9 +15,13 @@ export function getArticleCount() {
  * @returns Promise
  */
 export function searchArticle({ q = '' }) {
-  const config = useAppConfig()
   return $request.get({
-    url: `/article/search?keyword=${q}&page_no=1&page_size=${config.pageSize}`,
+    url: `/article/search`,
+    params: {
+      keyword: q,
+      page_no: 1,
+      page_size: 10,
+    },
   })
 }
 
@@ -43,13 +47,17 @@ export function getTags() {
 
 /**
  * 获取文章列表
- * @param {number} page 当前页码 pageSize 每页数量
+ * @param {number} page 当前页码 
+ * @param {number} pageSize 每页数量
+ * @param {string} filter 过滤条件
  * @returns Promise
  */
-export function getArticleList({ page_no = 1, page_size = null, filter = '' }) {
-  const defaultPageSize = useAppConfig().pageSize
+export function getArticleList(params: any) {
   return $request.get({
-    url: `/article/lists?page_no=${page_no}&page_size=${page_size || defaultPageSize}${filter ? `&filter=${filter}` : ''}`,
+    url: `/article/lists`,
+    params: {
+      ...params,
+    },
   })
 }
 

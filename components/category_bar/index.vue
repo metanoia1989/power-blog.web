@@ -27,24 +27,6 @@ const { $message } = useNuxtApp()
 // computed
 const categories = computed(() => articleStore.categories)
 
-// methods
-const getCategoriesFn = async () => {
-  try {
-    const res = await getCategories()
-    articleStore.setCategories(res)
-  } catch (err) {
-    $message({
-      content: '获取分类失败',
-      type: 'error',
-    })
-    throw new Error(err)
-  }
-}
-
-// init
-if (articleStore.categories.length === 0) {
-  getCategoriesFn()
-}
 </script>
 
 <style lang="scss" scoped>

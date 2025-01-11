@@ -24,6 +24,8 @@ const pageList = ref([])
 
 // Computed
 const totalPage = computed(() => {
+  console.log('props.total', props.total)
+  console.log('props.pageSize', props.pageSize)
   return Math.ceil(props.total / props.pageSize)
 })
 
@@ -72,6 +74,7 @@ const calcPage = (val) => {
   else {
     pageList.value = [val - 2, val - 1, val, val + 1]
   }
+  console.log('pageList', pageList.value)
 }
 
 const pageChange = (e) => {
@@ -93,6 +96,7 @@ const pageChange = (e) => {
   else {
     return
   }
+
   emit('pageChange', current.value)
 }
 
@@ -122,11 +126,17 @@ onMounted(() => {
       <button class="btn btn-prev" :disabled="currentPage === 1">
         <i class="prev" />
       </button>
-      <span v-if="showPrevDot">...</span>
+      <template v-if="showPrevDot">
+        <button class="btn btn-num">1</button>
+        <span>...</span>
+      </template>
       <button v-for="n in pageList" :key="n" class="btn btn-num" :class="currentPage === n ? 'active' : ''">
         {{ n }}
       </button>
-      <span v-if="showNextDot">...</span>
+      <template v-if="showNextDot">
+        <span>...</span>
+        <button class="btn btn-num">{{ totalPage }}</button>
+      </template>
       <button class="btn btn-next" :disabled="currentPage === totalPage">
         <i class="next" />
       </button>

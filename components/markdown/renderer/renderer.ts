@@ -124,7 +124,6 @@ class Toc {
 
 
   toHTML(): string {
-    console.log('toc', this.toc)
     const levelStack: number[] = []
     let result = ''
     const addStartUL = () => { result += '<ul class="anchor-ul" id="anchor-fix">' }
