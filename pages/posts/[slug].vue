@@ -1,11 +1,11 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { useRoute, useRouter } from '#app'
-import { useArticleStore } from '@/stores/article'
 import RelatedPost from '@/components/related_post/index.vue'
 import Markdown from '@/components/markdown/index.vue'
-import MarkIt from '@/components/markdown/mark_it.js'
+import MarkIt from '@/components/markdown/mark_it'
 import { updateCurrentLink } from '@/utils/blog'
+import { getArticleDetail, getRelativePosts } from '@/api/article'
 
 definePageMeta({
   index: 99,
@@ -15,7 +15,6 @@ definePageMeta({
 // State
 const route = useRoute()
 const router = useRouter()
-const articleStore = useArticleStore()
 const $config = useAppConfig()
 
 const post = ref({})
@@ -45,9 +44,9 @@ const getPostFn = async () => {
   const markIt = new MarkIt()
   try {
     loading.value = true
-    post.value = await articleStore.getArticleDetail(postSlug.value)
+    post.value = await getArticleDetail(postSlug.value)
 
-    const parsedMarked = await markIt.parse(post.value.body)
+    const parsedMarked = await markIt.parse(post.value.plaintext)
     window.document.title = post.value.title
     commentVisible.value = true
     toc.value = parsedMarked?.toc
@@ -61,7 +60,7 @@ const getPostFn = async () => {
 
 const generateRelatesFn = async () => {
   try {
-    const postList = await articleStore.getRelativePosts(postSlug.value)
+    const postList = await getRelativePosts(postSlug.value)
     relates.value = postList
   } catch (err) {
     console.error(err)
@@ -76,8 +75,9 @@ watch(() => route.path, () => {
   generateRelatesFn()
 })
 
+getPostFn()
+
 onMounted(() => {
-  getPostFn()
   generateRelatesFn()
   nextTick(() => {
     window.addEventListener('scroll', updateCurrentTocLink)
@@ -153,7 +153,7 @@ const hideToc = () => {
         </div>
       </div>
       <figure class="post-cover">
-        <img :src="post.cover || $config.defaultCover" alt="cover">
+        <img :src="post.feature_image || $config.defaultCover" alt="cover">
       </figure>
     </section>
     <section class="post-body">
@@ -166,7 +166,7 @@ const hideToc = () => {
                 class="cate-link"
                 :to="`/category/${post.category.slug}`"
               >
-                {{ post.category.title }}
+                {{ post.category.name }}
               </NuxtLink>
             </template>
           </div>
@@ -184,7 +184,7 @@ const hideToc = () => {
                 {{ $config.author }}
               </p>
               <div class="meta">
-                <span class="time"><SvgIcon name="shijian" /> {{ post.created_by }}</span>
+                <span class="time"><SvgIcon name="shijian" /> {{ post.created_at }}</span>
                 <span class="hot"><SvgIcon name="huore" /> {{ post.hot }}</span>
               </div>
             </div>

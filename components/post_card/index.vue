@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import Markdown from '@/components/markdown/index.vue'
-import MarkIt from '@/components/markdown/mark_it.js'
 import { useNuxtApp, useRouter } from '#app'
 
 const { $message } = useNuxtApp()

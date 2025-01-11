@@ -15,8 +15,9 @@ export function getArticleCount() {
  * @returns Promise
  */
 export function searchArticle({ q = '' }) {
+  const config = useAppConfig()
   return $request.get({
-    url: `/article/search?keyword=${q}`,
+    url: `/article/search?keyword=${q}&page_no=1&page_size=${config.pageSize}`,
   })
 }
 
@@ -45,9 +46,10 @@ export function getTags() {
  * @param {number} page 当前页码 pageSize 每页数量
  * @returns Promise
  */
-export function getArticleList({ page = 1, pageSize = 20, filter = '' }) {
+export function getArticleList({ page = 1, filter = '' }) {
+  const config = useAppConfig()
   return $request.get({
-    url: `/article/lists?page=${page}&per_page=${pageSize}${filter}`,
+    url: `/article/lists?page_no=${page}&page_size=${config.pageSize}${filter}`,
   })
 }
 
@@ -56,8 +58,19 @@ export function getArticleList({ page = 1, pageSize = 20, filter = '' }) {
  * @param {number} id 文章 id
  * @returns Promise
  */
-export function getArticleDetail(id: number) {
+export function getArticleDetail(slug: string) {
   return $request.get({
-    url: `/article/${id}`,
+    url: `/article/detail?slug=${slug}`,
+  })
+}
+
+/**
+ * 获取相关文章
+ * @param {string} slug 文章 slug
+ * @returns Promise
+ */
+export function getRelativePosts(slug: string) {
+  return $request.get({
+    url: `/article/relative?slug=${slug}`,
   })
 }

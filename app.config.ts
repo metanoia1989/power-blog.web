@@ -56,7 +56,7 @@ export default defineAppConfig({
     desc: 'Adam Smith\'s blog',
   
     // 文章相关
-    pageSize: 12,
+    pageSize: 15,
     defaultCover: '//pics.mysticalpower.uk/files1/images/default-cover.jpg',
     // 图片加载失败时显示，请将图片下载至你自己的存储空间，并使用自己的 CDN 引入
     errorImg: '//pics.mysticalpower.uk/files1/images/loading.gif',

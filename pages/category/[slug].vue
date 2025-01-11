@@ -122,7 +122,7 @@ getPostsCountFn()
         </transition>
       </div>
       <Pagination
-        :current-page.sync="currentPage"
+        v-model:current-page="currentPage"
         :total="totalCount"
         :page-size="$config.pageSize"
         @pageChange="pageChangeFn"

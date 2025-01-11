@@ -3,7 +3,7 @@
 import { ref, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import Clipboard from 'clipboard'
 import VueEasyLightbox from 'vue-easy-lightbox'
-import MarkIt from './mark_it.js'
+import MarkIt from './mark_it'
 
 const { $message } = useNuxtApp()
 

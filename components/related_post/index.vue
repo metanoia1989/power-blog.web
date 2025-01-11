@@ -11,7 +11,7 @@ const props = defineProps({
 
 // Computed properties
 const postCategory = computed(() => {
-  return props.post.category ? props.post.category.title || '未分类' : '未分类'
+  return props.post.category ? props.post.category.name || '未分类' : '未分类'
 })
 
 const showTagText = computed(() => {
