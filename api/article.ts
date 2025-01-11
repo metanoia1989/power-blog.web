@@ -46,10 +46,10 @@ export function getTags() {
  * @param {number} page 当前页码 pageSize 每页数量
  * @returns Promise
  */
-export function getArticleList({ page = 1, filter = '' }) {
-  const config = useAppConfig()
+export function getArticleList({ page_no = 1, page_size = null, filter = '' }) {
+  const defaultPageSize = useAppConfig().pageSize
   return $request.get({
-    url: `/article/lists?page_no=${page}&page_size=${config.pageSize}${filter}`,
+    url: `/article/lists?page_no=${page_no}&page_size=${page_size || defaultPageSize}${filter ? `&filter=${filter}` : ''}`,
   })
 }
 

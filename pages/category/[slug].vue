@@ -61,10 +61,10 @@ const getPostsFn = async () => {
     let res = []
     if (categorySlug.value) {
       const filter = `&category_slug=${categorySlug.value}`
-      res = await store.fetchArticleList({ page: currentPage.value, filter })
+      res = await store.fetchArticleList({ page_no: currentPage.value, filter })
     }
     else {
-      res = await store.fetchArticleList({ page: currentPage.value })
+      res = await store.fetchArticleList({ page_no: currentPage.value })
     }
 
     posts.value = res.posts.map(post => ({

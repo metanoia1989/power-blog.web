@@ -158,7 +158,7 @@ export function hexToHsl(hex: string) {
 export function parseArchives(archives: any) {
     const map = new Map()
     archives.forEach((archive: any) => {
-        const year = archive.created_at.slice(0, 4)
+        const year = archive.created_at_raw.slice(0, 4)
         const key = `${year}`
         if (!map.has(key))
             map.set(key, [])

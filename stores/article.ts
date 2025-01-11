@@ -53,6 +53,7 @@ export const useArticleStore = defineStore('article', () => {
       feature_image: post.feature_image,
       article_count: post.article_count,
       created_at: parseDate(post.created_at),
+      created_at_raw: post.created_at,
     })) || []
     return { searchCount: posts.length, posts }
   }

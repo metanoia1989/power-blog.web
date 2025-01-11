@@ -67,13 +67,14 @@ export function createRequest(opt?: Partial<FetchOptions>) {
                         }
                         return data
                     case RequestCodeEnum.FAIL:
+                        console.log('fail msg', msg)
                         if (show) {
                             msg && feedback.msgError(msg)
                         }
                         return Promise.reject(msg)
                     case RequestCodeEnum.LOGIN_FAILURE:
                         userStore.logout()
-                        return Promise.reject(data)
+                        return Promise.reject(msg)
                     case RequestCodeEnum.NOT_INSTALL:
                         window.location.replace('/install/install.php')
                         break

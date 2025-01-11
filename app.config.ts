@@ -48,6 +48,7 @@ export default defineAppConfig({
     email: 'sogaxili@gmail.com',
     link: '//blog.mysticalpower.uk',
     github: '//github.com/metanoia1989',
+    adminLink: '//admin.mysticalpower.uk',
   
     // 友链信息
     name: 'AdamSmith',

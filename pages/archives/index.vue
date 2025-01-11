@@ -1,12 +1,14 @@
 <script setup>
-import { ref, computed, onBeforeUnmount } from 'vue'
+import { ref, computed, onBeforeUnmount, onMounted } from 'vue'
 import { useArticleStore } from '@/stores/article'
 import ArchiveCard from '@/components/archive_card/index.vue'
 import Loading from '@/components/loading/index.vue'
 import { hexToHsl, parseArchives, sortArchiveMap } from '@/utils/blog'
 import { useNuxtApp } from '#app'
+import { getTags } from '@/api/article'
 
 const { $message } = useNuxtApp()
+const $config = useAppConfig()
 
 const store = useArticleStore()
 
@@ -24,10 +26,13 @@ const isFilter = ref(false)
 const filterCount = ref(0)
 const timer = ref(null)
 const loading = ref(true)
+const page = ref(1)
+const hasMore = ref(true)
+const loadingMore = ref(false)
 
 // 计算属性
 const editLink = computed(() => {
-  return `https://github.com/${config.username}/${config.repository}/issues`
+  return  $config.adminLink + `/article/lists`
 })
 
 const filterText = computed(() => {
@@ -49,10 +54,13 @@ const getArchiveCountFn = async () => {
 
 const getArchivesFn = async () => {
   try {
-    const newArchives = await store.fetchPosts({ page: 1, pageSize: 100 })
-    archives.value = [...archives.value, ...newArchives]
+    const newArchives = await store.fetchArticleList({ page_no: page.value, page_size: 100 })
+    archives.value = [...archives.value, ...newArchives.posts]
     const parsedArchiveMap = parseArchives(archives.value)
     archiveMap.value = sortArchiveMap(parsedArchiveMap)
+    
+    // Check if we have more posts to load
+    hasMore.value = newArchives.posts.length === 100
   } catch (err) {
     $message({
       content: '获取文章列表失败',
@@ -61,23 +69,26 @@ const getArchivesFn = async () => {
     throw new Error(err)
   } finally {
     loading.value = false
+    loadingMore.value = false
   }
 }
 
 const getTagsFn = async () => {
   try {
-    const fetchedTags = await store.getTags()
+    const fetchedTags = await getTags()
+    console.log('fetchedTags', fetchedTags)
     tags.value = fetchedTags.map((tag, index) => ({
       ...tag,
       index,
-      hslColor: hexToHsl(`#${tag.color}`)
+      hslColor: hexToHsl(tag.color ? `#${tag.color}` : `#000000`)
     }))
+    console.log('tags', tags.value)
   } catch (err) {
     $message({
       content: '获取标签列表失败',
       type: 'error',
     })
-    throw new Error(err)
+    console.error('getTagsFn', err)
   }
 }
 
@@ -116,9 +127,29 @@ const clearAll = () => {
   isFilter.value = false
 }
 
-// 生命周期
+// Add new method for infinite scroll
+const handleScroll = async () => {
+  if (loadingMore.value || !hasMore.value || isFilter.value) return
+  
+  const scrollHeight = document.documentElement.scrollHeight
+  const scrollTop = document.documentElement.scrollTop
+  const clientHeight = document.documentElement.clientHeight
+  
+  if (scrollHeight - scrollTop - clientHeight < 100) {
+    loadingMore.value = true
+    page.value++
+    await getArchivesFn()
+  }
+}
+
+// Update lifecycle hooks
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+
 onBeforeUnmount(() => {
   clearTimeout(timer.value)
+  window.removeEventListener('scroll', handleScroll)
 })
 
 // 初始化
@@ -169,11 +200,17 @@ getTagsFn()
                   <NuxtLink
                     v-for="archive in archiveMap[year]"
                     :key="archive.id"
-                    :to="`/posts/${archive.number}`"
+                    :to="`/posts/${archive.slug}`"
                   >
-                    <ArchiveCard :cover="archive.cover" :title="archive.title" :created-at="archive.created_at" />
+                    <ArchiveCard :cover="archive.feature_image" :title="archive.title" :created-at="archive.created_at_raw" />
                   </NuxtLink>
                 </div>
+              </div>
+              <div v-if="loadingMore" class="loading-more">
+                <Loading />
+              </div>
+              <div v-if="!hasMore && !isFilter" class="no-more">
+                已经到底啦 ~
               </div>
             </div>
           </transition>
