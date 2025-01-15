@@ -20,8 +20,6 @@ const totalCount = ref(0)
 const loading = ref(true)
 const { currentPage, pageSize } = usePagination()
 
-console.log('pageSize', pageSize.value)
-pageSize.value = 2
 
 // 计算属性
 const categorySlug = computed(() => {
@@ -79,13 +77,12 @@ const getPostsFn = async () => {
   loading.value = true
   try {
     let res = []
+
     if (categorySlug.value) {
-      const filter = `&category_slug=${categorySlug.value}`
-      console.log('filter', filter)
       res = await store.fetchArticleList({
         page_no: currentPage.value,
         page_size: pageSize.value,
-        filter,
+        category_slug: categorySlug.value,
       })
     }
     else {

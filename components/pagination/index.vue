@@ -74,7 +74,6 @@ const calcPage = (val) => {
   else {
     pageList.value = [val - 2, val - 1, val, val + 1]
   }
-  console.log('pageList', pageList.value)
 }
 
 const pageChange = (e) => {
