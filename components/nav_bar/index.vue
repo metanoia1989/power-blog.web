@@ -33,11 +33,10 @@ const changeTheme = () => {
   styleStore.setTheme(theme.value === 'light' ? 'dark' : 'light')
 }
 
-const setCurrentMenu = () => {
-  const path = routerChanged.value ? route.path : styleStore.currentMenu.path
+const setCurrentMenu = (path) => {
   const menu = menus.find(item => item.path === path)
   if (menu) {
-    const leftDu = `${menu.id * 20}%`
+    const leftDu = `${menu.id * 25}%`
     menuWrap.value.style.setProperty('--left-du', leftDu)
     styleStore.setCurrentMenu(menu)
   }
@@ -56,10 +55,10 @@ watch(() => styleStore.theme, () => {
 
 onMounted(() => {
   getCurrentTheme()
-  setCurrentMenu()
-  router.afterEach(() => {
+  setCurrentMenu(route.path)
+  router.afterEach((to) => {
     routerChanged.value = true
-    setCurrentMenu()
+    setCurrentMenu(to.path)
   })
 })
 </script>
