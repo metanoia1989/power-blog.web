@@ -6,20 +6,37 @@ module.exports = {
         './pages/**/*.vue',
         './plugins/**/*.{js,ts}'
     ],
+    darkMode: ['selector', '[data-theme="dark"]'],
     theme: {
         extend: {
             colors: {
                 white: 'var(--color-white)',
                 black: 'var(--el-color-black)',
                 primary: {
-                    DEFAULT: 'var(--el-color-primary)',
-                    'light-3': 'var(--el-color-primary-light-3)',
-                    'light-5': 'var(--el-color-primary-light-5)',
-                    'light-7': 'var(--el-color-primary-light-7)',
-                    'light-8': 'var(--el-color-primary-light-8)',
-                    'light-9': 'var(--el-color-primary-light-9)',
-                    'dark-2': 'var(--el-color-primary-dark-2)'
+                    '50': '#f0f4fe',
+                    '100': '#dde7fc',
+                    '200': '#c3d5fa',
+                    '300': '#9abbf6',
+                    '400': '#6a97f0',
+                    '500': '#4773ea',
+                    '600': '#3255de',
+                    '700': '#2942cc',
+                    '800': '#2837a5',
+                    '900': '#253383',
+                    '950': '#1b2150',
+
+                    DEFAULT: '#3255DE',
+                    light: '#4773EA',
+                    dark: '#2942CC',
+
+                    'light-3': '#6A97F0',
+                    'light-5': '#9ABBF6',
+                    'light-7': '#C3D5FA',
+                    'light-8': '#DDE7FC',
+                    'light-9': '#F0F4FE',
+                    'dark-2': '#2942CC'
                 },
+
                 success: 'var(--el-color-success)',
                 warning: 'var(--el-color-warning)',
                 danger: 'var(--el-color-danger)',

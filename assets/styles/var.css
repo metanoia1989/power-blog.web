@@ -122,9 +122,9 @@
 /* element plus */
   :root body {
     --el-font-family: theme(fontFamily.sans);
-    --color-primary: #4153ff;
+    --color-primary: #3255DE;
     --el-color-primary: var(--color-primary);
-    --color-minor: #7583ff;
+    --color-minor: #4773ea;
     --color-btn-text: white;
     --el-color-primary-dark-2: rgb(19, 153, 166);
     --el-color-primary-light-3: rgb(93, 210, 222);

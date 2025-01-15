@@ -84,7 +84,6 @@ const getTagsFn = async () => {
       index,
       hslColor: hexToHsl(tag.color ? `#${tag.color}` : `#000000`)
     }))
-    console.log('tags', tags.value)
   } catch (err) {
     $message({
       content: '获取标签列表失败',

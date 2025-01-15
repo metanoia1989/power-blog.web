@@ -38,4 +38,5 @@ export default defineNuxtConfig({
         }
     },
     ssr: !!envConfig.ssr,
+
 })
