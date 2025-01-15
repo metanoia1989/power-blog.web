@@ -24,8 +24,6 @@ const pageList = ref([])
 
 // Computed
 const totalPage = computed(() => {
-  console.log('props.total', props.total)
-  console.log('props.pageSize', props.pageSize)
   return Math.ceil(props.total / props.pageSize)
 })
 

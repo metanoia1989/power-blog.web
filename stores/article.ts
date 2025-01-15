@@ -77,7 +77,7 @@ export const useArticleStore = defineStore('article', () => {
     const res = await getWeiboList(params).catch((err) => {
       throw new Error(err)
     })
-    return res?.lists || []
+    return res
   }
 
   async function searchWeiboList(keyword: string) {

@@ -18,7 +18,7 @@ definePageMeta({
 const ideas = ref([])
 const loading = ref(true)
 const totalCount = ref(0)
-const currentPage = ref(1)
+const { currentPage, pageSize } = usePagination()
 
 // 方法
 const pageChangeFn = () => {
@@ -42,10 +42,12 @@ const getInspirationCount = async () => {
 const getInspiration = async () => {
   try {
     await getInspirationCount()
-    ideas.value = await store.fetchWeiboList({
+    const { lists, count }= await store.fetchWeiboList({
       page_no: currentPage.value,
-      page_size: $config.pageSize
+      page_size: pageSize.value
     })
+    ideas.value = lists
+    totalCount.value = count
   } catch (err) {
     $message({
       content: '获取灵感失败',
@@ -82,7 +84,7 @@ onMounted(() => {
       <Pagination
         v-model:current-page="currentPage"
         :total="totalCount"
-        :page-size="$config.pageSize"
+        :page-size="pageSize"
         @pageChange="pageChangeFn"
       />
     </div>

@@ -27,8 +27,6 @@ const categorySlug = computed(() => {
 })
 
 
-console.log('categorySlug', categorySlug.value)
-
 // 方法
 const pageChangeFn = () => {
   posts.value = []
@@ -59,17 +57,12 @@ const getPostsCountFn = async () => {
       ? store.currentCategory.article_count
       : await store.getPostsCount()
     
-      console.log('getPostsCountFn', {
-        'totalCount': totalCount.value,
-        'categorySlug': categorySlug.value,
-        'currentCategory': store.currentCategory,
-      })
   } catch (err) {
     $message({
       content: '获取文章总数失败',
       type: 'error',
     })
-    console.log('err', err)
+    throw new Error(err)
   }
 }
 
