@@ -1,3 +1,5 @@
+@use '@/assets/styles/mixins.scss' as *;
+
 .related-post {
   position: relative;
   display: inline-block;

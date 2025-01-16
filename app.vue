@@ -27,6 +27,7 @@ const route = useRoute()
 // Watch
 watch(
   () => route,
+  // @ts-ignore
   (to, from) => {
     if (to.path === from?.path) return
     

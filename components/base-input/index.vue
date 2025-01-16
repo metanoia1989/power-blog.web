@@ -20,7 +20,7 @@
       class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center text-gray-400 hover:text-gray-600"
       @click.stop="handleClear"
     >
-      <Icon name="mdi:close-circle" class="w-5 h-5" />
+      <Icon name="solar:close-circle-line-duotone" class="w-5 h-5" />
     </button>
   </div>
   <p v-if="error" class="mt-1 text-sm text-red-500">{{ error }}</p>

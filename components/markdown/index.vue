@@ -109,6 +109,7 @@ if (props.needParsed) {
   </div>
 </template>
 
-<style lang="scss">
-@import './index.scss'
+<style lang="scss" scoped>
+@use './index.scss'
 </style>
+

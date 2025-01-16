@@ -1,17 +1,23 @@
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 
 import { getEnvConfig } from './nuxt/env'
+import { fileURLToPath } from 'url'
 
 const envConfig = getEnvConfig()
 
 export default defineNuxtConfig({
+    compatibilityDate: '2024-11-19',
     // debug: true,
-    css: ['@/assets/styles/index.scss'],
+    // devtools: { enabled: true },
+    css: ['~/assets/styles/index.scss'],
     vite: {
         css: {
             preprocessorOptions: {
                 scss: {
-                    additionalData: `@use "@/assets/styles/mixins.scss" as *;`
+                    api: 'modern-compiler', 
+                    additionalData: `
+                        @use "~/assets/styles/mixins.scss" as *;
+                    `,
                 }
             }
         },
@@ -21,7 +27,8 @@ export default defineNuxtConfig({
             }
         },
         plugins: [
-        ]
+
+        ],
     },
     modules: [
         '@pinia/nuxt', 
@@ -38,5 +45,6 @@ export default defineNuxtConfig({
         }
     },
     ssr: !!envConfig.ssr,
+    experimental: { appManifest: false },
 
 })

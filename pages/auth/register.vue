@@ -7,8 +7,12 @@
       <div>
         <h2 class="mt-2 text-center text-3xl font-extrabold text-gray-900">注册账户</h2>
       </div>
+  <div class="icon-demo outline outline-2 outline-primary h-10 w-10 flex items-center justify-center">
+    <Icon name="solar:accessibility-bold" class="text-primary" />
+  </div>
       <form class="mt-8 space-y-6" @submit.prevent="handleRegister">
         <div class="rounded-md shadow-sm space-y-4">
+
           <BaseInput
             id="nickname"
             label="昵称"
@@ -22,6 +26,7 @@
             type="email"
             v-model="email"
             placeholder="请输入邮箱地址"
+            :show-clear="true"
             required
           />
           <BaseInput

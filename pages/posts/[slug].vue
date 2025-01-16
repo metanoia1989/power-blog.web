@@ -215,5 +215,5 @@ const hideToc = () => {
 </template>
 
 <style lang="scss" scoped>
-@use './index.scss'
+@use './index.scss';
 </style>

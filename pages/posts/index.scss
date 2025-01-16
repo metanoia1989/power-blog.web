@@ -16,10 +16,10 @@
     width: 260px;
     border-radius: 1em;
     background-color: var(--bg-thin);
-    @include scrollBar;
     overflow-x: hidden;
     overflow-y: auto;
     z-index: 4;
+    @include scrollBar;
 
     .toc-header {
       display: flex;

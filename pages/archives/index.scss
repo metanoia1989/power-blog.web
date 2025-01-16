@@ -1,3 +1,5 @@
+@use '@/assets/styles/mixins.scss' as *;
+
 .from-bottom-enter-active,
 .from-bottom-leave-active {
   transition: all .3s ease-in-out;

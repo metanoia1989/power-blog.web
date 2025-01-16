@@ -36,5 +36,5 @@ const create = computed(() => props.createdAt.slice(5, 10))
 </template>
 
 <style lang="scss" scoped>
-@import './index.scss'
+@use './index.scss';
 </style>

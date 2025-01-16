@@ -51,5 +51,5 @@ const $config = computed(() => appStore.config)
 </template>
 
 <style lang="scss" scoped>
-@import './index.scss'
+@use './index.scss';
 </style>
