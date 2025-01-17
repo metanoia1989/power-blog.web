@@ -11,7 +11,7 @@
 
 .inspiration-wrap {
   margin: 0 auto;
-  margin-top: 4em;
+  margin-top: 2em;
   width: 100%;
   max-width: 876px;
   
@@ -27,7 +27,35 @@
       line-height: 1.4;
       font-weight: bold;
       color: var(--accent);
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      .inspiration-edit-btn {
+        display: none;
+        position: absolute;
+        top: 0em;
+        right: 1.5em;
+        justify-content: center;
+        align-items: center;
+        font-size: .8rem;
+        color: white;
+        background-color: var(--primary);
+        padding: .5em 1em;
+        border-radius: 1em;
+        cursor: pointer;
+        transition: all .2s ease-in-out;
+
+        &:hover {
+          opacity: .8;
+        }
+      }
+
+      &:hover .inspiration-edit-btn {
+        display: block;
+      }
     }
+
   
     .ideas-wrap {
       position: relative;
@@ -61,6 +89,10 @@
   @include xs-layout {
     .inspiration {
       padding: 2rem 1rem;
+    }
+
+    .inspiration-edit-btn {
+      display: block!important;
     }
   }
 }

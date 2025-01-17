@@ -161,20 +161,34 @@ const hideToc = () => {
     <section class="post-body">
       <div class="post-info">
         <div class="title-wrap">
-          <div class="cate-wrap">
-            <span v-if="!post.category" class="cate-text">未分类</span>
-            <template v-else>
-              <NuxtLink
-                class="cate-link"
-                :to="`/category/${post.category.slug}`"
-              >
-                {{ post.category.name }}
-              </NuxtLink>
-            </template>
+          <div class="title-top">
+            <div class="cate-wrap">
+              <span v-if="!post.category" class="cate-text">未分类</span>
+              <template v-else>
+                <NuxtLink
+                  class="cate-link"
+                  :to="`/category/${post.category.slug}`"
+                >
+                  {{ post.category.name }}
+                </NuxtLink>
+              </template>
+            </div>
+            <div class="tags">
+              <SvgIcon name="biaoqian" />
+              <template v-if="showTagText">
+                <span v-for="tag in post.tags" :key="tag.id" class="tag" :style="{ color: `#${tag.color}` }">
+                  # {{ tag.name }}
+                </span>
+              </template>
+              <span v-else>无标签</span>
+            </div>
           </div>
           <h1 class="post-title">
             {{ post.title }}
           </h1>
+          <span class="post-edit-btn">
+            <SvgIcon name="shuru" />
+          </span>
         </div>
         <div class="tags-wrap">
           <div class="author">
@@ -187,18 +201,10 @@ const hideToc = () => {
               </p>
               <div class="meta">
                 <span class="time"><SvgIcon name="shijian" /> {{ post.created_at }}</span>
-                <span class="hot"><SvgIcon name="huore" /> {{ post.hot }}</span>
+                <span class="hot"><SvgIcon name="huore" /> {{ post.hot ?? 1 }}</span>
+                <span class="visibility"><SvgIcon name="chakan" /> {{ post.visibility_desc }}</span>
               </div>
             </div>
-          </div>
-          <div class="tags">
-            <SvgIcon name="biaoqian" />
-            <template v-if="showTagText">
-              <span v-for="tag in post.tags" :key="tag.id" class="tag" :style="{ color: `#${tag.color}` }">
-                # {{ tag.name }}
-              </span>
-            </template>
-            <span v-else>无标签</span>
           </div>
         </div>
       </div>

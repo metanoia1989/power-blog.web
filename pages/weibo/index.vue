@@ -68,7 +68,14 @@ onMounted(() => {
 <template>
   <div class="inspiration-wrap">
     <div class="inspiration">
-      <h2><SvgIcon name="tongzhi" /> 絮絮叨叨</h2>
+      <h2>
+        <div class="inspiration-header">
+          <SvgIcon name="tongzhi" /> 絮絮叨叨
+        </div>
+          <span class="inspiration-edit-btn">
+            <SvgIcon name="shuru" />
+          </span>
+      </h2>
       <div v-loading="loading" class="ideas-wrap">
         <transition name="from-bottom">
           <div v-if="!loading">
