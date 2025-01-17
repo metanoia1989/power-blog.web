@@ -51,7 +51,8 @@ const extractImages = () => {
 
 const addClickEvents = () => {
   nextTick(() => {
-    const imageElements = document.querySelectorAll('img')
+    // 添加图片点击事件，这里有bug，导致网页所有图片都被包括在内了(加个容器限制即可) 
+    const imageElements = document.querySelectorAll('.markdown-container img')
     imageElements.forEach((img) => {
       img.addEventListener('click', () => {
         openLightbox(img.src)
@@ -99,13 +100,15 @@ if (props.needParsed) {
 </script>
 
 <template>
-  <div>
+  <div class="markdown-container">
     <div class="markdown" v-html="htmlString || content" />
-    <VueEasyLightbox
-      :visible="lightboxVisible"
-      :imgs="images"
-      @hide="lightboxVisible = false"
-    />
+    <div class="markdown-images" v-if="images.length > 0">
+      <VueEasyLightbox
+        :visible="lightboxVisible"
+        :imgs="images"
+        @hide="lightboxVisible = false"
+      />
+    </div>
   </div>
 </template>
 
