@@ -115,12 +115,14 @@ const setCurrentCategory = () => {
 }
 
 // 监听
-watch(() => route, () => {
-  posts.value = []
-  currentPage.value = 1
-  setCurrentCategory()
-  getPostsFn()
-  getPostsCountFn()
+watch(() => route, (from, to) => {
+  if (from.path != to.path) {
+    posts.value = []
+    currentPage.value = 1
+    setCurrentCategory()
+    getPostsFn()
+    getPostsCountFn()
+  }
 }, { deep: true })
 
 // 初始化
