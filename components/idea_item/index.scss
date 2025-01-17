@@ -6,41 +6,60 @@
   align-items: start;
   width: 100%;
 
-  .avatar {
-    flex-shrink: 0;
-    width: 2.5em;
-    height: 2.5em;
-    border-radius: 4px;
-    overflow: hidden;
-    margin-right: .5em;
-    opacity: 1;
-    transition: .3s;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
-
   .idea {
     width: 100%;
 
-    .author {
+    .header {
+      display: flex;
+      align-items: flex-start;
       margin-bottom: .5em;
-      font-size: 1.02rem;
-      color: var(--thin);
+    }
+
+    .author-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .avatar {
+      flex-shrink: 0;
+      width: 2.5em;
+      height: 2.5em;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-right: 0.8em;
       opacity: 1;
       transition: .3s;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .author {
+      font-size: 1.02rem;
+      color: var(--minor);
+      opacity: 1;
+      transition: .3s;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    .publish-time {
+      font-size: .8rem;
+      color: var(--weak);
+      margin-top: 0.2em;
     }
 
     .content {
-      width: 100%;
-      margin-bottom: .3em;
-      padding: 1em;
-      border-radius: 8px;
-      color: var(--major);
-      background-color: var(--bg-weak);
+      width: calc(100% - 3.3em);
+      padding-right: 1em;
+      padding-top: 0;
+      padding-bottom: .5em;
+      margin-left: 3.3em;
+      box-sizing: border-box;
+
 
       .markdown :deep(*) {
         width: 100%;
@@ -63,16 +82,33 @@
       }
     }
 
-    .publish-time {
-      font-size: .8rem;
-      color: var(--weak);
-    }
   }
 
   @include xs-layout {
-    .avatar, .idea .author {
-      opacity: 0;
-      display: none;
+    .idea {
+      .header {
+        margin-bottom: 0;
+      }
+
+      .avatar {
+        width: 2.2em;
+        height: 2.2em;
+        margin-right: 0.8em;
+      }
+
+      .author {
+        font-size: 0.9rem;
+      }
+
+      .publish-time {
+        font-size: 0.7rem;
+      }
+
+      .content {
+        margin-top: 0.5em;
+        width: 100%;
+        margin-left: 0;
+      }
     }
   }
 }

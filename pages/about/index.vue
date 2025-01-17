@@ -29,6 +29,7 @@ const getAboutFn = async () => {
     const markIt = new MarkIt()
     const parsedString = await markIt.parse(content)
     about.value = parsedString?.content
+    console.log(parsedString?.content)
     appendBusuanzi(parsedString?.content)
   }
   catch (err) {

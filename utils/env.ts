@@ -2,7 +2,7 @@
  * @description 获取客户端类型
  */
 export function getClient() {
-    return useRuntimeConfig().public.client
+    return useRuntimeConfig().public.client ?? 1
 }
 
 /**
