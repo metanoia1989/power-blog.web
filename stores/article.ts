@@ -33,6 +33,8 @@ export const useArticleStore = defineStore('article', () => {
       tags: post.tags,
       feature_image: post.feature_image,
       article_count: post.article_count,
+      visibility: post.visibility,
+      visibility_desc: post.visibility_desc,
       created_at: parseDate(post.created_at),
     }))
     return { 
@@ -55,6 +57,8 @@ export const useArticleStore = defineStore('article', () => {
       tags: post.tags,
       feature_image: post.feature_image,
       article_count: post.article_count,
+      visibility: post.visibility,
+      visibility_desc: post.visibility_desc,
       created_at: parseDate(post.created_at),
       created_at_raw: post.created_at,
     })) || []

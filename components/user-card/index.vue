@@ -19,6 +19,9 @@ const handleLogout = async () => {
   await logout()
   userStore.logout()
   emit('close')
+  setTimeout(() => {
+    window.location.reload()
+  }, 1000)
 }
 </script>
 

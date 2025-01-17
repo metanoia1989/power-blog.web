@@ -1,10 +1,13 @@
 @use '~/assets/styles/mixins.scss' as *;
 
+
 .post {
   margin: 0 auto;
   margin-top: 40px;
   width: 100%;
   max-width: 876px;
+
+  font-family: var(--font-lxgw-bright);
 
   .toc-wrap {
     position: fixed;

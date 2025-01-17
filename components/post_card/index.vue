@@ -69,6 +69,7 @@ onMounted(() => {
       <div class="post-meta-num">
         <span class="post-created"><SvgIcon name="shijian" /> {{ post.created_at }}</span>
         <span class="post-hot"><SvgIcon name="huore" /> 热度 {{ post.hot }} &#8451;</span>
+        <span class="post-visibility"><SvgIcon name="chakan" /> {{ post.visibility_desc }}</span>
       </div>
     </div>
   </div>
