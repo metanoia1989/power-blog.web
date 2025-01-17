@@ -9,27 +9,21 @@
       </div>
       <form class="mt-8 space-y-6" @submit.prevent="handleLogin">
         <div class="rounded-md shadow-sm space-y-4">
-          <div>
-            <label for="username" class="sr-only">帐号</label>
-            <input
-              id="username"
-              v-model="username"
-              required
-              class="appearance-none rounded-md relative block w-full px-3 py-2 border-solid border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary focus:border-primary"
-              placeholder="请输入用户名或邮箱"
-            />
-          </div>
-          <div>
-            <label for="password" class="sr-only">密码</label>
-            <input
-              id="password"
-              v-model="password"
-              type="password"
-              required
-              class="appearance-none rounded-md relative block w-full px-3 py-2 border-solid border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-primary focus:border-primary"
-              placeholder="请输入密码"
-            />
-          </div>
+          <BaseInput
+            id="username"
+            label="邮箱"
+            v-model="username"
+            placeholder="请输入邮箱"
+            required
+          />
+          <BaseInput
+            id="password"
+            label="密码"
+            type="password"
+            v-model="password"
+            placeholder="请输入密码"
+            required
+          />
         </div>
 
         <div>
@@ -60,12 +54,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useUserStore } from '@/stores/user'
+import { login } from '@/api/account'
 
 
 definePageMeta({
   layout: 'blank'
 })
 
+const { $message } = useNuxtApp()
 const userStore = useUserStore()
 const username = ref('')
 const password = ref('')
@@ -73,20 +69,27 @@ const loading = ref(false)
 
 const handleLogin = async () => {
   try {
-    // loading.value = true
-    // let res = await userStore.login({
-    //   username: username.value,
-    //   password: password.value
-    // })
+    let res = await login({
+      account: username.value,
+      password: password.value
+    })
 
-    // useNotify('Success', '登录成功', 1, 2)
+    userStore.setUser(res.user)
+    userStore.login(res.token)
 
-    // // 登录成功后跳转
-    // navigateTo('/')
+    loading.value = false
+
+    $message({
+      content: '登录成功',
+      type: 'success',
+    })
+
+    setTimeout(() => {
+      navigateTo('/')
+    }, 800)
   } catch (error) {
     console.error('登录失败:', error)
     // @ts-ignore
-    useErrorAlert(error.message)
   } finally {
     loading.value = false
   }

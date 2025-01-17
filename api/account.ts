@@ -16,6 +16,13 @@ export function logout() {
 export function register(params: any) {
     return $request.post({
         url: '/login/register',
-        params: { ...params, channel: getClient() }
+        params: { ...params, terminal: getClient() }
+    })
+}
+// 发送激活码
+export function sendActiveCode(params: any) {
+    return $request.post({
+        url: '/login/sendActiveCode',
+        params: { ...params }
     })
 }

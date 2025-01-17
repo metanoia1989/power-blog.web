@@ -1,6 +1,5 @@
 import { FetchOptions } from 'ofetch'
 import { RequestCodeEnum, RequestMethodsEnum } from '@/enums/requestEnums'
-import feedback from '@/utils/feedback'
 import { merge } from 'lodash-es'
 import { Request } from './request'
 import { getApiPrefix, getApiUrl, getVersion } from '../env'
@@ -60,16 +59,23 @@ export function createRequest(opt?: Partial<FetchOptions>) {
                     return response._data
                 }
                 const { code, data, show, msg } = response._data
+                const { $message } = useNuxtApp()
                 switch (code) {
                     case RequestCodeEnum.SUCCESS:
                         if (show) {
-                            msg && feedback.msgSuccess(msg)
+                            msg && $message({
+                                content: msg,
+                                type: 'success',
+                            })
                         }
                         return data
                     case RequestCodeEnum.FAIL:
                         console.log('fail msg', msg)
                         if (show) {
-                            msg && feedback.msgError(msg)
+                            msg && $message({
+                                content: msg,
+                                type: 'error',
+                            })
                         }
                         return Promise.reject(msg)
                     case RequestCodeEnum.LOGIN_FAILURE:

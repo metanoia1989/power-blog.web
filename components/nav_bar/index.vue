@@ -5,6 +5,7 @@ import SvgIcon from '@/components/svg-icon/index.vue'
 import { useStyleStore } from '@/stores/style'
 import { useAppStore } from '@/stores/app'
 import { useUserStore } from '@/stores/user'
+import UserCard from '@/components/user-card/index.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -42,7 +43,7 @@ const changeTheme = () => {
 
 const setCurrentMenu = (path) => {
   const menu = menus.find(item => item.path === path)
-  if (menu) {
+  if (menu && menuWrap.value) {
     const leftDu = `${menu.id * 25}%`
     menuWrap.value.style.setProperty('--left-du', leftDu)
     styleStore.setCurrentMenu(menu)
@@ -68,12 +69,29 @@ watch(() => styleStore.theme, () => {
   getCurrentTheme()
 })
 
+const showUserCard = ref(false)
+
+const toggleUserCard = () => {
+  showUserCard.value = !showUserCard.value
+}
+
+const closeUserCard = () => {
+  showUserCard.value = false
+}
+
 onMounted(() => {
   getCurrentTheme()
   setCurrentMenu(route.path)
   router.afterEach((to) => {
     routerChanged.value = true
     setCurrentMenu(to.path)
+  })
+  document.addEventListener('click', (e) => {
+    const userCard = document.querySelector('.user-card')
+    const userAvatar = document.querySelector('.user-avatar')
+    if (userCard && !userCard.contains(e.target) && !userAvatar?.contains(e.target)) {
+      showUserCard.value = false
+    }
   })
 })
 </script>
@@ -102,8 +120,17 @@ onMounted(() => {
       </ul>
     </nav>
     <div class="site-control">
-      <div class="h-9 w-9 rounded-full overflow-hidden mr-4 cursor-pointer" v-if="isLogin">
-        <img :src="$config.avatar" alt="avatar" class="h-full w-full object-cover">
+      <div class="relative" v-if="isLogin">
+        <div 
+          class="user-avatar h-9 w-9 rounded-full overflow-hidden mr-4 cursor-pointer hover:ring-2 hover:ring-primary transition-all"
+          @click="toggleUserCard"
+        >
+          <img :src="$config.avatar" alt="avatar" class="h-full w-full object-cover">
+        </div>
+        <UserCard 
+          :show="showUserCard"
+          @close="closeUserCard"
+        />
       </div>
       <div 
         class="px-4 py-2 mr-4 outline outline-2 outline-primary rounded-full 

@@ -7,9 +7,7 @@
       <div>
         <h2 class="mt-2 text-center text-3xl font-extrabold text-gray-900">注册账户</h2>
       </div>
-  <div class="icon-demo outline outline-2 outline-primary h-10 w-10 flex items-center justify-center">
-    <Icon name="solar:accessibility-bold" class="text-primary" />
-  </div>
+
       <form class="mt-8 space-y-6" @submit.prevent="handleRegister">
         <div class="rounded-md shadow-sm space-y-4">
 
@@ -21,14 +19,35 @@
             required
           />
           <BaseInput
-            id="email"
-            label="邮箱地址"
-            type="email"
-            v-model="email"
-            placeholder="请输入邮箱地址"
-            :show-clear="true"
-            required
-          />
+              id="email"
+              label="邮箱地址"
+              type="email"
+              v-model="email"
+              placeholder="请输入邮箱地址"
+              :show-clear="true"
+              required
+              />
+          <div class="flex items-center">
+            <div class="flex-1">
+              <BaseInput
+                id="activeCode"
+                label="邮箱验证码"
+                type="text"
+                v-model="activeCode"
+                placeholder="请输入邮箱验证码"
+                :show-clear="true"
+                required
+              />
+            </div>
+            <div class="p-2">
+              <VerificationCode
+                ref="verificationCodeRef"
+                @click-get="handleSendActiveCode"
+              />
+            </div>
+          </div>
+
+
           <BaseInput
             id="password"
             label="密码"
@@ -65,59 +84,54 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, shallowRef } from 'vue'
 import { useUserStore } from '@/stores/user'
+import { sendActiveCode, register } from '@/api/account'
 
 definePageMeta({
   layout: 'blank'
 })
 
+const { $message } = useNuxtApp()
+
 const userStore = useUserStore()
-const username = ref('')
 const nickname = ref('')
 const email = ref('')
+const activeCode = ref('')
 const password = ref('')
-const confirmPassword = ref('')
-const passwordError = ref('')
 const loading = ref(false)
+const verificationCodeRef = shallowRef()
 
-// 检查密码是否一致
-const validatePasswords = () => {
-  if (password.value && confirmPassword.value && password.value !== confirmPassword.value) {
-    passwordError.value = '两次输入的密码不一致'
-    return false
-  }
-  passwordError.value = ''
-  return true
-}
-
-// 确认密码框失去焦点时验证
-const handleConfirmPasswordBlur = () => {
-  if (confirmPassword.value) {
-    validatePasswords()
-  }
+const handleSendActiveCode = async () => {
+  await sendActiveCode({ email: email.value })
+  verificationCodeRef.value?.start()
 }
 
 const handleRegister = async () => {
-  // 点击注册时验证密码
-  if (!validatePasswords()) {
-    return
-  }
-
   loading.value = true
+
   try {
-    await userStore.registerUser({
-      username: username.value,
-      nickname: nickname.value,
-      email: email.value,
+    const res = await register({
+      account: email.value,
+      name: nickname.value,
+      code: activeCode.value,
       password: password.value
     })
+
+    userStore.login(res.token)
+    userStore.setUser(res.user)
     loading.value = false
-    navigateTo('/auth/login')
-    // 注册成功后可以添加跳转逻辑
+
+    $message({
+      content: '注册成功',
+      type: 'success',
+    })
+
+    setTimeout(() => {
+      navigateTo('/')
+    }, 800)
   } catch (error) {
-    // @ts-ignore
-    await useErrorAlert(error.message)
+    console.log(error)
   } finally {
     loading.value = false
   }
