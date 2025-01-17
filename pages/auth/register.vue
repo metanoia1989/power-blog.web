@@ -1,6 +1,6 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-50">
-    <div class="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-lg">
+  <div class="min-h-screen flex items-center justify-center bg-white md:bg-gray-50">
+    <div class="max-w-md w-full space-y-8 p-8 bg-white md:rounded-lg md:shadow-lg">
       <div class="flex justify-center">
         <img src="/PowerBrand.svg" alt="PowerBlog" class="h-12 w-auto" />
       </div>
