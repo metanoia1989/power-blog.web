@@ -19,8 +19,11 @@ export const useEditorStore = defineStore('editor', {
       this.draft = ''
     },
 
-    async submitWeibo(content: string) {
-      return await addWeibo({ content })
+    async submitWeibo({ content, visibility }: { content: string, visibility: string }) {
+      return await addWeibo({ 
+        plaintext: content,
+        visibility 
+      })
     }
   }
 }) 

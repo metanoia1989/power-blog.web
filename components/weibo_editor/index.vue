@@ -2,6 +2,8 @@
 import { ref, watch } from 'vue'
 import { useEditorStore } from '@/stores/editor'
 import { useNuxtApp } from '#app'
+import { VisibilityEnum, VisibilityMap } from '@/enums/visibilityEnums'
+import { useLockFn } from '@/composables/useLockFn'
 
 const { $message } = useNuxtApp()
 const editorStore = useEditorStore()
@@ -19,6 +21,7 @@ const emit = defineEmits(['update:show', 'submit-success'])
 const content = ref('')
 const editorWrap = ref(null)
 const loading = ref(false)
+const visibility = ref(VisibilityEnum.PUBLIC)
 
 // Methods
 watch(() => props.show, (newVal) => {
@@ -51,9 +54,12 @@ const handleSubmit = async () => {
     return
   }
 
-  loading.value = true
   try {
-    await editorStore.submitWeibo(content.value)
+    console.log('submitWeibo')
+    await editorStore.submitWeibo({
+      content: content.value,
+      visibility: visibility.value
+    })
     editorStore.clearDraft()
     content.value = ''
     emit('submit-success')
@@ -67,15 +73,15 @@ const handleSubmit = async () => {
       content: '发布失败',
       type: 'error'
     })
-  } finally {
-    loading.value = false
   }
 }
+
+const { lockFn: lockSubmitFn, isLock } = useLockFn(handleSubmit)
 
 // Auto save draft when content changes
 watch(content, (newVal) => {
   editorStore.saveDraft(newVal)
-})
+});
 </script>
 
 <template>
@@ -89,15 +95,30 @@ watch(content, (newVal) => {
           v-model="content"
           class="editor-input"
           placeholder="写点什么..."
-          :disabled="loading"
+          :disabled="isLock"
         />
-        <button 
-          class="submit-btn"
-          :disabled="loading"
-          @click="handleSubmit"
-        >
-          发布
-        </button>
+        <div class="editor-footer">
+          <select 
+            v-model="visibility"
+            class="visibility-select"
+            :disabled="isLock"
+          >
+            <option 
+              v-for="(label, value) in VisibilityMap" 
+              :key="value" 
+              :value="value"
+            >
+              {{ label }}
+            </option>
+          </select>
+          <button 
+            class="submit-btn"
+            :disabled="isLock"
+            @click="lockSubmitFn"
+          >
+            发布
+          </button>
+        </div>
       </div>
     </div>
     <div class="mask" @click="hideEditorWrap" />
@@ -105,110 +126,6 @@ watch(content, (newVal) => {
 </template>
 
 <style lang="scss" scoped>
-.weibo-editor {
-  .editor-wrap {
-    display: none;
-    &.active {
-      display: flex;
-      position: fixed;
-      left: 0;
-      right: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      max-width: 650px;
-      margin: 0 auto;
-      padding: 32px;
-      border-radius: 20px;
-      background-color: var(--bg-thin);
-      z-index: 100;
-    }
-  }
+@use './index.scss';
 
-  .close-btn {
-    position: absolute;
-    top: 1em;
-    right: 2em;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    text-align: center;
-    border-radius: 50%;
-    background-color: var(--bg-major);
-    cursor: pointer;
-    svg {
-      color: var(--primary);
-    }
-  }
-
-  .editor-box {
-    width: 100%;
-    .editor-input {
-      width: 100%;
-      height: 200px;
-      padding: 15px 20px;
-      border: none;
-      border-radius: 15px;
-      background-color: var(--bg-major);
-      color: var(--primary);
-      resize: none;
-      outline: none;
-      font-size: 16px;
-      margin-bottom: 20px;
-      
-      &::placeholder {
-        color: var(--weak);
-      }
-    }
-
-    .submit-btn {
-      float: right;
-      padding: 0 2em;
-      height: 40px;
-      color: whitesmoke;
-      font-size: 14px;
-      letter-spacing: .2em;
-      font-weight: bold;
-      background-color: var(--primary);
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-
-      &:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-      }
-    }
-  }
-
-  .mask {
-    display: none;
-    &:has(+ .editor-wrap.active) {
-      display: block;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 99;
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .weibo-editor {
-    .editor-wrap.active {
-      top: 0;
-      transform: none;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-      padding: 2em;
-      
-      .close-btn {
-        top: calc(2em + 14px);
-        right: 2em;
-      }
-    }
-  }
-}
 </style> 

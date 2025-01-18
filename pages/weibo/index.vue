@@ -1,12 +1,14 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useArticleStore } from '@/stores/article'
+import { useUserStore } from '@/stores/user'
 import IdeaItem from '@/components/idea_item/index.vue'
 import Pagination from '@/components/pagination/index.vue'
 import { useAppStore } from '@/stores/app'
 import WeiboEditor from '@/components/weibo_editor/index.vue'
 
 const appStore = useAppStore()
+const userStore = useUserStore()
 const $config = computed(() => appStore.config)
 const store = useArticleStore()
 
@@ -16,6 +18,7 @@ definePageMeta({
 })
 
 // 状态
+const isLogin = computed(() => userStore.isLogin)
 const ideas = ref([])
 const loading = ref(true)
 const totalCount = ref(0)
@@ -84,7 +87,7 @@ const refreshList = () => {
         <div class="inspiration-header">
           <SvgIcon name="tongzhi" /> 絮絮叨叨
         </div>
-        <span class="inspiration-edit-btn" @click="handleEditClick">
+        <span class="inspiration-edit-btn" v-if="isLogin" @click="handleEditClick">
           <SvgIcon name="shuru" />
         </span>
       </h2>
