@@ -4,6 +4,7 @@ import { useArticleStore } from '@/stores/article'
 import IdeaItem from '@/components/idea_item/index.vue'
 import Pagination from '@/components/pagination/index.vue'
 import { useAppStore } from '@/stores/app'
+import WeiboEditor from '@/components/weibo_editor/index.vue'
 
 const appStore = useAppStore()
 const $config = computed(() => appStore.config)
@@ -63,6 +64,17 @@ const getInspiration = async () => {
 onMounted(() => {
   getInspiration()
 })
+
+// Add click handler for edit button
+const showEditor = ref(false)
+const handleEditClick = () => {
+  showEditor.value = true
+}
+
+// Add refresh method to update list after new post
+const refreshList = () => {
+  pageChangeFn()
+}
 </script>
 
 <template>
@@ -72,9 +84,9 @@ onMounted(() => {
         <div class="inspiration-header">
           <SvgIcon name="tongzhi" /> 絮絮叨叨
         </div>
-          <span class="inspiration-edit-btn">
-            <SvgIcon name="shuru" />
-          </span>
+        <span class="inspiration-edit-btn" @click="handleEditClick">
+          <SvgIcon name="shuru" />
+        </span>
       </h2>
       <div v-loading="loading" class="ideas-wrap">
         <transition name="from-bottom">
@@ -95,6 +107,10 @@ onMounted(() => {
         @pageChange="pageChangeFn"
       />
     </div>
+    <WeiboEditor 
+      v-model:show="showEditor"
+      @submit-success="refreshList"
+    />
   </div>
 </template>
 

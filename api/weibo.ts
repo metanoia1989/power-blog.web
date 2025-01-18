@@ -46,3 +46,12 @@ export function searchWeibo({ q = '' }) {
     url: `/weibo/search?keyword=${q}`,
   })
 }
+
+/**
+ * 添加微博
+ * @param {any} params 微博数据
+ * @returns Promise
+ */
+export function addWeibo(params: any) {
+  return $request.post({ url: '/weibo/add', params })
+}

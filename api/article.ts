@@ -82,3 +82,24 @@ export function getRelativePosts(slug: string) {
     url: `/article/relative?slug=${slug}`,
   })
 }
+
+/**
+ * 添加文章
+ * @param {any} params 文章数据
+ * @returns Promise
+ */
+export function addArticle(params: any) {
+  return $request.post({
+    url: `/article/add`,
+    params: params,
+  })
+}
+
+/**
+ * 编辑文章
+ * @param {any} params 文章数据
+ * @returns Promise
+ */
+export function editArticle(params: any) {
+  return $request.post({ url: '/article/edit', params })
+}
