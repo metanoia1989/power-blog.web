@@ -1,87 +1,89 @@
-import { createApp } from 'vue'
+import { createVNode, render } from 'vue'
 import Message from './index.vue'
 
-interface MessageOptions {
-  content: string
-  type?: 'info' | 'success' | 'warning' | 'error'
-  duration?: number
-  showClose?: boolean
-  onClose?: () => void
+let seed = 1
+const instances: { id: string, container: HTMLElement, height: number }[] = []
+const GAP = 16  // 消息之间的间距
+
+// 更新所有消息的位置
+const updateMessagePositions = () => {
+  let currentTop = 16  // 初始顶部距离
+  instances.forEach(instance => {
+    const element = instance.container.firstElementChild as HTMLElement
+    if (element) {
+      element.style.top = `${currentTop}px`
+      // 更新当前实例的高度
+      instance.height = element.offsetHeight
+      currentTop += instance.height + GAP
+    }
+  })
 }
 
-let seed = 1
-const instances: any[] = []
-
-const MessagePlugin = function (options: MessageOptions | string) {
-  // 支持直接传入字符串作为 content
-  if (typeof options === 'string') {
-    options = {
-      content: options
-    }
-  }
-
+const MessagePlugin = function (options: any) {
+  options = options || {}
   const id = `message_${seed++}`
   const onClose = options.onClose
 
-  options.onClose = function () {
-    MessagePlugin.close(id, onClose)
+  const container = document.createElement('div')
+  
+  const props = {
+    ...options,
+    id,
+    onDestroy: () => {
+      render(null, container)
+      container.remove()
+      const index = instances.findIndex(instance => instance.id === id)
+      if (index !== -1) {
+        instances.splice(index, 1)
+      }
+      onClose?.()
+      // 更新剩余消息的位置
+      updateMessagePositions()
+    }
   }
 
-  // 创建新的应用实例
-  const messageApp = createApp(Message, {
-    ...options,
-  })
-  
-  // 挂载到新的 div 元素
-  const container = document.createElement('div')
-  const instance = messageApp.mount(container)
-  
-  // 保存实例信息
-  // @ts-ignore
-  instance.id = id
+  const vnode = createVNode(Message, props)
+  render(vnode, container)
   document.body.appendChild(container)
   
-  instances.push(instance)
-  return instance
-}
-
-// 添加便捷方法
-MessagePlugin.info = (content: string, options?: Omit<MessageOptions, 'content' | 'type'>) => {
-  return MessagePlugin({ content, type: 'info', ...options })
-}
-
-MessagePlugin.success = (content: string, options?: Omit<MessageOptions, 'content' | 'type'>) => {
-  return MessagePlugin({ content, type: 'success', ...options })
-}
-
-MessagePlugin.warning = (content: string, options?: Omit<MessageOptions, 'content' | 'type'>) => {
-  return MessagePlugin({ content, type: 'warning', ...options })
-}
-
-MessagePlugin.error = (content: string, options?: Omit<MessageOptions, 'content' | 'type'>) => {
-  return MessagePlugin({ content, type: 'error', ...options })
-}
-
-MessagePlugin.close = function (id: string, onClose?: (instance: any) => void) {
-  const index = instances.findIndex(instance => instance.id === id)
-  if (index === -1) return
+  // 添加新实例时，先用0作为临时高度
+  instances.push({ id, container, height: 0 })
   
-  const instance = instances[index]
-  if (typeof onClose === 'function') {
-    onClose(instance)
+  // 使用 nextTick 确保 DOM 已更新
+  setTimeout(() => {
+    updateMessagePositions()
+  }, 0)
+
+  return {
+    close: () => {
+      const vnode = document.querySelector(`[data-message-id="${id}"]`)
+      if (vnode) {
+        props.onDestroy()
+      }
+    }
   }
-  instances.splice(index, 1)
+}
+
+MessagePlugin.close = function (id: string, onClose?: Function) {
+  const instance = instances.find(instance => instance.id === id)
+  if (instance) {
+    render(null, instance.container)
+    instance.container.remove()
+    const index = instances.findIndex(i => i.id === id)
+    if (index !== -1) {
+      instances.splice(index, 1)
+    }
+    onClose?.()
+    updateMessagePositions()
+  }
 }
 
 MessagePlugin.closeAll = function () {
-  instances.forEach(instance => {
-    instance.close()
+  instances.forEach(({ container }) => {
+    render(null, container)
+    container.remove()
   })
-}
-
-// 为了在 Vue 应用中使用
-export const install = (app: any) => {
-  app.config.globalProperties.$message = MessagePlugin
+  instances.length = 0
 }
 
 export default MessagePlugin

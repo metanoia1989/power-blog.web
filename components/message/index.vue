@@ -1,67 +1,56 @@
-<script setup>
-import { ref, onMounted, computed } from 'vue'
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue'
 
-// Props
-const props = defineProps({
-  content: {
-    type: String,
-    required: true,
-  },
-  type: {
-    type: String,
-    default: 'info',
-  },
-  duration: {
-    type: Number,
-    default: 3000,
-  },
-  showClose: {
-    type: Boolean,
-    default: false,
-  },
-  onClose: {
-    type: Function,
-    default: () => {},
-  },
+interface Props {
+  id: string
+  content: string
+  type?: string
+  duration?: number
+  showClose?: boolean
+  onDestroy?: () => void
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  type: 'info',
+  duration: 3000,
+  showClose: false,
+  onDestroy: () => {},
 })
 
-// Refs
 const visible = ref(false)
-const timer = ref(null)
+const timer = ref<NodeJS.Timeout | null>(null)
 
-// Computed
 const iconClass = computed(() => `icon-${props.type}`)
 
-// Methods
-const show = () => {
+onMounted(() => {
   visible.value = true
   if (props.duration > 0) {
     timer.value = setTimeout(() => {
       close()
     }, props.duration)
   }
-}
+})
 
-const close = () => {
+function close() {
   visible.value = false
 }
 
-const afterLeave = () => {
-  clearTimeout(timer.value)
-  props.onClose()
-  const el = document.getElementsByClassName('message')[0]
-  el.parentNode.removeChild(el)
+function afterLeave() {
+  if (timer.value) {
+    clearTimeout(timer.value)
+  }
+  props.onDestroy?.()
 }
-
-// Lifecycle
-onMounted(() => {
-  show()
-})
 </script>
 
 <template>
   <transition name="message" @after-leave="afterLeave">
-    <div v-show="visible" class="message" :class="type">
+    <div 
+      v-show="visible" 
+      class="message" 
+      :class="type"
+      :data-message-id="id"
+    >
       <div class="content">
         <i :class="iconClass" />
         <span>{{ content }}</span>
@@ -77,7 +66,6 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 8px;
-  top: 16px;
   left: 50%;
   transform: translateX(-50%);
   padding: 12px 16px;
@@ -86,6 +74,7 @@ onMounted(() => {
   font-size: 14px;
   text-align: center;
   z-index: 9999;
+  transition: top 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
   &.info {
     background-color: #1890ff;
   }
@@ -117,9 +106,9 @@ onMounted(() => {
 .message-leave-active {
   transition: opacity 0.3s, transform 0.3s;
 }
-.message-enter,
+.message-enter-from,
 .message-leave-to {
   opacity: 0;
-  transform: translateY(-50px);
+  transform: translate(-50%, -100%);
 }
 </style>
