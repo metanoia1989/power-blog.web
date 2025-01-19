@@ -11,7 +11,7 @@ export const useEditorStore = defineStore('editor', {
       feature_image: '',
       slug: '',
       visibility: 'public',
-      is_show: true,
+      is_show: 1,
       category_id: null
     }
   }),
@@ -51,7 +51,7 @@ export const useEditorStore = defineStore('editor', {
         feature_image: '',
         slug: '',
         visibility: 'public',
-        is_show: true,
+        is_show: 1,
         category_id: null
       }
     },
@@ -59,18 +59,16 @@ export const useEditorStore = defineStore('editor', {
     async generateSlug(title: string) {
       if (!title) return ''
       
-      // For English titles
-      if (/^[a-zA-Z\s\W]+$/.test(title)) {
+      // 修正英文匹配的正则，只匹配纯英文标题
+      if (/^[\x00-\x7F]+$/.test(title)) {  // 或者使用 /^[a-zA-Z0-9\s\W]+$/
         return title.toLowerCase()
           .replace(/[^\w\s-]/g, '')
           .replace(/\s+/g, '-')
       }
       
-      // For non-English titles, translate first
-      const { text } = await translate({ q: title })
-      return text.toLowerCase()
-        .replace(/[^\w\s-]/g, '')
-        .replace(/\s+/g, '-')
+      // 对于非英文标题，使用翻译服务
+      const { slug } = await translate({ title: title })
+      return slug
     }
   }
 }) 
