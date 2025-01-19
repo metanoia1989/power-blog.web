@@ -7,10 +7,15 @@ import { hexToHsl, parseArchives, sortArchiveMap } from '@/utils/blog'
 import { useNuxtApp } from '#app'
 import { getTags } from '@/api/article'
 import { useAppStore } from '~/stores/app'
+import { useUserStore } from '~/stores/user'
+import { useRouter } from '#app'
 
 const { $message } = useNuxtApp()
 const appStore = useAppStore()
+const userStore = useUserStore()
 const $config = computed(() => appStore.config)
+const isLogin = computed(() => userStore.isLogin)
+const router = useRouter()
 
 const store = useArticleStore()
 
@@ -33,10 +38,6 @@ const hasMore = ref(true)
 const loadingMore = ref(false)
 
 // 计算属性
-const editLink = computed(() => {
-  return  $config.adminLink + `/article/lists`
-})
-
 const filterText = computed(() => {
   return filterCount.value === 0 ? '该标签下暂时没有文章~' : `该标签下有 ${filterCount.value} 篇文章~`
 })
@@ -143,6 +144,14 @@ const handleScroll = async () => {
   }
 }
 
+const handleEdit = () => {
+  if (isLogin.value) {
+    router.push('/posts/edit')
+  } else {
+    router.push('/login')
+  }
+}
+
 // Update lifecycle hooks
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
@@ -181,9 +190,9 @@ getTagsFn()
         <div class="archives-header">
           <h2 v-if="!isFilter">
             <SvgIcon name="danju" /> 你已经写了 {{ totalCount }} 篇文章了，继续坚持哦~
-            <a class="edit" :href="editLink" target="_blank">
+            <div class="edit" @click="handleEdit">
               <SvgIcon name="shuru" />
-            </a>
+            </div>
           </h2>
           <h2 v-else>
             <SvgIcon name="danju" /> {{ filterText }}

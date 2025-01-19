@@ -1,6 +1,9 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { getArticleCount, searchArticle, getArticleList } from '@/api/article'
+import { 
+  getArticleCount, searchArticle, 
+  getArticleList, getCategories as getCategoriesAPI 
+} from '@/api/article'
 import { getWeiboCount, getWeiboList, searchWeibo } from '@/api/weibo'
 
 export const useArticleStore = defineStore('article', () => {
@@ -100,6 +103,12 @@ export const useArticleStore = defineStore('article', () => {
     categories.value = newCategories
   }
 
+  async function getCategories() {
+    const res = await getCategoriesAPI()
+    setCategories(res)
+    return res
+  }
+
   function setCurrentCategory(category: any) {
     currentCategory.value = category
   }
@@ -128,6 +137,7 @@ export const useArticleStore = defineStore('article', () => {
     fetchWeiboList,
     searchWeiboList,
     fetchArticleList,
+    getCategories,
 
     // mutations
     setAllPosts,

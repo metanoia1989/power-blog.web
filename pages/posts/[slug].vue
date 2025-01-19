@@ -7,6 +7,7 @@ import MarkIt from '@/components/markdown/mark_it'
 import { updateCurrentLink } from '@/utils/blog'
 import { getArticleDetail, getRelativePosts } from '@/api/article'
 import { useAppStore } from '~/stores/app'
+import { useUserStore } from '~/stores/user'
 
 definePageMeta({
   index: 99,
@@ -17,7 +18,9 @@ definePageMeta({
 const route = useRoute()
 const router = useRouter()
 const appStore = useAppStore()
+const userStore = useUserStore()
 const $config = computed(() => appStore.config)
+const isLogin = computed(() => userStore.isLogin)
 
 const post = ref({})
 const relates = ref([])
@@ -129,6 +132,15 @@ const showToc = () => {
 const hideToc = () => {
   tocWrap.value?.classList.remove('show')
 }
+
+const handleEdit = () => {
+  if (isLogin.value) {
+    console.log(post.value.id)
+    router.push(`/posts/edit?id=${post.value.id}`)
+  } else {
+    router.push('/login')
+  }
+}
 </script>
 
 <template>
@@ -186,7 +198,7 @@ const hideToc = () => {
           <h1 class="post-title">
             {{ post.title }}
           </h1>
-          <span class="post-edit-btn">
+          <span class="post-edit-btn" @click="handleEdit">
             <SvgIcon name="shuru" />
           </span>
         </div>

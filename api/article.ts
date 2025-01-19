@@ -73,6 +73,17 @@ export function getArticleDetail(slug: string) {
 }
 
 /**
+ * 获取文章详情
+ * @param {number} id 文章 id
+ * @returns Promise
+ */
+export function getArticleById(id: number) {
+  return $request.get({
+    url: `/article/detail?id=${id}`,
+  })
+}
+
+/**
  * 获取相关文章
  * @param {string} slug 文章 slug
  * @returns Promise
@@ -102,4 +113,13 @@ export function addArticle(params: any) {
  */
 export function editArticle(params: any) {
   return $request.post({ url: '/article/edit', params })
+}
+
+/**
+ * 删除文章
+ * @param {number} id 文章 id
+ * @returns Promise
+ */
+export function deleteArticle(id: number) {
+  return $request.post({ url: '/article/delete', params: { id } })
 }

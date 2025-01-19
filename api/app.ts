@@ -17,3 +17,12 @@ export function getPolicy(params: any) {
 export function uploadImage(params: any) {
     return $request.uploadFile({ url: '/upload/image' }, params)
 }
+
+/**
+ * 翻译
+ * @param {any} params 翻译数据
+ * @returns Promise
+ */
+export function translate(params: any) {
+    return $request.post({ url: '/translate/baidu', params })
+}

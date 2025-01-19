@@ -40,8 +40,7 @@ const getCategoriesFn = async () => {
     return Promise.resolve()
   }
   try {
-    const res = await getCategories()
-    store.setCategories(res)
+    await store.getCategories()
   } catch (err) {
     $message({
       content: '获取分类失败',
