@@ -1,6 +1,7 @@
 .markdown {
     --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
+    /* --foreground: 0 0% 3.9%; */
+    --foreground: var(--major);
 
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
