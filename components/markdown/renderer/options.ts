@@ -4,7 +4,8 @@ import cssContent from './theme-css.css?raw'
 export const fontFamilyOptions: IConfigOption[] = [
   {
     label: `无衬线`,
-    value: `-apple-system-font,BlinkMacSystemFont, Helvetica Neue, PingFang SC, Hiragino Sans GB , Microsoft YaHei UI , Microsoft YaHei ,Arial,sans-serif`,
+    value: `'Comic Sans', -apple-system-font,  BlinkMacSystemFont, Helvetica Neue, 'LXGW Bright', PingFang SC, Hiragino Sans GB , Microsoft YaHei UI , Microsoft YaHei ,Arial,sans-serif`,
+    // 英文字体在前，中文字体在后，优先显示英文字体 
     desc: `字体123Abc`,
   },
   {

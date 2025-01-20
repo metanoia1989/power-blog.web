@@ -17,7 +17,7 @@ class MarkIt {
   isMacCodeBlock: boolean = true
   theme: string = themeOptions[0].value
   fontFamily: string = fontFamilyOptions[0].value
-  fontSize: string = fontSizeOptions[2].value
+  fontSize: string = fontSizeOptions[3].value
   primaryColor: string = colorOptions[0].value
   isUseIndent: boolean = false
 
@@ -49,7 +49,7 @@ class MarkIt {
       // eslint-disable-next-line no-misleading-character-class
       data = data.replace(/^[\u200B\u200C\u200D\u200E\u200F\uFEFF]/, '')
       const { markdownContent } = this.renderer.parseFrontMatterAndContent(data)
-      let content = await marked.parse(markdownContent)
+      let content = await this.renderer.getMarked().parse(markdownContent) // 直接用 marked 解析了 
       content.replace(/(style=".*?)"/, `$1;margin-top: 0"`)  // 去除第一行的 margin-top
       content += this.renderer.buildFootnotes() // 引用脚注
       content += this.renderer.buildAddition() // 附加的一些 style

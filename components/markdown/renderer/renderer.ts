@@ -372,5 +372,6 @@ export function initRenderer(opts: IOpts) {
       return styledContent(`container`, content, `section`)
     },
     getTocHtml: () => postToc.toHTML(),
+    getMarked: () => marked,
   }
 }

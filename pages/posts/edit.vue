@@ -150,7 +150,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div class="bg-white">
+    <div class="bg-white min-h-screen">
         <!-- Header -->
         <header class="fixed top-0 left-0 right-0 h-16 bg-white border-b flex items-center justify-between px-4 z-10">
             <button @click="handleBack" class="p-2">
@@ -166,7 +166,7 @@ onUnmounted(() => {
         </header>
 
         <!-- Main Content -->
-        <main class="h-[calc(100vh-4rem)] mt-16 md:pt-4 md:px-4 max-w-4xl mx-auto flex flex-col">
+        <main class="min-h-[calc(100vh-4rem)] mt-16 md:pt-4 md:px-4 max-w-4xl mx-auto flex flex-col">
             <div class="flex-1 flex flex-col space-y-6 md:py-6">
                 <!-- Title -->
                 <div class="max-md:px-4 max-md:pt-4">
@@ -261,7 +261,4 @@ onUnmounted(() => {
 @use './edit.scss';
 
 // 添加全局样式以确保整个页面背景为白色
-:global(body) {
-    background-color: white;
-}
 </style>

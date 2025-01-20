@@ -71,9 +71,10 @@ const defaultTheme: Theme = {
     // 段落
     p: {
       'margin': `1.5em 8px`,
-      'letter-spacing': `0.1em`,
+      'letter-spacing': `0.06em`,
+      'word-spacing': `0.15em`,
       'color': `hsl(var(--foreground))`,
-      'text-align': `justify`,
+      'text-align': `left`,
     },
 
     // 引用
@@ -225,12 +226,13 @@ const defaultTheme: Theme = {
     },
 
     codespan: {
-      'font-size': `90%`,
+      'font-size': `95%`,
       'color': `#d14`,
       'background': `rgba(27,31,35,.05)`,
       'padding': `3px 5px`,
       'border-radius': `4px`,
       // 'word-break': `break-all`,
+      'letter-spacing': `0.07em`,
     },
 
     em: {

@@ -138,7 +138,7 @@ const handleEdit = () => {
     console.log(post.value.id)
     router.push(`/posts/edit?id=${post.value.id}`)
   } else {
-    router.push('/login')
+    router.push('/auth/login')
   }
 }
 </script>
