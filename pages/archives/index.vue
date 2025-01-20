@@ -20,7 +20,7 @@ const router = useRouter()
 const store = useArticleStore()
 
 definePageMeta({
-  index: 1,
+  index: 3,
   title: '归档',
 })
 
@@ -148,7 +148,7 @@ const handleEdit = () => {
   if (isLogin.value) {
     router.push('/posts/edit')
   } else {
-    router.push('/login')
+    router.push('/auth/login')
   }
 }
 

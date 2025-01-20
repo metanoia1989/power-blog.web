@@ -9,6 +9,10 @@ import Pagination from '@/components/pagination/index.vue'
 import { useNuxtApp } from '#app'
 import { getCategories } from '@/api/article'
 
+definePageMeta({
+  index: 2,
+})
+
 const { $message } = useNuxtApp()
 
 const route = useRoute()

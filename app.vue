@@ -11,8 +11,9 @@
 <script lang="ts" setup>
 import { ID_INJECTION_KEY, ElConfigProvider } from 'element-plus'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { useRoute } from '#app'
+import { useAppStore } from '~/stores/app'
 
 provide(ID_INJECTION_KEY, {
     prefix: 100,
@@ -23,18 +24,27 @@ const config = {
 }
 const transitionName = ref('slide-left')
 const route = useRoute()
+const appStore = useAppStore()
+
+const from = computed(() => appStore.prevRoute)
 
 // Watch
 watch(
   () => route,
   // @ts-ignore
-  (to, from) => {
-    if (to.path === from?.path) return
-    
+  (to) => {
+    if (!from.value) {
+      appStore.setPrevRoute({ ...to } )
+      return
+    }
+
+    if (to.path === from.value.path) return
+
     const toIndex = to.meta.index || 0
-    const fromIndex = from?.meta?.index || 0
-    
+    const fromIndex = from.value?.meta?.index || 0
+
     transitionName.value = toIndex > fromIndex ? 'slide-left' : 'slide-right'
+    appStore.setPrevRoute({ ...to  } )
   },
   { deep: true }  // 需要深度监听
 )

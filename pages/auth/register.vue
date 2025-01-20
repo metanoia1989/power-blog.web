@@ -89,7 +89,8 @@ import { useUserStore } from '@/stores/user'
 import { sendActiveCode, register } from '@/api/account'
 
 definePageMeta({
-  layout: 'blank'
+  layout: 'blank',
+  index: 300,
 })
 
 const { $message } = useNuxtApp()

@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { getSiteConfig } from '@/api/app'
+import { useRoute } from '#app'
 
 interface AppSate {
     config: Record<string, any>
@@ -62,6 +63,9 @@ const defaultConfig = {
 export const useAppStore = defineStore('app', () => {
     const config = ref(defaultConfig)
     const isInit = ref(false)
+    
+    const __route = useRoute()
+    const prevRoute = ref<typeof __route | null>(null)
 
     async function getConfig() {
         const configData = await getSiteConfig()
@@ -73,10 +77,16 @@ export const useAppStore = defineStore('app', () => {
         isInit.value = true
     }
 
+    function setPrevRoute(route: typeof __route) {
+        prevRoute.value = route
+    }
+
     return {
         config,
         isInit,
+        prevRoute,
 
         getConfig,
+        setPrevRoute,
     }
 })

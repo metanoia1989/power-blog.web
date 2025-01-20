@@ -58,7 +58,8 @@ import { login } from '@/api/account'
 
 
 definePageMeta({
-  layout: 'blank'
+  layout: 'blank',
+  index: 299,
 })
 
 const { $message } = useNuxtApp()

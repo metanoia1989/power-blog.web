@@ -9,6 +9,7 @@ import { debounce } from 'lodash-es'
 
 definePageMeta({
     layout: 'blank',
+    index: 199,
 })
 
 const route = useRoute()
