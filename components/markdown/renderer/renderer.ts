@@ -14,6 +14,7 @@ import { MDKatex } from './MDKatex'
 
 marked.setOptions({
   breaks: true,
+  gfm: true,
 })
 marked.use(MDKatex({ nonStandard: true }))
 
@@ -233,8 +234,7 @@ export function initRenderer(opts: IOpts) {
       const text = this.parser.parseInline(tokens)
       const tag = `h${depth}`
       const anchor = postToc.add(text, depth)
-      console.log('heading', anchor)
-      return `<${tag} id=${anchor}>${text}</${tag}>`
+      return `<${tag} id=${anchor} ${styles(tag)}>${text}</${tag}>`
     },
 
     paragraph({ tokens }: Tokens.Paragraph): string {
@@ -299,6 +299,7 @@ export function initRenderer(opts: IOpts) {
     },
 
     image({ href, title, text }: Tokens.Image): string {
+      // 其实 parseInline 已经解析到这里了，但是这里处理失败了 
       const subText = styledContent(`figcaption`, transform(opts.legend!, text, title))
       const figureStyles = styles(`figure`)
       const imgStyles = styles(`image`)

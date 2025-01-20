@@ -5,18 +5,23 @@ const blockRule = /^(\${1,2})\n((?:\\[\s\S]|[^\\])+?)\n\1(?:\n|$)/
 
 function createRenderer(display) {
   return (token) => {
-    window.MathJax.texReset()
-    const mjxContainer = window.MathJax.tex2svg(token.text, { display })
-    const svg = mjxContainer.firstChild
-    const width = svg.style[`min-width`] || svg.getAttribute(`width`)
-    svg.removeAttribute(`width`)
-    svg.style = `max-width: 300vw !important;`
-    svg.style.width = width
-    svg.style.display = `initial`
-    if (display) {
-      return `<section style="text-align: center; overflow: auto;">${svg.outerHTML}</section>`
+    // 确保在客户端且 MathJax 已加载
+    if (import.meta.client && window.MathJax) {
+      window.MathJax.texReset()
+      const mjxContainer = window.MathJax.tex2svg(token.text, { display })
+      const svg = mjxContainer.firstChild
+      const width = svg.style[`min-width`] || svg.getAttribute(`width`)
+      svg.removeAttribute(`width`)
+      svg.style = `max-width: 300vw !important;`
+      svg.style.width = width
+      svg.style.display = `initial`
+      if (display) {
+        return `<section style="text-align: center; overflow: auto;">${svg.outerHTML}</section>`
+      }
+      return `<span style="vertical-align: middle; line-height: 1;">${svg.outerHTML}</span>`
     }
-    return `<span style="vertical-align: middle; line-height: 1;">${svg.outerHTML}</span>`
+    // 如果 MathJax 未加载，返回原始文本
+    return token.text
   }
 }
 

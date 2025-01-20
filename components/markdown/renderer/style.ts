@@ -1,4 +1,4 @@
-import { PropertiesHyphen } from "csstype";
+import type { PropertiesHyphen } from "csstype";
 import type { Block, ExtendedProperties, Inline, Theme } from "./renderer.d";
 
 /**

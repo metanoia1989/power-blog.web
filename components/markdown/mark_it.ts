@@ -1,11 +1,9 @@
 /* eslint-disable max-statements-per-line */
-import { Marked } from 'marked'
 import { initRenderer } from './renderer/renderer'
 import { css2json, customCssWithTemplate, customizeTheme } from './renderer/style'
 import { themeMap, themeOptions } from './renderer/theme'
-import { colorOptions, cssContentConfig, fontFamilyOptions, fontSizeOptions } from './renderer/options'
+import { colorOptions, cssContentConfig, fontFamilyOptions, fontSizeOptions, legendOptions } from './renderer/options'
 
-const marked = new Marked()
 
 const getCurrentTab = () => cssContentConfig.tabs.find((tab) => {
   return tab.name === cssContentConfig.active
@@ -15,11 +13,12 @@ class MarkIt {
   renderer: ReturnType<typeof initRenderer>
 
   isMacCodeBlock: boolean = true
-  theme: string = themeOptions[0].value
+  theme: string = themeOptions[1].value
   fontFamily: string = fontFamilyOptions[0].value
-  fontSize: string = fontSizeOptions[3].value
+  fontSize: string = fontSizeOptions[0].value
   primaryColor: string = colorOptions[0].value
   isUseIndent: boolean = false
+  legend: string = legendOptions[3].value
 
   get fontSizeNumber() {
     return Number(this.fontSize.replace(`px`, ``))
@@ -39,6 +38,7 @@ class MarkIt {
       fonts: this.fontFamily,
       size: this.fontSize,
       isUseIndent: this.isUseIndent,
+      legend: this.legend,
     })
   }
 
@@ -78,6 +78,8 @@ class MarkIt {
           }
         </style>
       `
+
+      
 
       const toc = this.renderer.getTocHtml()
       return { content, toc }

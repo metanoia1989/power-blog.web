@@ -22,6 +22,11 @@ export const fontFamilyOptions: IConfigOption[] = [
 
 export const fontSizeOptions: IConfigOption[] = [
   {
+    label: `0.95em`,
+    value: `0.95em`,
+    desc: `默认`,
+  },
+  {
     label: `12px`,
     value: `12px`,
     desc: `更小`,

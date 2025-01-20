@@ -2,6 +2,10 @@ import type { IConfigOption, Theme } from './renderer.d'
 
 import { toMerged } from 'es-toolkit'
 
+const letterSpacing = `0.06em`
+const wordSpacing = `0.15em`
+const defaultFontSize = `0.95em`
+
 const defaultTheme: Theme = {
   base: {
     '--md-primary-color': `#000000`,
@@ -38,7 +42,7 @@ const defaultTheme: Theme = {
     h3: {
       'padding-left': `8px`,
       'border-left': `3px solid var(--md-primary-color)`,
-      'margin': `2em 8px 0.75em 0`,
+      'margin': `2em 0px 0.75em 0`,
       'color': `hsl(var(--foreground))`,
       'font-size': `1.1em`,
       'font-weight': `bold`,
@@ -47,7 +51,7 @@ const defaultTheme: Theme = {
 
     // 四级标题
     h4: {
-      'margin': `2em 8px 0.5em`,
+      'margin': `2em 0px 0.5em`,
       'color': `var(--md-primary-color)`,
       'font-size': `1em`,
       'font-weight': `bold`,
@@ -55,7 +59,7 @@ const defaultTheme: Theme = {
 
     // 五级标题
     h5: {
-      'margin': `1.5em 8px 0.5em`,
+      'margin': `1.5em 0px 0.5em`,
       'color': `var(--md-primary-color)`,
       'font-size': `1em`,
       'font-weight': `bold`,
@@ -63,16 +67,16 @@ const defaultTheme: Theme = {
 
     // 六级标题
     h6: {
-      'margin': `1.5em 8px 0.5em`,
+      'margin': `1.5em 0px 0.5em`,
       'font-size': `1em`,
       'color': `var(--md-primary-color)`,
     },
 
     // 段落
     p: {
-      'margin': `1.5em 8px`,
-      'letter-spacing': `0.06em`,
-      'word-spacing': `0.15em`,
+      'margin': `1.5em 0px`,
+      'letter-spacing': letterSpacing,
+      'word-spacing': wordSpacing,
       'color': `hsl(var(--foreground))`,
       'text-align': `left`,
     },
@@ -85,15 +89,17 @@ const defaultTheme: Theme = {
       'border-radius': `8px`,
       'color': `rgba(0,0,0,0.5)`,
       'background': `var(--blockquote-background)`,
-      'margin': `2em 8px`,
+      'margin': `2em 0px`,
     },
 
     // 引用内容
     blockquote_p: {
       'display': `block`,
-      'font-size': `1em`,
+      'font-size': defaultFontSize,
       'letter-spacing': `0.1em`,
       'color': `hsl(var(--foreground))`,
+      'margin-top': `0.8em`,
+      'margin-bottom': `0.8em`,
     },
 
     blockquote_note: {
@@ -156,7 +162,7 @@ const defaultTheme: Theme = {
 
     // 代码块
     code_pre: {
-      'font-size': `14px`,
+      'font-size': defaultFontSize,
       'overflow-x': `auto`,
       'border-radius': `8px`,
       'padding': `1em`,
@@ -221,7 +227,7 @@ const defaultTheme: Theme = {
     listitem: {
       'text-indent': `-1em`,
       'display': `block`,
-      'margin': `0.2em 8px`,
+      'margin': `0.2em 0px`,
       'color': `hsl(var(--foreground))`,
     },
 
@@ -232,12 +238,13 @@ const defaultTheme: Theme = {
       'padding': `3px 5px`,
       'border-radius': `4px`,
       // 'word-break': `break-all`,
-      'letter-spacing': `0.07em`,
+      'letter-spacing': letterSpacing,
     },
 
     em: {
       'font-style': `italic`,
       'font-size': `inherit`,
+      'letter-spacing': '0.01em',
     },
 
     link: {

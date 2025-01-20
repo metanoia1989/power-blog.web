@@ -113,6 +113,7 @@ if (props.needParsed) {
 </template>
 
 <style lang="scss" scoped>
-@use './index.scss'
+@use './renderer/markdown-var.css';
+@use './index.scss';
 </style>
 
