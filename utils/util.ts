@@ -61,3 +61,21 @@ export function objectToQuery(params: Record<string, any>): string {
     }
     return query.slice(0, -1)
 }
+
+/**
+ * @description 判断是否是微信浏览器
+ * @return {Boolean}
+ */
+export function isWeixin() {
+    let ua;
+    if (import.meta.client) {
+        ua = navigator.userAgent.toLowerCase()
+    } else {
+        const headers = useRequestHeaders(['user-agent'])
+        ua = headers['user-agent']?.toLowerCase() ?? ''
+    }
+    if (ua.match(/MicroMessenger/i)?.[0]?.toLowerCase() === "micromessenger") {
+        return true;
+    }
+    return false
+}  
