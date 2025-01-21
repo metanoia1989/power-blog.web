@@ -2,43 +2,53 @@ import { getUserCenter } from '@/api/user'
 import { login, logout } from '@/api/account'
 import { TOKEN_KEY } from '@/enums/cacheEnums'
 import { defineStore } from 'pinia'
-import { useStorage } from '@vueuse/core'
+import { useCookie } from '#app'
 
-interface UserSate {
+interface UserState {
     userInfo: Record<string, any>
-    token: string | null
     temToken: string | null
 }
+
 export const useUserStore = defineStore('userStore', {
-    state: (): UserSate => {
-        const TOKEN = useStorage(TOKEN_KEY, '')
+    state: (): UserState => {
         return {
             userInfo: {},
-            token: TOKEN.value || null,
             temToken: null
         }
     },
+    
     getters: {
-        isLogin: (state) => !!state.token
+        token(): string | null {
+            return useCookie(TOKEN_KEY).value || null
+        },
+        isLogin(): boolean {
+            return !!this.token
+        }
     },
+    
     actions: {
         async getUser() {
             const data = await getUserCenter()
             this.userInfo = data
         },
+        
         setUser(userInfo: any) {
             this.userInfo = userInfo
         },
-        login(token: string) {
-            const TOKEN = useStorage(TOKEN_KEY, '')
-            this.token = token
-            TOKEN.value = token
+        
+        login(tokenValue: string) {
+            const tokenCookie = useCookie(TOKEN_KEY, {
+                maxAge: 60 * 60 * 24 * 7, // 7 days
+                secure: true,
+                sameSite: 'lax'
+            })
+            tokenCookie.value = tokenValue
         },
+        
         logout() {
-            const TOKEN = useStorage(TOKEN_KEY, '')
-            this.token = '' 
+            const tokenCookie = useCookie(TOKEN_KEY)
+            tokenCookie.value = null
             this.userInfo = {}
-            TOKEN.value = ''
         }
     }
 })
