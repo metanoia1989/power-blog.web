@@ -157,14 +157,14 @@ onMounted(() => {
   }
   .btn-wrap {
     display: flex;
-    gap: 1em;
+    gap: 0.8em;
     justify-content: center;
     align-items: center;
     .btn {
       position: relative;
       font-size: 1.3rem;
-      width: 50px;
-      height: 50px;
+      width: 2em;
+      height: 2em;
       border-radius: 50%;
       text-align: center;
       background-color: var(--bg-thin);
@@ -172,21 +172,26 @@ onMounted(() => {
       color: var(--minor);
       cursor: pointer;
       transition: .3s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
       i {
-        position: absolute;
-        top: 18px;
-        left: 20px;
+        width: 0.45em;
+        height: 0.45em;
         display: inline-block;
         border: solid var(--minor);
         border-width: 0 2px 2px 0;
-        padding: 5px;
+        padding: 0.2em;
+        
       }
       .next {
-        left: 17px;
+        margin-right: 0.1em;
         transform: rotate(-45deg);
         vertical-align: middle;
       }
       .prev {
+        margin-left: 0.1em;
         transform: rotate(135deg);
       }
       &:hover {

@@ -7,7 +7,6 @@ import { useUserStore } from '@/stores/user'
 import $message from '~/components/message/plugin'
 
 export function createRequest(opt?: Partial<FetchOptions>) {
-    const userStore = useUserStore()
     // const { setPopupType, toggleShowPopup } = useAccount()
     const defaultOptions: FetchOptions = {
         // 基础接口地址
@@ -24,6 +23,7 @@ export function createRequest(opt?: Partial<FetchOptions>) {
             withToken: true,
             isParamsToData: true,
             requestInterceptorsHook(options) {
+                const userStore = useUserStore()
                 const { apiPrefix, isParamsToData, withToken } =
                     options.requestOptions
                 // 拼接请求前缀
@@ -49,6 +49,7 @@ export function createRequest(opt?: Partial<FetchOptions>) {
                 return options
             },
             async responseInterceptorsHook(response, options) {
+                const userStore = useUserStore()
                 const { isTransformResponse, isReturnDefaultResponse } =
                     options.requestOptions
                 //返回默认响应，当需要获取响应头及其他数据时可使用
@@ -79,6 +80,7 @@ export function createRequest(opt?: Partial<FetchOptions>) {
                         }
                         return Promise.reject(msg)
                     case RequestCodeEnum.LOGIN_FAILURE:
+                        console.log('登陆超时', code, msg)
                         userStore.logout()
                         return Promise.reject(msg)
                     case RequestCodeEnum.NOT_INSTALL:

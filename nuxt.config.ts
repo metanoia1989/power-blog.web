@@ -8,14 +8,14 @@ const envConfig = getEnvConfig()
 export default defineNuxtConfig({
     compatibilityDate: '2024-11-19',
     // debug: true,
-    devtools: { enabled: true },
+    // devtools: { enabled: true },
     // nitro: {
     //     debug: true
     // },
-    sourcemap: {
-        server: true,
-        client: true
-    },
+    // sourcemap: {
+    //     server: true,
+    //     client: true
+    // },
     css: ['~/assets/styles/index.scss'],
     vite: {
         css: {

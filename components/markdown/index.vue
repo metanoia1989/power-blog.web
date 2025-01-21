@@ -51,13 +51,15 @@ const extractImages = () => {
 
 const addClickEvents = () => {
   nextTick(() => {
-    // 添加图片点击事件，这里有bug，导致网页所有图片都被包括在内了(加个容器限制即可) 
-    const imageElements = document.querySelectorAll('.markdown-container img')
-    imageElements.forEach((img) => {
-      img.addEventListener('click', () => {
-        openLightbox(img.src)
+    if (import.meta.client) {
+      // 添加图片点击事件，这里有bug，导致网页所有图片都被包括在内了(加个容器限制即可) 
+      const imageElements = document.querySelectorAll('.markdown-container img')
+      imageElements.forEach((img) => {
+        img.addEventListener('click', () => {
+          openLightbox(img.src)
+        })
       })
-    })
+    }
   })
 }
 
