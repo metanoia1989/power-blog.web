@@ -10,6 +10,7 @@ import { debounce } from 'lodash-es'
 definePageMeta({
     layout: 'blank',
     index: 199,
+    title: '编辑文章',
 })
 
 const route = useRoute()

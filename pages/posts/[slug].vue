@@ -52,7 +52,9 @@ const getPostFn = async () => {
     post.value = await getArticleDetail(postSlug.value)
 
     const parsedMarked = await markIt.parse(post.value.plaintext)
-    window.document.title = post.value.title
+    if (import.meta.client) {
+      window.document.title = post.value.title
+    }
     commentVisible.value = true
     toc.value = parsedMarked?.toc
     content.value = parsedMarked?.content

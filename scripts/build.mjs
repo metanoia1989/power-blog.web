@@ -6,6 +6,8 @@ const cwd = process.cwd()
 dotenv.config()
 
 const isSSR = Boolean(process.env.NUXT_SSR)
+console.log('env.NUXT_SSR', process.env.NUXT_SSR)
+
 //打包发布路径，可能会覆盖重要文件，请谨慎改动
 const releaseRelativePath = '../server/public/pc'
 const distRelativePath = isSSR ? '' : './.output/public'

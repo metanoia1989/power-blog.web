@@ -11,6 +11,7 @@ import { getCategories } from '@/api/article'
 
 definePageMeta({
   index: 2,
+  title: '分类',
 })
 
 const { $message } = useNuxtApp()

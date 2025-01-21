@@ -60,6 +60,7 @@ import { login } from '@/api/account'
 definePageMeta({
   layout: 'blank',
   index: 299,
+  title: '登录',
 })
 
 const { $message } = useNuxtApp()

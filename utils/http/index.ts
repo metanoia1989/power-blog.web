@@ -4,6 +4,7 @@ import { merge } from 'lodash-es'
 import { Request } from './request'
 import { getApiPrefix, getApiUrl, getVersion } from '../env'
 import { useUserStore } from '@/stores/user'
+import $message from '~/components/message/plugin'
 
 export function createRequest(opt?: Partial<FetchOptions>) {
     const userStore = useUserStore()
@@ -59,7 +60,6 @@ export function createRequest(opt?: Partial<FetchOptions>) {
                     return response._data
                 }
                 const { code, data, show, msg } = response._data
-                const { $message } = useNuxtApp()
                 switch (code) {
                     case RequestCodeEnum.SUCCESS:
                         if (show) {

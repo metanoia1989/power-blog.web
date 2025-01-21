@@ -28,6 +28,7 @@ import { useRoute } from '#app'
 
 definePageMeta({
   layout: 'blank',
+  title: '禁止微信浏览器访问',
 })
 
 const { $message } = useNuxtApp();

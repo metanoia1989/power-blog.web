@@ -3,7 +3,7 @@ import { computed, onMounted } from 'vue'
 import { useRoute } from '#app'
 import { useArticleStore } from '@/stores/article'
 import Category from '@/pages/category/[slug].vue'
-import CategoryBar from '@/components/category_bar/index.vue'
+import { useAppStore } from '@/stores/app'
 
 const route = useRoute()
 const articleStore = useArticleStore()

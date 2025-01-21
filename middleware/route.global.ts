@@ -4,8 +4,6 @@ import { isEmptyObject } from '~~/utils/validate'
 import { isWeixin } from '~~/utils/util'
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
-    const userStore = useUserStore()
-    const appStore = useAppStore()
 
     // 检查是否是微信浏览器且不是已经在提示页面
     if (isWeixin() && to.path !== '/wechat-tip') {
@@ -17,6 +15,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         })
     }
 
+    const userStore = useUserStore()
+    const appStore = useAppStore()
     try {
         if (isEmptyObject(appStore.config) || !appStore.isInit) {
             await appStore.getConfig()

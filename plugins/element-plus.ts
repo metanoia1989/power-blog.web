@@ -1,6 +1,13 @@
-import { ElLoading } from 'element-plus'
+import { ElLoading, ID_INJECTION_KEY, ZINDEX_INJECTION_KEY } from 'element-plus'
 
 export default defineNuxtPlugin((nuxtApp) => {
+    nuxtApp.vueApp.provide(ID_INJECTION_KEY, {
+        prefix: 1024,
+        current: 0
+    })
+    nuxtApp.vueApp.provide(ZINDEX_INJECTION_KEY, {
+        current: 0
+    })
     const plugins = [ElLoading]
     for (const plugin of plugins) {
         nuxtApp.vueApp.use(plugin)

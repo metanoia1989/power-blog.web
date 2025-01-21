@@ -91,6 +91,7 @@ import { sendActiveCode, register } from '@/api/account'
 definePageMeta({
   layout: 'blank',
   index: 300,
+  title: '注册',
 })
 
 const { $message } = useNuxtApp()

@@ -3,10 +3,10 @@ interface MathJax {
     tex2svg: (text: string, options: { display: boolean }) => HTMLElement;
   }
   
-  declare global {
-    interface Window {
-      MathJax: MathJax;
-    }
-  }
-  
-  export {}
+declare global {
+interface Window {
+    MathJax: MathJax;
+}
+}
+
+export {}
