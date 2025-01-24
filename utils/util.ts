@@ -79,3 +79,18 @@ export function isWeixin() {
     }
     return false
 }  
+
+/**
+ * @description 判断是否是手机访问
+ * @return {Boolean}
+ */
+export function isMobile() {
+    let ua;
+    if (import.meta.client) {
+        ua = navigator.userAgent.toLowerCase()
+    } else {
+        const headers = useRequestHeaders(['user-agent'])
+        ua = headers['user-agent']?.toLowerCase() ?? ''
+    }
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua)
+}

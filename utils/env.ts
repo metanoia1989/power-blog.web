@@ -1,8 +1,11 @@
+import { isMobile } from "./util"
+
 /**
  * @description 获取客户端类型
  */
 export function getClient() {
-    return useRuntimeConfig().public.client ?? 1
+    // 检测是手机访问还是电脑访问 
+    return isMobile() ? 3 : 4
 }
 
 /**
