@@ -38,7 +38,7 @@ export const useUserStore = defineStore('userStore', {
         
         login(tokenValue: string) {
             const tokenCookie = useCookie(TOKEN_KEY, {
-                maxAge: 60 * 60 * 24 * 7, // 7 days
+                maxAge: 60 * 60 * 24 * 30, // 30 days
                 secure: true,
                 sameSite: 'lax'
             })
