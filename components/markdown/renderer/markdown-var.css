@@ -30,6 +30,8 @@
     --radius: 0.5rem;
 
     --blockquote-background: #f7f7f7;
+
+    --article-font-size: 16px;
 }
 
 [data-theme="dark"] .markdown {
@@ -62,4 +64,10 @@
     --ring:0 0% 83.1%;
 
     --blockquote-background: #212121;
+}
+
+@media (max-width: 768px) {
+    .markdown {
+        --article-font-size: 15px;
+    }
 }

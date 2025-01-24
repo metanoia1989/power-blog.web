@@ -5,7 +5,6 @@ import { useArticleStore } from '~/stores/article'
 import { deleteArticle, getArticleById, editArticle, addArticle } from '~/api/article'
 import { VisibilityMap } from '~/enums/visibilityEnums'
 import { useRoute, useRouter, useNuxtApp } from '#app'
-import { debounce } from 'lodash-es'
 
 definePageMeta({
     layout: 'blank',
@@ -48,6 +47,12 @@ const handleSave = async () => {
             editorStore.saveArticleDraft(formData.value)
             router.replace(`/posts/edit?id=${id}`)
         }
+    } catch (err) {
+        $message({
+            content: err ? err : '保存失败',
+            type: 'error',
+        })
+        throw new Error(err)
     } finally {
         isLoading.value = false
     }
@@ -106,7 +111,7 @@ const handleEditorChange = () => {
             const minHeight = viewportHeight - headerHeight - titleOffset - 32 // 32px for padding
 
             // 取实际内容高度和最小高度的较大值
-            const height = Math.max(minHeight, editor.scrollHeight + 50)
+            const height = Math.max(minHeight, editor.scrollHeight + 80)
             editorHeight.value = `${height}px`
         }
     })

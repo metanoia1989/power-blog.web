@@ -51,6 +51,9 @@ export default defineNuxtConfig({
             ...envConfig
         }
     },
+    routeRules: {
+        '/posts/edit': { ssr: false },
+    },
     ssr: !!envConfig.ssr,
     experimental: { appManifest: false },
 })

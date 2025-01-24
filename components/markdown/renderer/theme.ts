@@ -21,7 +21,7 @@ const defaultTheme: Theme = {
       'border-bottom': `2px solid var(--md-primary-color)`,
       'margin': `2em auto 1em`,
       'color': `hsl(var(--foreground))`,
-      'font-size': `1.2em`,
+      'font-size': `1.4em`,
       'font-weight': `bold`,
       'text-align': `center`,
     },
@@ -33,7 +33,7 @@ const defaultTheme: Theme = {
       'margin': `4em auto 2em`,
       'color': `#fff`,
       'background': `var(--md-primary-color)`,
-      'font-size': `1.2em`,
+      'font-size': `1.3em`,
       'font-weight': `bold`,
       'text-align': `center`,
     },
@@ -44,7 +44,7 @@ const defaultTheme: Theme = {
       'border-left': `3px solid var(--md-primary-color)`,
       'margin': `2em 0px 0.75em 0`,
       'color': `hsl(var(--foreground))`,
-      'font-size': `1.1em`,
+      'font-size': `1.2em`,
       'font-weight': `bold`,
       'line-height': `1.2`,
     },
@@ -304,7 +304,7 @@ const graceTheme = toMerged(defaultTheme, {
     'h1': {
       'padding': `0.5em 1em`,
       'border-bottom': `2px solid var(--md-primary-color)`,
-      'font-size': `1.4em`,
+      'font-size': `1.5em`,
       'text-shadow': `2px 2px 4px rgba(0,0,0,0.1)`,
     },
 
@@ -320,6 +320,7 @@ const graceTheme = toMerged(defaultTheme, {
       'font-size': `1.2em`,
       'border-left': `4px solid var(--md-primary-color)`,
       'border-bottom': `1px dashed var(--md-primary-color)`,
+      'padding-bottom': `0.4em`,
     },
 
     'h4': {

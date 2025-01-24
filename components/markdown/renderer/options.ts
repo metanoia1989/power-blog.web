@@ -22,8 +22,8 @@ export const fontFamilyOptions: IConfigOption[] = [
 
 export const fontSizeOptions: IConfigOption[] = [
   {
-    label: `0.95em`,
-    value: `0.95em`,
+    label: `动态大小`,
+    value: `var(--article-font-size)`,
     desc: `默认`,
   },
   {
