@@ -107,7 +107,7 @@ const handleEditorChange = () => {
             // 计算视口剩余高度
             const viewportHeight = window.innerHeight
             const headerHeight = 64 // 顶部固定导航栏高度 (h-16 = 64px)
-            const titleOffset = document.querySelector('.editor-title')?.getBoundingClientRect().bottom || 0
+            const titleOffset = document.querySelector('.editor-title')?.getBoundingClientRect().height || 0
             const minHeight = viewportHeight - headerHeight - titleOffset - 32 // 32px for padding
 
             // 取实际内容高度和最小高度的较大值
