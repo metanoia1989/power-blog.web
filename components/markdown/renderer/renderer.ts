@@ -311,14 +311,19 @@ export function initRenderer(opts: IOpts) {
       if (href.startsWith(`https://mp.weixin.qq.com`)) {
         return `<a href="${href}" title="${title || text}" ${styles(`wx_link`)}>${parsedText}</a>`
       }
-      if (href === text) {
-        return parsedText
-      }
+      // if (href === text) {
+      //   return parsedText
+      // }
       if (opts.citeStatus) {
         const ref = addFootnote(title || text, href)
         return `<span ${styles(`link`)}>${parsedText}<sup>[${ref}]</sup></span>`
       }
-      return styledContent(`link`, parsedText, `span`)
+
+      const isExternal = href.startsWith('http') || href.startsWith('//')
+      const origin = window.location.origin
+      const openInNewTab = (isExternal && !href.startsWith(origin)) ? 'target="_blank"' : ''
+      const style = styles('link')
+      return `<a href="${href}" title="${title || ''}" ${style} ${openInNewTab}>${parsedText}</a>`
     },
 
     strong({ tokens }: Tokens.Strong): string {

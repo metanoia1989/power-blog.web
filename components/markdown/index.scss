@@ -314,7 +314,7 @@
     margin-top: 1em;
   }
 
-  a {
+  :deep(a) {
     position: relative;
     color: var(--primary);
   
