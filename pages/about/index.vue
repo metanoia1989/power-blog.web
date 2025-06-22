@@ -13,7 +13,7 @@ const config = computed(() => appStore.config)
 const about = ref('')
 
 definePageMeta({
-  index: 4,
+  index: 5,
   title: '关于',
 })
 

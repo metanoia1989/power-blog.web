@@ -23,6 +23,10 @@ const handleLogout = async () => {
     window.location.reload()
   }, 1000)
 }
+
+const handleCreateNovel = () => {
+  router.push('/novel/edit')
+}
 </script>
 
 <template>
@@ -42,6 +46,13 @@ const handleLogout = async () => {
       </div>
     </div>
     <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
+      <button 
+        @click="handleCreateNovel"
+        class="w-full px-4 py-2 text-sm text-blue-600 dark:text-blue-400 
+               hover:bg-blue-50 dark:hover:bg-blue-900/20 
+               rounded-md transition-colors">
+        新建小说
+      </button>
       <button 
         @click="handleLogout"
         class="w-full px-4 py-2 text-sm text-red-600 dark:text-red-400 

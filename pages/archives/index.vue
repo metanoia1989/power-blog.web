@@ -20,7 +20,7 @@ const router = useRouter()
 const store = useArticleStore()
 
 definePageMeta({
-  index: 3,
+  index: 2,
   title: '归档',
 })
 

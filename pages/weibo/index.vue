@@ -13,7 +13,7 @@ const $config = computed(() => appStore.config)
 const store = useArticleStore()
 
 definePageMeta({
-  index: 2,
+  index: 3,
   title: '絮絮叨叨',
 })
 

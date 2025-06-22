@@ -1,8 +1,8 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { useRuntimeConfig } from '#app'
+import { useAppStore } from '@/stores/app'
 
-const config = useRuntimeConfig().public
+const config = useAppStore().config
 const currentYear = ref(new Date().getFullYear())
 const createdTime = ref(config.createdTime)
 
@@ -17,12 +17,12 @@ const year = computed(() => {
 <template>
   <div class="copyright">
     <div class="copyright-text">
-      <p>Blog <a :href="config.url" class="blog-link">{{ config.name }}</a>, Copyright &copy; {{ year }} by <a :href="config.link" target="_blank">{{ config.author }}</a></p>
+      <p>{{ config.title }} Blog , Copyright &copy; {{ year }} by <a :href="config.link" target="_blank">{{ config.author }}</a></p>
     </div>
     <div class="recommend-site">
       <p>
-        <a href="//www.travellings.cn" target="_blank" class="travel"><SvgIcon name="travel" /> Travelling</a>
-        <a :href="config.github" target="_blank" class="github"><SvgIcon name="github" /> MyGitHub</a>
+        <NuxtLink to="/about" class="travel"><SvgIcon name="travel" /> About Me</NuxtLink>
+        <a :href="config.github" target="_blank" class="github"><SvgIcon name="github" /> My GitHub</a>
         <a href="//github.com/wallleap/ethereal" target="_blank" class="theme"><SvgIcon name="theme" /> ethereal</a>
       </p>
     </div>

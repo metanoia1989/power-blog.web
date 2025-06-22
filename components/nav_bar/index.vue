@@ -19,9 +19,9 @@ const $config = computed(() => appStore.config)
 const menus = [
   { id: 0, title: '首页', path: '/', icon: 'home' },
   { id: 1, title: '归档', path: '/archives', icon: 'archives' },
-  { id: 2, title: '小说', path: '/novel', icon: 'tongxun' },
-  { id: 3, title: '灵感', path: '/weibo', icon: 'inspire' },
-  { id: 4, title: '关于', path: '/about', icon: 'about' },
+  { id: 2, title: '灵感', path: '/weibo', icon: 'inspire' },
+  { id: 3, title: '小说', path: '/novel', icon: 'tongxun' },
+  // { id: 4, title: '关于', path: '/about', icon: 'about' },
 ]
 
 const routerChanged = ref(false)
