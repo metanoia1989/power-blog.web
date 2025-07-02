@@ -94,3 +94,18 @@ export function isMobile() {
     }
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua)
 }
+
+/**
+ * @description 格式化数字，千、万 
+ * @param {Number} value 值
+ * @return {String} 格式化后的字符串
+ */
+export function formatNumber(value: number) {
+    if (value >= 10000) {
+        return `${Math.floor(value / 10000)}万`
+    }
+    if (value >= 1000) {
+        return `${Math.floor(value / 1000)}千`
+    }
+    return value.toString()
+}

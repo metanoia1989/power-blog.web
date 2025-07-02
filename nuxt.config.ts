@@ -41,7 +41,8 @@ export default defineNuxtConfig({
         '@pinia/nuxt', 
         '@nuxtjs/tailwindcss', 
         '@element-plus/nuxt',
-        '@nuxt/icon'
+        '@nuxt/icon',
+        'nuxt-qrcode'
     ],
     app: {
         baseURL: envConfig.baseUrl

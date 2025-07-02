@@ -8,6 +8,17 @@
     --primary-l: 46;
     --primary-rgb: 6, 88, 229;
     --primary: rgb(var(--primary-rgb));
+    --primary-hover: rgb(var(--primary-rgb), 0.8);
+    --primary-dark: rgb(var(--primary-rgb), 0.6);
+
+    --gold: #FEF8E8;
+    --gold-rgb: 254, 248, 232;
+    --gold-hover: rgb(var(--gold-rgb), 0.8);
+    --gold-dark: rgb(var(--gold-rgb), 0.6);
+    --gold-text: #9C7B46;
+    --gold-text-bold: #3F210E;
+    --gold-border: #F4EEDF; 
+
     --secondary: #FA931E;
     --secondary-rgb: 250, 147, 30;
     --tertiary: #4B65AF;
@@ -26,12 +37,16 @@
     --minor: hsl(var(--primary-h), 8%, 50%);
     --weak: hsl(var(--primary-h), 6%, 65%);
     --thin: hsl(var(--primary-h), 4%, 80%);
+
     /* background */
     --bg-thin: var(--white);
     --bg-weak: hsl(var(--primary-h), 4%, 98%);
     --bg-major: hsl(var(--primary-h), 4%, 96%);
     --bg-minor: hsl(var(--primary-h), 5%, 90%);
     --bg-mask: rgba(0, 0, 0, 0.5);
+    /* --bg-major-hover: #EBEBEB; */
+    --bg-major-hover: hsl(var(--primary-h), 3%, 94%);
+
     /* font-family */
     --font-hei: -apple-system, "Noto Sans", "Helvetica Neue", Helvetica, "Nimbus Sans L", Arial, "Liberation Sans", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC", "Source Han Sans SC", "Source Han Sans CN", "Microsoft YaHei", "Wenquanyi Micro Hei", "WenQuanYi Zen Hei", "ST Heiti", SimHei, "WenQuanYi Zen Hei Sharp", sans-serif;
     --font-kai: Baskerville, Georgia, "Liberation Serif", "Kaiti SC", STKaiti, "AR PL UKai CN", "AR PL UKai HK", "AR PL UKai TW", "AR PL UKai TW MBE", "AR PL KaitiM GB", KaiTi, KaiTi_GB2312, DFKai-SB, "TW\-Kai", serif;
@@ -107,6 +122,8 @@
     --bg-major: hsl(var(--primary-h), 18%, 20%);
     --bg-thin: hsl(var(--primary-h), 16%, 25%);
     --bg-mask: rgba(0, 0, 0, 0.8);
+
+    --bg-major-hover: hsl(var(--primary-h), 18%, 17%);
   }
   
   .variables-test {

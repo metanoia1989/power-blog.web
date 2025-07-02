@@ -1,0 +1,556 @@
+.novel-detail {
+  max-width: 900px;
+  margin: 0 auto;
+  margin-top: 40px;
+  padding: 0;
+
+  .novel-header {
+    position: relative;
+    display: flex;
+    gap: 24px;
+    padding: 2em;
+    background-color: var(--bg-thin);
+    border-radius: 1em;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+
+    .novel-cover {
+      width: 180px;
+      height: 240px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+
+      &:hover {
+        transform: translateY(-5px);
+      }
+    }
+
+    .novel-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      margin-top: 0.4em;
+
+      h1 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 16px;
+        color: var(--accent);
+      }
+
+      .novel-tags {
+        margin-bottom: 16px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+
+        .novel-tag {
+          display: inline-block;
+          padding: 4px 12px;
+          border-radius: 12px;
+          color: #fff;
+          font-size: 0.85rem;
+          transition: opacity 0.2s;
+
+          &:hover {
+            opacity: 0.8;
+          }
+        }
+      }
+
+      .novel-author-date {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+        margin-bottom: 8px;
+        color: var(--minor);
+        font-size: 0.95rem;
+        
+        span {
+          display: flex;
+          align-items: center;
+          
+          .svg-icon {
+            margin-right: 6px;
+            font-size: 1rem;
+          }
+        }
+      }
+
+      .novel-latest-chapter {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+        width: 85%;
+
+        span {
+          color: var(--minor);
+          font-size: 0.95rem;
+          padding: 8px 0px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-wrap: nowrap;
+          text-overflow: ellipsis;
+        }
+        
+        .svg-icon {
+          margin-right: 6px;
+          font-size: 1rem;
+        }
+      }
+
+      .novel-word-count {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+        color: var(--minor);
+        font-size: 0.95rem;
+
+        span {
+          font-size: 1.2rem;
+          font-weight: 500;
+        }
+        
+        .svg-icon {
+          margin-right: 4px;
+          font-size: 1.1rem;
+        }
+      }
+
+      .novel-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 12px;
+        
+        .novel-control-button {
+          padding: 10px 20px;
+          border-radius: 6px;
+          font-size: 0.95rem;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s;
+          
+          &:first-child {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            
+            &:hover {
+              background-color: rgb(5, 70, 183); /* slightly darker */
+              box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
+              transform: translateY(-2px);
+            }
+          }
+
+          &.scan-read {
+            background-color: var(--bg-major);
+            color: var(--major);
+            border: 1px solid var(--bg-minor);
+            
+            &:hover {
+              color: var(--primary);
+              border-color: var(--primary);
+              background-color: rgba(var(--primary-rgb), 0.05);
+            }
+            
+            .iconify {
+              margin-right: 6px;
+              font-size: 1.1rem;
+            }
+          }
+        }
+          
+
+        .qrcode-container {
+          position: relative;
+
+          .qrcode-popup {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            padding: 16px;
+            width: 200px;
+            text-align: center;
+
+            .qrcode-arrow {
+              position: absolute;
+              top: -8px;
+              left: 50%;
+              transform: translateX(-50%);
+              width: 16px;
+              height: 8px;
+              clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+              background: white;
+            }
+
+            .qrcode-content {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              gap: 10px;
+
+              .qrcode {
+                width: 160px;
+                height: 160px;
+              }
+
+              .qrcode-text {
+                color: var(--major);
+                font-size: 0.9rem;
+              }
+            }
+            
+            // Dark mode styles
+            :root[data-theme="dark"] & {
+              background: var(--bg-thin);
+              box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+              
+              .qrcode-arrow {
+                background: var(--bg-thin);
+              }
+              
+              .qrcode-text {
+                color: var(--major);
+              }
+            }
+          }
+        }
+      }
+
+      .novel-meta {
+        color: var(--minor);
+        font-size: 1rem;
+        margin-top: auto;
+
+        span {
+          display: inline-flex;
+          align-items: center;
+          margin-right: 16px;
+
+          svg {
+            margin-right: 4px;
+          }
+        }
+      }
+    }
+  }
+
+  .novel-desc {
+    margin: 24px 0;
+    padding: 2em 2em;
+    background-color: var(--bg-thin);
+    border-radius: 1em;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+
+    h2 {
+      font-size: 1.6rem;
+      font-weight: bold;
+      margin-bottom: 24px;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+
+      &::after {
+        content: ' ';
+        flex: 1;
+        margin-left: 10px;
+        margin-right: 10px;
+        background-image: repeating-linear-gradient(
+          to right,
+          var(--el-border-color) 0,
+          var(--el-border-color) 5px,
+          transparent 5px,
+          transparent 10px
+      );
+      height: 1px;
+      }
+    }
+
+    p {
+      color: var(--major);
+      line-height: 1.7;
+    }
+  }
+
+  .novel-directory {
+    padding: 1.5em;
+    background-color: var(--bg-thin);
+    border-radius: 1em;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+
+    .novel-directory-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0.5em;
+      margin-bottom: 1em;
+
+      h2 {
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: var(--accent);
+        display: flex;
+        align-items: center;
+      }
+
+      .novel-directory-header-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        span {
+          color: var(--minor);
+          font-size: 0.9rem;
+        }
+      }
+
+      .novel-directory-header-right {
+        .sort-controls {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+
+          .sort-label {
+            color: var(--minor);
+            font-size: 0.9rem;
+          }
+
+          .sort-buttons {
+            display: flex;
+            gap: 4px;
+            
+            .sort-button {
+              display: flex;
+              align-items: center;
+              gap: 4px;
+              padding: 4px 10px;
+              border-radius: 4px;
+              background: transparent;
+              border: 1px solid var(--bg-minor);
+              color: var(--minor);
+              cursor: pointer;
+              font-size: 0.85rem;
+              transition: all 0.2s;
+
+              &:hover {
+                color: var(--primary);
+                border-color: var(--primary);
+              }
+
+              &.active {
+                color: var(--primary);
+                border-color: var(--primary);
+                background-color: rgba(var(--primary-rgb), 0.05);
+              }
+
+              svg {
+                font-size: 16px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .update-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding: 14px 16px;
+      background-color: var(--gold);
+      border-radius: 8px;
+      font-size: 1.1rem;
+      border: 1px solid transparent;
+
+      &:hover {
+        border-color: var(--gold-border);
+      }
+
+      .left-status {
+        color: var(--gold-text);
+        font-weight: 500;
+        text-wrap: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        .chapter-highlight {
+          color: var(--gold-text-bold);
+        }
+
+        &:hover {
+          cursor: pointer;
+
+          .chapter-highlight {
+            color: var(--danger);
+          }
+        }
+      }
+
+      .right-status {
+        min-width: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        color: var(--gold-text);
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 1rem;
+
+        .arrow-right {
+          margin-left: 4px;
+          font-size: 16px;
+        }
+
+        .read-now {
+          color: var(--danger);
+          transition: all 0.2s;
+        }
+
+        &:hover {
+          .arrow-right {
+            color: var(--danger);
+          }
+        }
+      }
+    }
+
+    .novel-volume {
+      margin-bottom: 20px;
+
+      h3 {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 12px;
+        margin-top: 24px;
+        color: var(--accent);
+        background-color: var(--bg-major);
+        padding: 14px 14px;
+        border-radius: 4px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &:hover {
+          background-color: var(--bg-major-hover);
+        }
+
+        .volume-toggle {
+          font-size: 14px;
+          color: var(--major);
+        }
+      }
+
+      ul {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+        // gap: 12px;
+        margin-top: 12px;
+        transition: all 0.3s ease;
+
+        .novel-chapter {
+          padding: 8px 12px;
+          color: var(--major);
+          transition: all 0.3s;
+          border-radius: 4px;
+          cursor: pointer;
+          position: relative;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          font-size: 0.92rem;
+
+          &:hover {
+            background-color: var(--bg-major);
+            color: var(--primary);
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 0 16px;
+
+    .novel-header {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+
+      .novel-cover {
+        width: 140px;
+        height: 190px;
+      }
+
+      .novel-info {
+        .novel-tags {
+          justify-content: center;
+        }
+        
+        .novel-author-date,
+        .novel-latest-chapter,
+        .novel-word-count {
+          justify-content: center;
+        }
+        
+        .novel-controls {
+          flex-direction: column;
+          width: 100%;
+          
+          .novel-control-button {
+            width: 100%;
+          }
+
+          .qrcode-container {
+            width: 100%;
+
+            .qrcode-popup {
+              width: 90%;
+              max-width: 200px;
+            }
+          }
+        }
+      }
+    }
+
+    .novel-directory {
+      .novel-directory-header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+
+        .novel-directory-header-right {
+          align-self: flex-end;
+        }
+      }
+
+      .update-status {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+
+        .right-status {
+          align-self: flex-end;
+        }
+      }
+
+      .novel-volume {
+        ul {
+          grid-template-columns: 1fr;
+        }
+      }
+    }
+  }
+}

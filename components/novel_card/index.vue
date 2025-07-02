@@ -9,7 +9,7 @@ const $config = computed(() => appStore.config)
 
 // Props 定义
 const props = defineProps({
-  post: {
+  novel: {
     type: Object,
     default: () => ({}),
   },
@@ -21,8 +21,8 @@ const content = ref('')
 const initContent = async () => {
   // const markIt = new MarkIt()
   // try {
-  //   console.log('desc', props.post.desc)
-  //   const parsedMarked = await markIt.parse(props.post.desc)
+  //   console.log('desc', props.novel.desc)
+  //   const parsedMarked = await markIt.parse(props.novel.desc)
   //   content.value = parsedMarked?.content
   // } catch (err) {
   //   $message({
@@ -31,7 +31,7 @@ const initContent = async () => {
   //   })
   //   throw new Error(err)
   // }
-  content.value = props.post.desc
+  content.value = props.novel.desc
 }
 
 onMounted(() => {
@@ -43,15 +43,15 @@ onMounted(() => {
 <template>
   <div class="post-card">
     <figure class="post-cover">
-      <img v-if="post.feature_image" :src="post.feature_image" alt="Cover">
-      <img v-else :src="$config.defaultCover" alt="Cover">
+      <img v-if="novel.feature_image" :src="novel.feature_image" :alt="novel.title">
+      <img v-else :src="$config.defaultCover" :alt="novel.title">
     </figure>
     <div class="post-info">
       <div class="post-meta">
         <span class="post-tags">
-          <span v-if="!post?.tags?.length" class="post-tag">暂无标签</span>
+          <span v-if="!novel?.tags?.length" class="post-tag">暂无标签</span>
           <span 
-            v-for="tag in post?.tags" 
+            v-for="tag in novel?.tags" 
             :key="tag.id" 
             class="post-tag" 
             :style="{ color: `#${tag.color}` }"
@@ -60,16 +60,16 @@ onMounted(() => {
       </div>
       <div class="post-text">
         <h2 class="post-title">
-          {{ post.title }}
+          {{ novel.title }}
         </h2>
         <p class="post-summary">
           <Markdown :content="content" />
         </p>
       </div>
       <div class="post-meta-num">
-        <span class="post-created"><SvgIcon name="shijian" /> {{ post.created_at }}</span>
-        <span class="post-hot"><SvgIcon name="huore" /> 热度 {{ post.hot }} &#8451;</span>
-        <span class="post-visibility"><SvgIcon name="chakan" /> {{ post.visibility_desc }}</span>
+        <span class="post-created"><SvgIcon name="shijian" /> {{ novel.created_at }}</span>
+        <span class="post-hot"><SvgIcon name="huore" /> 热度 {{ novel.visit }}</span>
+        <span class="post-visibility"><SvgIcon name="chakan" /> {{ novel.visibility_desc }}</span>
       </div>
     </div>
   </div>
