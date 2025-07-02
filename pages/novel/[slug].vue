@@ -28,7 +28,7 @@
           <button class="novel-control-button" @click="navigateToChapter(latestChapter?.slug)">
             立即阅读
           </button>
-          <div class="qrcode-container">
+          <div class="qrcode-container hidden md:block">
             <button class="novel-control-button scan-read" 
               @mouseenter="showQrCode = true" 
               @mouseleave="showQrCode = false">

@@ -124,6 +124,7 @@
         flex-wrap: wrap;
         gap: 12px;
         margin-top: 12px;
+        width: 100%;
         
         .novel-control-button {
           padding: 10px 20px;
@@ -488,13 +489,17 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
+      padding: 1.5em 1em;
 
       .novel-cover {
-        width: 140px;
-        height: 190px;
+        width: 160px;
+        height: 220px;
       }
 
       .novel-info {
+        align-items: center;
+        width: 100%;
+        
         .novel-tags {
           justify-content: center;
         }
@@ -504,17 +509,40 @@
         .novel-word-count {
           justify-content: center;
         }
+
+        .novel-latest-chapter {
+          width: 90%;
+        }
         
         .novel-controls {
           flex-direction: column;
-          width: 100%;
+          padding-left: 1em;
+          padding-right: 1em;
+          width: 90%;
+          box-sizing: border-box;
+          align-items: center;
           
           .novel-control-button {
-            width: 100%;
+            padding: 12px 10px;
+            font-size: 0.9rem;
+            word-break: keep-all;
+            white-space: nowrap;
+            width: 200px;
+            align-self: center;
+            
+            .iconify {
+              margin-right: 4px;
+              font-size: 1rem;
+            }
           }
 
           .qrcode-container {
             width: 100%;
+            align-self: stretch;
+
+            .novel-control-button {
+              width: 100%;
+            }
 
             .qrcode-popup {
               width: 90%;
@@ -525,11 +553,35 @@
       }
     }
 
+    .novel-desc {
+      padding: 1em 1em;
+      h2 {
+        font-size: 1.2rem;
+        margin-bottom: 0.8em;
+      }
+      p {
+        font-size: 0.9rem;
+      }
+    }
+
     .novel-directory {
+      padding: 1em;
+      margin-bottom: 1em;
+
       .novel-directory-header {
-        flex-direction: column;
-        gap: 10px;
-        align-items: flex-start;
+        gap: 8px;
+        align-items: center;
+
+        .novel-directory-header-left {
+          gap: 8px;
+
+          h2 {
+            font-size: 1.2rem;
+          }
+          span {
+            font-size: 0.85rem;
+          }
+        }
 
         .novel-directory-header-right {
           align-self: flex-end;
@@ -539,16 +591,61 @@
       .update-status {
         flex-direction: column;
         align-items: flex-start;
-        gap: 10px;
+        gap: 5px;
+        font-size: 0.8rem;
+
+        .left-status {
+          text-wrap: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          width: 100%;
+        }
+
 
         .right-status {
+          font-size: 0.8rem;
           align-self: flex-end;
         }
       }
 
       .novel-volume {
+        margin-bottom: 0;
+
+        .volume-title {
+          font-size: 0.9rem;
+          margin-bottom: 6px;
+        }
+
         ul {
           grid-template-columns: 1fr;
+          margin-top: 6px;
+
+          .novel-chapter {
+            font-size: 0.85rem;
+            padding: 4px 6px;
+          }
+        }
+
+      }
+    }
+  }
+  
+  /* Extra small devices */
+  @media (max-width: 480px) {
+    .novel-header {
+      padding: 1.2em 0.8em;
+      
+      .novel-info {
+        .novel-controls {
+          .novel-control-button {
+            font-size: 0.85rem;
+            padding: 10px 8px;
+          }
+        }
+        
+        h1 {
+          font-size: 1.6rem;
         }
       }
     }
