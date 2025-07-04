@@ -34,7 +34,7 @@
     </div>
 
     <!-- Table of Contents Drawer -->
-    <el-drawer v-model="showToc" :with-header="false" direction="rtl" size="50%" :before-close="handleTocClose">
+    <el-drawer v-model="showToc" :with-header="false" direction="rtl" size="100%" :before-close="handleTocClose">
       <div class="toc-header">  
         <div class="novel-directory-header">
           <h2>目录</h2>
@@ -53,7 +53,7 @@
       </div>
       <div class="toc-content" ref="tocContentRef">
         <div v-if="sortedChapterList && sortedChapterList.length" class="volumes-grid">
-          <div v-for="volume in sortedChapterList" :key="volume.id" class="volume-section">
+          <div v-for="volume in sortedChapterList" :key="volume.id" class="volume-section" :data-volume-id="volume.id">
             <div class="volume-title" @click="toggleVolume(volume.id)">
               {{ volume.title }}
               <Icon 
@@ -175,7 +175,6 @@ const chapterId = computed(() => parseInt(slugParams.value[1]) || 0)
 
 // State variables
 const chapter = ref({})
-const chapterList = ref([])
 const prevChapterId = ref(null)
 const nextChapterId = ref(null)
 const loading = ref(false)
@@ -285,11 +284,6 @@ const toggleVolume = (volumeId) => {
   } else {
     expandedVolumeIds.value.push(volumeId)
   }
-  
-  // Update the scrollbar visibility after animation completes
-  nextTick(() => {
-    updateDrawerScrollbar()
-  })
 }
 
 // Check if volume is expanded
@@ -297,26 +291,21 @@ const isVolumeExpanded = (volumeId) => {
   return expandedVolumeIds.value.includes(volumeId)
 }
 
-// Update drawer scrollbar visibility based on content height
-const updateDrawerScrollbar = () => {
-  if (!tocContentRef.value) return
-  
-  const parentEl = tocContentRef.value.parentElement
-  if (!parentEl) return
-  
-  // Let the transitions complete before checking heights
-  setTimeout(() => {
-    const contentHeight = tocContentRef.value.scrollHeight
-    const visibleHeight = parentEl.clientHeight
-    
-    // If content is taller than visible area, show scrollbar
-    if (contentHeight > visibleHeight) {
-      parentEl.style.overflowY = 'auto'
-    } else {
-      // Otherwise hide it for a cleaner look
-      parentEl.style.overflowY = 'hidden'
-    }
-  }, 350)
+// Update only grid heights without auto-expanding volumes
+const updateGridHeights = () => {
+  nextTick(() => {
+    const grids = document.querySelectorAll('.chapters-grid')
+    grids.forEach(grid => {
+      if (!grid.classList.contains('collapsed')) {
+        // Force repaint to ensure proper height calculation
+        grid.style.display = 'none'
+        // Using setTimeout with 0ms to ensure it happens in the next event loop
+        setTimeout(() => {
+          grid.style.display = 'grid'
+        }, 0)
+      }
+    })
+  })
 }
 
 // Update previous and next chapter IDs
@@ -379,12 +368,44 @@ function handleKeyNavigation(e) {
 // Watch for TOC drawer open/close
 watch(showToc, (newValue) => {
   if (newValue) {
-    // When drawer opens, update the scrollbar after it's fully rendered
+    // When drawer opens, find the current chapter's volume and expand it
     nextTick(() => {
-      updateDrawerScrollbar()
+      // Find which volume contains the current chapter
+      if (book.value?.volumes && chapterId.value) {
+        // Look for the volume containing the current chapter
+        for (const volume of book.value.volumes) {
+          const hasCurrentChapter = volume.chapters.some(
+            chapter => chapter.id === parseInt(chapterId.value)
+          )
+          
+          if (hasCurrentChapter && !expandedVolumeIds.value.includes(volume.id)) {
+            expandedVolumeIds.value.push(volume.id)
+          }
+        }
+      }
+      
+      // Add a slight delay to ensure drawer is fully visible
+      setTimeout(() => {
+        updateGridHeights()
+        
+        // Scroll to the active chapter with a delay to allow the grid to render
+        setTimeout(() => {
+          const activeChapter = document.querySelector('.chapter-item.active')
+          if (activeChapter) {
+            activeChapter.scrollIntoView({ behavior: 'smooth', block: 'center' })
+          }
+        }, 300)
+      }, 100)
     })
   }
 })
+
+// Handle window resize
+const handleResize = () => {
+  if (showToc.value) {
+    updateGridHeights()
+  }
+}
 
 // Watch for route changes to reload chapter
 watch(() => route.params.slug, () => {
@@ -396,6 +417,7 @@ onMounted(() => {
   // Add keyboard navigation
   if (typeof window !== 'undefined') {
     window.addEventListener('keydown', handleKeyNavigation)
+    window.addEventListener('resize', handleResize)
   }
 })
 
@@ -403,6 +425,7 @@ onMounted(() => {
 onUnmounted(() => {
   if (typeof window !== 'undefined') {
     window.removeEventListener('keydown', handleKeyNavigation)
+    window.removeEventListener('resize', handleResize)
   }
 })
 </script>

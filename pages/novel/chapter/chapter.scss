@@ -48,6 +48,12 @@ $sepia-text-color: #544434;
       background-color: rgba(40, 40, 40, 0.8);
       color: $night-text-color;
     }
+    
+    .toc-header {
+      background-color: $night-background;
+      border-color: rgba(255, 255, 255, 0.1);
+      color: $night-text-color;
+    }
   }
 
   &.sepia-mode {
@@ -56,6 +62,12 @@ $sepia-text-color: #544434;
 
     .reader-content {
       background-color: $sepia-background;
+      color: $sepia-text-color;
+    }
+    
+    .toc-header {
+      background-color: $sepia-background;
+      border-color: rgba(0, 0, 0, 0.1);
       color: $sepia-text-color;
     }
   }
@@ -141,12 +153,15 @@ $sepia-text-color: #544434;
 
 // Table of Contents
 .toc-header {
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 10;
   padding: 15px;
-
   display: flex;
   justify-content: space-between;
   padding-right: 45px;
+  background-color: var(--bg-card, #fff);
+  backdrop-filter: blur(5px);
 
   .close-icon {
     position: absolute;
@@ -205,6 +220,7 @@ $sepia-text-color: #544434;
 
 .toc-content {
   padding: 15px;
+  height: calc(100vh - 40px - 60px); /* 调整高度，留出header的空间 */
   overflow-y: auto;
   transition: height 0.3s ease;
 }
@@ -265,29 +281,29 @@ $sepia-text-color: #544434;
 
 .chapters-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(3,  1fr);
   gap: 10px;
   margin-top: 10px;
   overflow: hidden;
-  transition: all 0.3s ease;
-  max-height: 1000px; // Large enough for most cases
-
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  height: auto;
+  opacity: 1;
+  transform-origin: top;
+  transform: scaleY(1);
+  
   &.collapsed {
     max-height: 0;
     margin-top: 0;
     opacity: 0;
+    transform: scaleY(0);
   }
 
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  @media (min-width: 768px) and (max-width: 1200px) {
+    grid-template-columns: repeat(2,  1fr);
   }
 
-  @media (min-width: 992px) {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  }
-
-  @media (min-width: 1200px) {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(1,  1fr);
   }
 }
 
@@ -438,7 +454,20 @@ $sepia-text-color: #544434;
     padding-bottom: 70px;
   }
 
-  .chapters-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .toc-header {
+    padding: 0px 5px;
+    padding-top: 20px;
+    padding-bottom: 15px;
+
+    .close-icon {
+      right: -5px;
+      top: -5px;
+    }
   }
+
+  
+  .toc-content {
+    padding: 0;
+  }
+
 }
