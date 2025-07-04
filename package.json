@@ -42,6 +42,7 @@
         "marked": "^15.0.6",
         "mermaid": "^11.4.1",
         "pinia": "^2.3.1",
+        "pinia-plugin-persistedstate": "^4.4.1",
         "vue-cropper": "1.0.5",
         "vue-easy-lightbox": "^1.19.0"
     }

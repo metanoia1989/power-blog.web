@@ -148,6 +148,18 @@
             }
           }
 
+          &.read-now {
+            background-color: var(--bg-major);
+            color: var(--major);
+            border: 1px solid var(--bg-minor);
+
+            &:hover {
+              color: var(--primary);
+              border-color: var(--primary);
+              background-color: rgba(var(--primary-rgb), 0.05);
+            }
+          }
+
           &.scan-read {
             background-color: var(--bg-major);
             color: var(--major);

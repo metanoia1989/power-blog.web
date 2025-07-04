@@ -39,6 +39,7 @@ export default defineNuxtConfig({
     },
     modules: [
         '@pinia/nuxt', 
+        'pinia-plugin-persistedstate/nuxt',
         '@nuxtjs/tailwindcss', 
         '@element-plus/nuxt',
         '@nuxt/icon',
@@ -57,4 +58,7 @@ export default defineNuxtConfig({
     },
     ssr: !!envConfig.ssr,
     experimental: { appManifest: false },
+    piniaPluginPersistedstate: {
+        storage: 'localStorage',
+    }
 })

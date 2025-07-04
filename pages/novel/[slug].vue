@@ -25,8 +25,11 @@
           <SvgIcon name="wengao" /> <span class="text-black dark:text-white">{{ wordCount }}</span>字
         </div>
         <div class="novel-controls">
-          <button class="novel-control-button" @click="navigateToChapter(latestChapter?.slug)">
-            立即阅读
+          <button class="novel-control-button continue-read" v-if="lastReadChapter" @click="continueReading">
+            <SvgIcon name="book" /> 继续阅读 
+          </button>
+          <button class="novel-control-button read-now" @click="readNow" :class="{'ml-1': lastReadChapter}">
+            {{ lastReadChapter ? '从头开始' : '立即阅读' }}
           </button>
           <div class="qrcode-container hidden md:block">
             <button class="novel-control-button scan-read" 
@@ -74,7 +77,7 @@
       </div>
       <div class="update-status">
         <div class="left-status">
-          已更新至 <span class="chapter-highlight" @click="navigateToChapter(latestChapter?.slug)"
+          已更新至 <span class="chapter-highlight" @click="navigateToChapter(latestChapter?.id || 0)"
             @mouseenter="showReadNow = true" @mouseleave="showReadNow = false">
             {{ latestChapter?.title || '暂无章节' }}
           </span>
@@ -84,7 +87,7 @@
             {{ novel?.updated_at || '暂无更新' }}
           </template>
           <template v-else>
-            <span class="read-now" @click="navigateToChapter(latestChapter?.slug)">
+            <span class="read-now" @click="navigateToChapter(latestChapter?.id || 0)">
               立即阅读
             </span>
           </template>
@@ -99,7 +102,7 @@
         </h3>
         <ul v-show="isVolumeExpanded(volume.id)">
           <li v-for="chapter in getSortedChapters(volume.chapters)" :key="chapter.id" class="novel-chapter"
-            @click="navigateToChapter(chapter.slug)">
+            @click="navigateToChapter(chapter.id)">
             {{ chapter.title }}
           </li>
         </ul>
@@ -112,6 +115,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from '#app'
 import { useNovelStore } from '@/stores/novel'
+import { useReadStore } from '@/stores/read'
 import type { Novel, NovelChapter, NovelVolume } from '@/typings/request'
 import { formatNumber } from '@/utils/util'
 
@@ -120,6 +124,7 @@ const router = useRouter()
 const slug = route.params.slug as string
 
 const novelStore = useNovelStore()
+const readStore = useReadStore()
 const novel = ref<Novel | null>(null)
 const loading = ref(true)
 const expandedVolumeIds = ref<number[]>([])
@@ -136,6 +141,9 @@ const currentPageUrl = computed(() => {
   return `https://yourdomain.com/novel/${slug}`
 })
 
+// Continue reading feature
+const lastReadChapter = ref<NovelChapter | null>(null)
+
 onMounted(async () => {
   loading.value = true
   try {
@@ -143,6 +151,11 @@ onMounted(async () => {
     if (novel.value?.volumes) {
       // Initially expand all volumes
       expandedVolumeIds.value = novel.value.volumes.map(volume => volume.id)
+      
+      // Check for reading history
+      if (novel.value.id && readStore.readingHistory[novel.value.id]?.length) {
+        findLastReadChapter()
+      }
     }
     if (import.meta.client) {
       window.document.title = novel.value.title
@@ -153,6 +166,34 @@ onMounted(async () => {
     loading.value = false
   }
 })
+
+// Find the last read chapter from history
+const findLastReadChapter = () => {
+  if (!novel.value?.id || !novel.value?.volumes) return
+  
+  const readChapters = readStore.readingHistory[novel.value.id]
+  if (!readChapters || readChapters.length === 0) return
+  
+  // Get the most recent read chapter ID
+  const lastChapterId = readChapters[readChapters.length - 1]
+  
+  // Find the chapter in the volumes
+  let chapters: NovelChapter[] = []
+  novel.value.volumes.forEach((v: NovelVolume) => {
+    if (v.chapters) chapters = chapters.concat(v.chapters)
+  })
+  
+  lastReadChapter.value = chapters.find(c => c.id === lastChapterId) || null
+}
+
+// Continue reading function
+const continueReading = () => {
+  if (lastReadChapter.value) {
+    navigateToChapter(lastReadChapter.value.id)
+  } else {
+    readNow()
+  }
+}
 
 // Toggle volume expansion
 const toggleVolume = (volumeId: number) => {
@@ -225,6 +266,17 @@ const latestChapter = computed(() => {
   return chapters.sort((a, b) => b.id - a.id)[0]
 })
 
+// 获取第一个章节
+const firstChapter = computed(() => {
+  if (!novel.value?.volumes) return null
+  let chapters: NovelChapter[] = []
+  novel.value.volumes.forEach((v: NovelVolume) => {
+    if (v.chapters) chapters = chapters.concat(v.chapters)
+  })
+  if (chapters.length === 0) return null
+  return chapters.sort((a, b) => a.id - b.id)[0]  
+})
+
 // 排序后的卷列表
 const sortedVolumes = computed(() => {
   if (!novel.value?.volumes) return []
@@ -236,10 +288,20 @@ const sortedVolumes = computed(() => {
 })
 
 // 导航到章节
-const navigateToChapter = (chapterSlug?: string) => {
-  if (!chapterSlug) return
+const navigateToChapter = (chapterId: number) => {
+  if (!chapterId) return
   // 这里需要根据实际路由结构调整
-  router.push(`/novel/${slug}/chapter/${chapterSlug}`)
+
+  readStore.setCurrentBook(novel.value as Novel)
+  readStore.setCurrentChapter(chapterId)
+
+  router.push(`/novel/chapter/${slug}/${chapterId}`)
+}
+
+const readNow = () => {
+  if (!firstChapter.value) return
+
+  navigateToChapter(firstChapter.value.id)
 }
 
 // 计算章节数

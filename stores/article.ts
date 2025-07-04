@@ -117,9 +117,6 @@ export const useArticleStore = defineStore('article', () => {
     currentLink.value = link
   }
 
-  function setAllWeibo(weibo: any[]) {
-    allWeibo.value = weibo
-  }
 
 
   return {
@@ -144,6 +141,5 @@ export const useArticleStore = defineStore('article', () => {
     setCategories,
     setCurrentCategory,
     setCurrentLink,
-    setAllWeibo,
   }
 })
