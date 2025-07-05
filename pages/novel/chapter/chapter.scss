@@ -1,11 +1,25 @@
 $primary-color: #06c;
 $border-color: #eee;
 $text-color: #333;
-$background-color: #fff;
-$night-background: #1a1a1a;
-$night-text-color: #b8b8b8;
-$sepia-background: #f5e9d8;
-$sepia-text-color: #544434;
+$background-color: #F1F1F1;
+$content-background-color: #E8E8E8;
+
+// Theme colors
+$night-background: #111111;
+$night-content-background: #0C0C0C;
+$night-text-color: #A0A0A0;
+
+$light-yellow-background: #F3F0E8;
+$light-yellow-content-background: #E6E2D7;
+
+$paper-yellow-background: #EAE1C1;
+$paper-yellow-content-background: #DDCFA5;
+
+$light-green-background: #DFEADE;
+$light-green-content-background: #CADBCA;
+
+$light-blue-background: #DFEBEF;
+$light-blue-content-background: #CDD9DD;
 
 // Global transition classes
 .fade-enter-active,
@@ -35,12 +49,16 @@ $sepia-text-color: #544434;
   background-color: $background-color;
   color: $text-color;
 
+  .reader-content {
+    background-color: $content-background-color;
+  }
+
   &.night-mode {
     background-color: $night-background;
     color: $night-text-color;
 
     .reader-content {
-      background-color: $night-background;
+      background-color: $night-content-background;
       color: $night-text-color;
     }
 
@@ -56,19 +74,67 @@ $sepia-text-color: #544434;
     }
   }
 
-  &.sepia-mode {
-    background-color: $sepia-background;
-    color: $sepia-text-color;
+  &.light-yellow-mode {
+    background-color: $light-yellow-background;
+    color: $text-color;
 
     .reader-content {
-      background-color: $sepia-background;
-      color: $sepia-text-color;
+      background-color: $light-yellow-content-background;
+      color: $text-color;
     }
     
     .toc-header {
-      background-color: $sepia-background;
+      background-color: $light-yellow-background;
       border-color: rgba(0, 0, 0, 0.1);
-      color: $sepia-text-color;
+      color: $text-color;
+    }
+  }
+
+  &.paper-yellow-mode {
+    background-color: $paper-yellow-background;
+    color: $text-color;
+
+    .reader-content {
+      background-color: $paper-yellow-content-background;
+      color: $text-color;
+    }
+    
+    .toc-header {
+      background-color: $paper-yellow-background;
+      border-color: rgba(0, 0, 0, 0.1);
+      color: $text-color;
+    }
+  }
+
+  &.light-green-mode {
+    background-color: $light-green-background;
+    color: $text-color;
+
+    .reader-content {
+      background-color: $light-green-content-background;
+      color: $text-color;
+    }
+    
+    .toc-header {
+      background-color: $light-green-background;
+      border-color: rgba(0, 0, 0, 0.1);
+      color: $text-color;
+    }
+  }
+
+  &.light-blue-mode {
+    background-color: $light-blue-background;
+    color: $text-color;
+
+    .reader-content {
+      background-color: $light-blue-content-background;
+      color: $text-color;
+    }
+    
+    .toc-header {
+      background-color: $light-blue-background;
+      border-color: rgba(0, 0, 0, 0.1);
+      color: $text-color;
     }
   }
 }
@@ -314,10 +380,10 @@ $sepia-text-color: #544434;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  background-color: #f9f9f9;
+  background-color: rgba(255, 255, 255, 0.5);
 
   &:hover {
-    background-color: #f0f0f0;
+    background-color: rgba(0, 0, 0, 0.05);
     color: $primary-color;
   }
 
@@ -325,6 +391,17 @@ $sepia-text-color: #544434;
     color: #fff;
     background-color: $primary-color;
     font-weight: 500;
+  }
+}
+
+// Night mode specific overrides for chapter items
+.night-mode {
+  .chapter-item {
+    background-color: rgba(30, 30, 30, 0.5);
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
   }
 }
 
@@ -373,16 +450,32 @@ $sepia-text-color: #544434;
         border: 2px solid transparent;
 
         &.default-theme {
-          background-color: #fff;
+          background-color: $content-background-color;
+          box-shadow: 0 0 0 1px #ddd;
+        }
+
+        &.light-yellow-theme {
+          background-color: $light-yellow-content-background;
+          box-shadow: 0 0 0 1px #ddd;
+        }
+
+        &.paper-yellow-theme {
+          background-color: $paper-yellow-content-background;
+          box-shadow: 0 0 0 1px #ddd;
+        }
+
+        &.light-green-theme {
+          background-color: $light-green-content-background;
+          box-shadow: 0 0 0 1px #ddd;
+        }
+
+        &.light-blue-theme {
+          background-color: $light-blue-content-background;
           box-shadow: 0 0 0 1px #ddd;
         }
 
         &.night-theme {
-          background-color: #1a1a1a;
-        }
-
-        &.sepia-theme {
-          background-color: #f5e9d8;
+          background-color: $night-content-background;
         }
       }
 

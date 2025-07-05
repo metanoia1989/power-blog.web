@@ -1,7 +1,10 @@
 <template>
   <div class="novel-reader" :class="{
     'night-mode': settings.theme === 'night',
-    'sepia-mode': settings.theme === 'sepia'
+    'light-yellow-mode': settings.theme === 'light-yellow',
+    'paper-yellow-mode': settings.theme === 'paper-yellow',
+    'light-green-mode': settings.theme === 'light-green',
+    'light-blue-mode': settings.theme === 'light-blue'
   }">
     <div class="reader-content" :style="contentStyle">
       <div class="chapter-header">
@@ -79,7 +82,7 @@
     </el-drawer>
 
     <!-- Settings Drawer -->
-    <el-drawer v-model="showSettings" title="设置" direction="rtl" size="300px">
+    <el-drawer v-model="showSettings" title="设置" direction="rtl" size="350px">
       <div class="settings-panel">
         <div class="setting-group">
           <h3>主题</h3>
@@ -94,19 +97,43 @@
             </div>
             <div 
               class="theme-option"
+              :class="{ 'active': settings.theme === 'light-yellow' }"
+              @click="updateSetting('theme', 'light-yellow')"
+            >
+              <div class="theme-preview light-yellow-theme"></div>
+              <span>浅黄</span>
+            </div>
+            <div 
+              class="theme-option"
+              :class="{ 'active': settings.theme === 'paper-yellow' }"
+              @click="updateSetting('theme', 'paper-yellow')"
+            >
+              <div class="theme-preview paper-yellow-theme"></div>
+              <span>纸黄</span>
+            </div>
+            <div 
+              class="theme-option"
+              :class="{ 'active': settings.theme === 'light-green' }"
+              @click="updateSetting('theme', 'light-green')"
+            >
+              <div class="theme-preview light-green-theme"></div>
+              <span>浅绿</span>
+            </div>
+            <div 
+              class="theme-option"
+              :class="{ 'active': settings.theme === 'light-blue' }"
+              @click="updateSetting('theme', 'light-blue')"
+            >
+              <div class="theme-preview light-blue-theme"></div>
+              <span>浅蓝</span>
+            </div>
+            <div 
+              class="theme-option"
               :class="{ 'active': settings.theme === 'night' }"
               @click="updateSetting('theme', 'night')"
             >
               <div class="theme-preview night-theme"></div>
               <span>夜间</span>
-            </div>
-            <div 
-              class="theme-option"
-              :class="{ 'active': settings.theme === 'sepia' }"
-              @click="updateSetting('theme', 'sepia')"
-            >
-              <div class="theme-preview sepia-theme"></div>
-              <span>护眼</span>
             </div>
           </div>
         </div>
@@ -145,8 +172,8 @@
         <div class="setting-group">
           <h3>翻页模式</h3>
           <el-radio-group v-model="settings.pageMode" @change="(val) => updateSetting('pageMode', val)">
-            <el-radio label="scroll">滚动加载</el-radio>
-            <el-radio label="click">点击翻页</el-radio>
+            <el-radio value="scroll">滚动加载</el-radio>
+            <el-radio value="click">点击翻页</el-radio>
           </el-radio-group>
         </div>
       </div>
@@ -210,11 +237,11 @@ const sortedChapterList = computed(() => {
 // Width options
 const widthOptions = [
   { label: '自动', value: 'auto' },
-  { label: '640px', value: '640px' },
-  { label: '800px', value: '800px' },
-  { label: '900px', value: '900px' },
-  { label: '1000px', value: '1000px' },
-  { label: '1280px', value: '1280px' },
+  { label: '60%', value: '60%' },
+  { label: '70%', value: '70%' },
+  { label: '80%', value: '80%' },
+  { label: '90%', value: '90%' },
+  { label: '100%', value: '100%' },
 ]
 
 // Computed styles for content area
@@ -222,7 +249,7 @@ const contentStyle = computed(() => {
   return {
     fontFamily: settings.value.fontFamily === 'system' ? 'inherit' : settings.value.fontFamily,
     fontSize: `${settings.value.fontSize}px`,
-    width: settings.value.contentWidth === 'auto' ? 'auto' : settings.value.contentWidth,
+    width: settings.value.contentWidth,
     maxWidth: settings.value.contentWidth === 'auto' ? '80%' : 'none',
   }
 })
