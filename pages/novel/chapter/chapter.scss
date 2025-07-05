@@ -141,10 +141,23 @@ $light-blue-content-background: #CDD9DD;
 
 .reader-content {
   flex: 1;
-  padding: 20px;
   margin: 0 auto;
   line-height: 1.8;
   transition: all 0.3s ease;
+
+  // 设置内容区域padding
+  padding: 1rem 3rem;
+
+  @media (max-width: 1200px) {
+    padding: 1rem 2rem;
+  }
+
+  @media (max-width: 768px) {
+    padding: 1rem 1.5rem;
+  }
+  @media (max-width: 480px) {
+    padding: 1rem 1rem;
+  }
 
   .chapter-header {
     text-align: center;
@@ -192,6 +205,12 @@ $light-blue-content-background: #CDD9DD;
   z-index: 100;
   display: flex;
   flex-direction: column;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+
+  &.hidden {
+    transform: translateY(100%);
+    opacity: 0;
+  }
 
   .toolbar-item {
     display: flex;
@@ -535,12 +554,17 @@ $light-blue-content-background: #CDD9DD;
     top: auto;
     left: 0;
     right: 0;
-    transform: none;
+    transform: translateY(0);
     flex-direction: row;
     justify-content: space-around;
     width: 100%;
     border-radius: 0;
     padding: 10px 0;
+    
+    &.hidden {
+      transform: translateY(100%);
+      opacity: 0;
+    }
   }
 
   .reader-content {

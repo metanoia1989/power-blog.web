@@ -21,7 +21,7 @@
       </div>
     </div>
     
-    <div class="reader-toolbar">
+    <div class="reader-toolbar" :class="{ 'hidden': !isToolbarVisible && isMobileView }">
       <div class="toolbar-item" @click="showToc = !showToc">
         <Icon name="solar:document-linear" size="24" />
         <span>目录</span>
@@ -195,6 +195,48 @@ const route = useRoute()
 const router = useRouter()
 const readStore = useReadStore()
 
+// Scroll direction detection for toolbar
+const lastScrollTop = ref(0)
+const isToolbarVisible = ref(true)
+const isMobileView = ref(false)
+
+// Function to handle scroll events
+const handleScroll = () => {
+  if (!isMobileView.value) return
+  
+  const currentScrollTop = window.scrollY || document.documentElement.scrollTop
+  const scrollDifference = Math.abs(currentScrollTop - lastScrollTop.value)
+  
+  // Check if at top or bottom of page
+  const isAtTop = currentScrollTop <= 20
+  const isAtBottom = 
+    (window.innerHeight + currentScrollTop) >= 
+    (document.documentElement.scrollHeight - 20)
+    
+  // Always show toolbar at top or bottom of page
+  if (isAtTop || isAtBottom) {
+    isToolbarVisible.value = true
+  } else if (scrollDifference > 10) {
+    // Only trigger if scrolled more than threshold
+    // Determine scroll direction
+    if (currentScrollTop > lastScrollTop.value) {
+      // Scrolling down
+      isToolbarVisible.value = false
+    } else {
+      // Scrolling up
+      isToolbarVisible.value = true
+    }
+  }
+  
+  // Update the last scroll position
+  lastScrollTop.value = currentScrollTop <= 0 ? 0 : currentScrollTop
+}
+
+// Check if we're on mobile view
+const checkMobileView = () => {
+  isMobileView.value = window.innerWidth <= 768
+}
+
 // Get book slug and chapter id from route params
 const slugParams = computed(() => route.params.slug || [])
 const bookSlug = computed(() => slugParams.value[0])
@@ -249,8 +291,7 @@ const contentStyle = computed(() => {
   return {
     fontFamily: settings.value.fontFamily === 'system' ? 'inherit' : settings.value.fontFamily,
     fontSize: `${settings.value.fontSize}px`,
-    width: settings.value.contentWidth,
-    maxWidth: settings.value.contentWidth === 'auto' ? '80%' : 'none',
+    maxWidth: settings.value.contentWidth === 'auto' ? '900px' : settings.value.contentWidth,
   }
 })
 
@@ -445,6 +486,11 @@ onMounted(() => {
   if (typeof window !== 'undefined') {
     window.addEventListener('keydown', handleKeyNavigation)
     window.addEventListener('resize', handleResize)
+    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('resize', checkMobileView)
+    
+    // Initial check
+    checkMobileView()
   }
 })
 
@@ -453,6 +499,8 @@ onUnmounted(() => {
   if (typeof window !== 'undefined') {
     window.removeEventListener('keydown', handleKeyNavigation)
     window.removeEventListener('resize', handleResize)
+    window.removeEventListener('scroll', handleScroll)
+    window.removeEventListener('resize', checkMobileView)
   }
 })
 </script>
