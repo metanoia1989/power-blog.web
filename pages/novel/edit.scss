@@ -1,0 +1,41 @@
+.btn {
+  @apply px-4 py-2 rounded-lg transition-colors;
+}
+.btn-outline {
+  @apply border border-gray-300 hover:bg-gray-50;
+}
+.btn-primary {
+  @apply bg-blue-600 text-white hover:bg-blue-700;
+}
+
+.bg-mask {
+  inset: 0;
+  background-color: var(--bg-mask);
+}
+
+.editor-title {
+  display: block;
+  width: 100%;
+  max-width: 740px;
+  padding: 0;
+  min-height: 0;
+  font-size: 2.2rem;
+  line-height: 1.25em;
+  // 初始高度，一行文字的高度 
+  height: calc(2.2rem * 1.25); /* 2.2rem * 1.25 = 2.75rem */
+  font-weight: 700;
+  resize: none;
+  border: none;
+  background: transparent;
+  color: #15171a;
+  overflow: hidden;
+  box-shadow: none;
+
+  &:focus {
+    outline: none;
+  }
+
+  &::placeholder {
+    color: #c5c5c5;
+  }
+}

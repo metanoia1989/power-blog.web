@@ -2,9 +2,11 @@
 import { useUserStore } from '@/stores/user'
 import { useAppStore } from '@/stores/app'
 import { logout } from '@/api/account'
+import { useRouter } from 'vue-router'
 
 const userStore = useUserStore()
 const appStore = useAppStore()
+const router = useRouter()
 
 const props = defineProps({
   show: {

@@ -5,6 +5,7 @@ import { useArticleStore } from '~/stores/article'
 import { deleteArticle, getArticleById, editArticle, addArticle } from '~/api/article'
 import { VisibilityMap } from '~/enums/visibilityEnums'
 import { useRoute, useRouter, useNuxtApp } from '#app'
+import { generateSlug } from '~/utils/write'
 
 definePageMeta({
     layout: 'blank',
@@ -74,7 +75,7 @@ const handleTitleChange = async (e: Event) => {
 
 const handleTitleBlur = async () => {
     if (formData.value.title) {
-        formData.value.slug = await editorStore.generateSlug(formData.value.title)
+        formData.value.slug = await generateSlug(formData.value.title)
     }
 }
 

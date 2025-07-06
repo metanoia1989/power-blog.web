@@ -1,6 +1,9 @@
 <template>
   <div class="novel-detail" v-loading="loading">
     <div class="novel-header">
+      <span class="novel-edit-btn" @click="handleEdit" v-if="isLogin && novel?.id">
+        <SvgIcon name="shuru" />
+      </span>
       <img :src="novel?.feature_image || '/default-cover.png'" class="novel-cover" />
       <div class="novel-info">
         <h1>{{ novel?.title }}</h1>
@@ -25,11 +28,11 @@
           <SvgIcon name="wengao" /> <span class="text-black dark:text-white">{{ wordCount }}</span>字
         </div>
         <div class="novel-controls">
+          <button class="novel-control-button read-now" @click="readNow" :class="{'ml-1': lastReadChapter}">
+            <SvgIcon name="book" /> {{ lastReadChapter ? '从头开始' : '立即阅读' }}
+          </button>
           <button class="novel-control-button continue-read" v-if="lastReadChapter" @click="continueReading">
             <SvgIcon name="book" /> 继续阅读 
-          </button>
-          <button class="novel-control-button read-now" @click="readNow" :class="{'ml-1': lastReadChapter}">
-            {{ lastReadChapter ? '从头开始' : '立即阅读' }}
           </button>
           <div class="qrcode-container hidden md:block">
             <button class="novel-control-button scan-read" 
@@ -116,6 +119,7 @@ import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from '#app'
 import { useNovelStore } from '@/stores/novel'
 import { useReadStore } from '@/stores/read'
+import { useUserStore } from '@/stores/user'
 import type { Novel, NovelChapter, NovelVolume } from '@/typings/request'
 import { formatNumber } from '@/utils/util'
 
@@ -125,6 +129,7 @@ const slug = route.params.slug as string
 
 const novelStore = useNovelStore()
 const readStore = useReadStore()
+const userStore = useUserStore()
 const novel = ref<Novel | null>(null)
 const loading = ref(true)
 const expandedVolumeIds = ref<number[]>([])
@@ -132,6 +137,8 @@ const showReadNow = ref(false)
 const showQrCode = ref(false)
 const sortOrder = ref<'asc' | 'desc'>('asc')
 const sortType = ref<'id' | 'title'>('id')
+
+const isLogin = computed(() => userStore.isLogin)
 
 // Get current URL for QR code
 const currentPageUrl = computed(() => {
@@ -286,6 +293,15 @@ const sortedVolumes = computed(() => {
   }
   return sorted.sort((a, b) => a.id - b.id)
 })
+
+// 编辑小说
+const handleEdit = () => {
+  if (isLogin.value && novel.value?.id) {
+    router.push(`/novel/edit?id=${novel.value.id}`)
+  } else {
+    router.push('/auth/login')
+  }
+}
 
 // 导航到章节
 const navigateToChapter = (chapterId: number) => {

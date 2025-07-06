@@ -1,3 +1,5 @@
+@use '~/assets/styles/mixins.scss' as mixins;
+
 .novel-detail {
   max-width: 900px;
   margin: 0 auto;
@@ -13,6 +15,17 @@
     border-radius: 1em;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
 
+    .novel-edit-btn {
+      @include mixins.edit-btn;
+      position: absolute;
+      top: 1em;
+      right: 1em;
+    }
+
+    &:hover .novel-edit-btn {
+      display: block;
+    }
+    
     .novel-cover {
       width: 180px;
       height: 240px;
@@ -136,7 +149,7 @@
           justify-content: center;
           transition: all 0.2s;
           
-          &:first-child {
+          &.read-now {
             background-color: var(--primary);
             color: white;
             border: none;
@@ -148,7 +161,17 @@
             }
           }
 
-          &.read-now {
+          .svg-icon {
+            margin-right: 6px;
+            font-size: 1rem;
+          }
+
+          .iconify {
+            margin-right: 6px;
+            font-size: 1.1rem;
+          }
+
+          &.continue-read {
             background-color: var(--bg-major);
             color: var(--major);
             border: 1px solid var(--bg-minor);
@@ -171,10 +194,6 @@
               background-color: rgba(var(--primary-rgb), 0.05);
             }
             
-            .iconify {
-              margin-right: 6px;
-              font-size: 1.1rem;
-            }
           }
         }
           

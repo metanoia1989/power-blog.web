@@ -84,3 +84,21 @@
   background-color: var(--bg-mask);
   z-index: 99;
 }
+
+@mixin edit-btn {
+  display: none;
+  overflow: 0;
+  justify-content: center;
+  align-items: center;
+  font-size: .8rem;
+  color: white;
+  background-color: var(--primary);
+  padding: .5em 1em;
+  border-radius: 1em;
+  cursor: pointer;
+  transition: all .2s ease-in-out;
+
+  &:hover {
+    opacity: .8;
+  }
+}

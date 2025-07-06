@@ -1,25 +1,25 @@
 $primary-color: #06c;
 $border-color: #eee;
 $text-color: #333;
-$background-color: #F1F1F1;
-$content-background-color: #E8E8E8;
+$background-color: #E8E8E8;
+$content-background-color: #F1F1F1;
 
 // Theme colors
-$night-background: #111111;
-$night-content-background: #0C0C0C;
+$night-background: #0C0C0C;
+$night-content-background: #111111;
 $night-text-color: #A0A0A0;
 
-$light-yellow-background: #F3F0E8;
-$light-yellow-content-background: #E6E2D7;
+$light-yellow-background: #E6E2D7;
+$light-yellow-content-background: #F3F0E8;
 
-$paper-yellow-background: #EAE1C1;
-$paper-yellow-content-background: #DDCFA5;
+$paper-yellow-background: #DDCFA5;
+$paper-yellow-content-background: #EAE1C1;
 
-$light-green-background: #DFEADE;
-$light-green-content-background: #CADBCA;
+$light-green-background: #CADBCA;
+$light-green-content-background: #DFEADE;
 
-$light-blue-background: #DFEBEF;
-$light-blue-content-background: #CDD9DD;
+$light-blue-background: #CDD9DD;
+$light-blue-content-background: #DFEBEF;
 
 // Global transition classes
 .fade-enter-active,
@@ -67,11 +67,11 @@ $light-blue-content-background: #CDD9DD;
       color: $night-text-color;
     }
     
-    .toc-header {
-      background-color: $night-background;
-      border-color: rgba(255, 255, 255, 0.1);
-      color: $night-text-color;
-    }
+    // .toc-header {
+    //   background-color: $night-background;
+    //   border-color: rgba(255, 255, 255, 0.1);
+    //   color: $night-text-color;
+    // }
   }
 
   &.light-yellow-mode {
@@ -83,11 +83,11 @@ $light-blue-content-background: #CDD9DD;
       color: $text-color;
     }
     
-    .toc-header {
-      background-color: $light-yellow-background;
-      border-color: rgba(0, 0, 0, 0.1);
-      color: $text-color;
-    }
+    // .toc-header {
+    //   background-color: $light-yellow-background;
+    //   border-color: rgba(0, 0, 0, 0.1);
+    //   color: $text-color;
+    // }
   }
 
   &.paper-yellow-mode {
@@ -99,11 +99,11 @@ $light-blue-content-background: #CDD9DD;
       color: $text-color;
     }
     
-    .toc-header {
-      background-color: $paper-yellow-background;
-      border-color: rgba(0, 0, 0, 0.1);
-      color: $text-color;
-    }
+    // .toc-header {
+    //   background-color: $paper-yellow-background;
+    //   border-color: rgba(0, 0, 0, 0.1);
+    //   color: $text-color;
+    // }
   }
 
   &.light-green-mode {
@@ -115,11 +115,11 @@ $light-blue-content-background: #CDD9DD;
       color: $text-color;
     }
     
-    .toc-header {
-      background-color: $light-green-background;
-      border-color: rgba(0, 0, 0, 0.1);
-      color: $text-color;
-    }
+    // .toc-header {
+    //   background-color: $light-green-background;
+    //   border-color: rgba(0, 0, 0, 0.1);
+    //   color: $text-color;
+    // }
   }
 
   &.light-blue-mode {
@@ -131,11 +131,11 @@ $light-blue-content-background: #CDD9DD;
       color: $text-color;
     }
     
-    .toc-header {
-      background-color: $light-blue-background;
-      border-color: rgba(0, 0, 0, 0.1);
-      color: $text-color;
-    }
+    // .toc-header {
+    //   background-color: $light-blue-background;
+    //   border-color: rgba(0, 0, 0, 0.1);
+    //   color: $text-color;
+    // }
   }
 }
 
@@ -156,17 +156,36 @@ $light-blue-content-background: #CDD9DD;
     padding: 1rem 1.5rem;
   }
   @media (max-width: 480px) {
-    padding: 1rem 1rem;
+    padding: 1rem 1.2rem;
   }
 
+  // 章节标题
   .chapter-header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     h1 {
       font-size: 24px;
       font-weight: bold;
       margin-bottom: 10px;
+    }
+
+    .chapter-info {
+      display: flex;
+      gap: 15px;
+      font-size: 14px;
+      justify-content: center;
+      align-items: center;
+
+      span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
     }
   }
 

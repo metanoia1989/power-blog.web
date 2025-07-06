@@ -49,16 +49,16 @@ export function getBookDetails(slug: string) {
  * @param {number} id - 书籍ID
  * @returns {Promise}
  */
-export function getBookDetailsById(id: number) {
+export function getBookDetailsById(id: number, chapters: number = 1) {
   return $request.get({
-    url: `/book/detail?id=${id}`,
+    url: `/book/detail?id=${id}&chapters=${chapters}`,
   })
 }
 
 /**
  * 添加书籍
  * @param {Object} params - 书籍数据
- * @returns {Promise}
+ * @returns {Promise<Novel>}
  */
 export function addBook(params: any) {
   return $request.post({

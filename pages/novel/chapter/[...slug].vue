@@ -9,6 +9,11 @@
     <div class="reader-content" :style="contentStyle">
       <div class="chapter-header">
         <h1>{{ chapter.title }}</h1>
+        <div class="chapter-info">
+          <span class="author" v-if="book?.author?.name"><Icon name="solar:pen-new-square-broken" /> {{ book?.author?.name }}</span>
+          <span class="words-num"><Icon name="solar:chart-broken" /> {{ chapter.words_num }}字</span>
+          <span class="update-time"><Icon name="solar:clock-circle-linear" /> {{ chapter.updated_at }}</span>
+        </div>
       </div>
       <div class="chapter-content">
         <div v-html="chapter.html"></div>
@@ -415,12 +420,12 @@ function navigateToChapter(id) {
   
   // Use page mode setting
   if (settings.value.pageMode === 'scroll') {
-    router.push(`/novel/chapter/${bookSlug.value}/${id}`)
-  } else {
-    // For click mode, just load the chapter without changing the URL
+    // For scroll mode, just load the chapter without changing the URL
     const newUrl = `/novel/chapter/${bookSlug.value}/${id}`
     window.history.pushState({}, '', newUrl)
     loadChapter()
+  } else {
+    router.push(`/novel/chapter/${bookSlug.value}/${id}`)
   }
 }
 
