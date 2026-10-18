@@ -2,9 +2,15 @@
     <ElConfigProvider v-bind="config">
         <component :is="layoutComponent">
             <RouterView v-slot="{ Component }">
-                <Transition :name="transitionName" mode="out-in">
-                    <component :is="Component" />
-                </Transition>
+                <!--
+                  Nuxt 的页面默认包了一层 <Suspense>，页面里可以直接写顶层 await。
+                  这里补上同样的边界，否则 async setup 的页面（如 posts/edit）渲染不出来。
+                -->
+                <Suspense>
+                    <Transition :name="transitionName" mode="out-in">
+                        <component :is="Component" />
+                    </Transition>
+                </Suspense>
             </RouterView>
         </component>
     </ElConfigProvider>
