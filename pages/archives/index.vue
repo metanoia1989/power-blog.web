@@ -4,13 +4,13 @@ import { useArticleStore } from '@/stores/article'
 import ArchiveCard from '@/components/archive_card/index.vue'
 import Loading from '@/components/loading/index.vue'
 import { hexToHsl, parseArchives, sortArchiveMap } from '@/utils/blog'
-import { useNuxtApp } from '#app'
+
 import { getTags } from '@/api/article'
 import { useAppStore } from '~/stores/app'
 import { useUserStore } from '~/stores/user'
-import { useRouter } from '#app'
+import { useRouter } from 'vue-router'
+import $message from '@/components/message/plugin'
 
-const { $message } = useNuxtApp()
 const appStore = useAppStore()
 const userStore = useUserStore()
 const $config = computed(() => appStore.config)
@@ -19,10 +19,6 @@ const router = useRouter()
 
 const store = useArticleStore()
 
-definePageMeta({
-  index: 2,
-  title: '归档',
-})
 
 // 状态
 const totalCount = ref(0)
@@ -207,13 +203,13 @@ getTagsFn()
                   {{ year }}
                 </div>
                 <div class="archive-item-list">
-                  <NuxtLink
+                  <RouterLink
                     v-for="archive in archiveMap[year]"
                     :key="archive.id"
                     :to="`/posts/${archive.slug}`"
                   >
                     <ArchiveCard :cover="archive.feature_image" :title="archive.title" :created-at="archive.created_at_raw" />
-                  </NuxtLink>
+                  </RouterLink>
                 </div>
               </div>
               <div v-if="loadingMore" class="loading-more">

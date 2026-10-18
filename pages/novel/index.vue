@@ -5,7 +5,7 @@
         <Loading v-if="loading" />
         <transition name="from-bottom">
           <div v-if="!loading" class="novels">
-            <NuxtLink
+            <RouterLink
               v-for="novel in novels"
               :key="novel.id"
               :to="`/novel/${novel.slug}`"
@@ -13,7 +13,7 @@
               <NovelCard
                 :novel="novel"
               />
-            </NuxtLink>
+            </RouterLink>
           </div>
         </transition>
       </div>
@@ -29,21 +29,16 @@
 
 <script lang="ts" setup>
 import { ref, computed, watch, onMounted } from 'vue'
-import { useRoute } from '#app'
+import { useRoute } from 'vue-router'
 import Loading from '@/components/loading/index.vue'
 import Pagination from '@/components/pagination/index.vue'
-import { useNuxtApp } from '#app'
+
 import NovelCard from '@/components/novel_card/index.vue'
 import { useNovelStore } from '@/stores/novel'
 import type { Novel } from '@/typings/request'
-
-definePageMeta({
-  index: 4,
-  title: '小说',
-})
+import $message from '@/components/message/plugin'
 
 
-const { $message } = useNuxtApp()
 
 const route = useRoute()
 const store = useNovelStore()

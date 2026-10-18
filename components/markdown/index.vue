@@ -4,8 +4,7 @@ import { ref, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import Clipboard from 'clipboard'
 import VueEasyLightbox from 'vue-easy-lightbox'
 import MarkIt from './mark_it'
-
-const { $message } = useNuxtApp()
+import $message from '@/components/message/plugin'
 
 // Props
 const props = defineProps({

@@ -3,19 +3,15 @@ import { ref, onMounted } from 'vue'
 import MarkIt from '@/components/markdown/mark_it'
 import Markdown from '@/components/markdown/index.vue'
 
-import { useNuxtApp } from '#app'
-import { useAppStore } from '~/stores/app'
 
-const { $message } = useNuxtApp()
+import { useAppStore } from '~/stores/app'
+import $message from '@/components/message/plugin'
+
 const appStore = useAppStore()
 
 const config = computed(() => appStore.config)
 const about = ref('')
 
-definePageMeta({
-  index: 5,
-  title: '关于',
-})
 
 // state
 const isLiked = ref('notLiked')

@@ -1,20 +1,15 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
-import { useRoute } from '#app'
+import { useRoute } from 'vue-router'
 import { useArticleStore } from '@/stores/article'
 import Loading from '@/components/loading/index.vue'
 import PostCard from '@/components/post_card/index.vue'
 import CategoryBar from '@/components/category_bar/index.vue'
 import Pagination from '@/components/pagination/index.vue'
-import { useNuxtApp } from '#app'
+
 import { getCategories } from '@/api/article'
+import $message from '@/components/message/plugin'
 
-definePageMeta({
-  index: 2,
-  title: '分类',
-})
-
-const { $message } = useNuxtApp()
 
 const route = useRoute()
 const store = useArticleStore()
@@ -145,7 +140,7 @@ getCategoriesFn().then(() => {
         <Loading v-if="loading" />
         <transition name="from-bottom">
           <div v-if="!loading" class="posts">
-            <NuxtLink
+            <RouterLink
               v-for="post in posts"
               :key="post.id"
               :to="`/posts/${post.slug}`"
@@ -153,7 +148,7 @@ getCategoriesFn().then(() => {
               <PostCard
                 :post="post"
               />
-            </NuxtLink>
+            </RouterLink>
           </div>
         </transition>
       </div>

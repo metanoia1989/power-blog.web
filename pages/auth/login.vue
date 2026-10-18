@@ -43,9 +43,9 @@
         </div>
       </form>
       <div class="text-center">
-        <NuxtLink to="/auth/register" class="text-sm text-primary hover:text-primary-dark">
+        <RouterLink to="/auth/register" class="text-sm text-primary hover:text-primary-dark">
           还没有账户？立即注册
-        </NuxtLink>
+        </RouterLink>
       </div>
     </div>
   </div>
@@ -55,15 +55,12 @@
 import { ref } from 'vue';
 import { useUserStore } from '@/stores/user'
 import { login } from '@/api/account'
+import { useRouter } from 'vue-router'
+import $message from '@/components/message/plugin'
+const router = useRouter()
 
 
-definePageMeta({
-  layout: 'blank',
-  index: 299,
-  title: '登录',
-})
 
-const { $message } = useNuxtApp()
 const userStore = useUserStore()
 const username = ref('')
 const password = ref('')
@@ -87,7 +84,7 @@ const handleLogin = async () => {
     })
 
     setTimeout(() => {
-      navigateTo('/')
+      router.push('/')
     }, 800)
   } catch (error) {
     console.error('登录失败:', error)

@@ -4,21 +4,15 @@ import { useEditorStore } from '~/stores/editor'
 import { useArticleStore } from '~/stores/article'
 import { deleteArticle, getArticleById, editArticle, addArticle } from '~/api/article'
 import { VisibilityMap } from '~/enums/visibilityEnums'
-import { useRoute, useRouter, useNuxtApp } from '#app'
+import { useRoute, useRouter } from 'vue-router'
 import { generateSlug } from '~/utils/write'
+import $message from '@/components/message/plugin'
 
-definePageMeta({
-    layout: 'blank',
-    index: 199,
-    title: '编辑文章',
-})
 
 const route = useRoute()
 const router = useRouter()
 const editorStore = useEditorStore()
 const articleStore = useArticleStore()
-const { $message } = useNuxtApp()
-
 const editorHeight = ref('auto')
 const showSidebar = ref(false)
 const isLoading = ref(false)

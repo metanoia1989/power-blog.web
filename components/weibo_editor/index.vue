@@ -1,11 +1,11 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { useEditorStore } from '@/stores/editor'
-import { useNuxtApp } from '#app'
+
 import { VisibilityEnum, VisibilityMap } from '@/enums/visibilityEnums'
 import { useLockFn } from '@/composables/useLockFn'
+import $message from '@/components/message/plugin'
 
-const { $message } = useNuxtApp()
 const editorStore = useEditorStore()
 
 const props = defineProps({

@@ -6,16 +6,13 @@ import IdeaItem from '@/components/idea_item/index.vue'
 import Pagination from '@/components/pagination/index.vue'
 import { useAppStore } from '@/stores/app'
 import WeiboEditor from '@/components/weibo_editor/index.vue'
+import $message from '@/components/message/plugin'
 
 const appStore = useAppStore()
 const userStore = useUserStore()
 const $config = computed(() => appStore.config)
 const store = useArticleStore()
 
-definePageMeta({
-  index: 3,
-  title: '絮絮叨叨',
-})
 
 // 状态
 const isLogin = computed(() => userStore.isLogin)

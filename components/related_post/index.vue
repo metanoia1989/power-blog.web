@@ -25,7 +25,7 @@ const $config = computed(() => appStore.config)
 </script>
 
 <template>
-  <NuxtLink :to="`/posts/${post.slug}`" class="related-post">
+  <RouterLink :to="`/posts/${post.slug}`" class="related-post">
     <figure class="post-cover">
       <img v-if="post.feature_image" :src="post.feature_image" alt="Cover">
       <img v-else :src="$config.defaultCover" alt="Cover">
@@ -47,7 +47,7 @@ const $config = computed(() => appStore.config)
         </h2>
       </div>
     </div>
-  </NuxtLink>
+  </RouterLink>
 </template>
 
 <style lang="scss" scoped>

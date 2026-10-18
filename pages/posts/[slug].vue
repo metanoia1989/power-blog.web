@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
-import { useRoute, useRouter } from '#app'
+import { useRoute, useRouter } from 'vue-router'
 import RelatedPost from '@/components/related_post/index.vue'
 import Markdown from '@/components/markdown/index.vue'
 import MarkIt from '@/components/markdown/mark_it'
@@ -9,10 +9,6 @@ import { getArticleDetail, getRelativePosts } from '@/api/article'
 import { useAppStore } from '~/stores/app'
 import { useUserStore } from '~/stores/user'
 
-definePageMeta({
-  index: 99,
-  title: '文章',
-})
 
 // State
 const route = useRoute()
@@ -179,12 +175,12 @@ const handleEdit = () => {
             <div class="cate-wrap">
               <span v-if="!post.category" class="cate-text">未分类</span>
               <template v-else>
-                <NuxtLink
+                <RouterLink
                   class="cate-link"
                   :to="`/category/${post.category.slug}`"
                 >
                   {{ post.category.name }}
-                </NuxtLink>
+                </RouterLink>
               </template>
             </div>
             <div class="tags">

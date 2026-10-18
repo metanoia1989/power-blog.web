@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import Markdown from '@/components/markdown/index.vue'
-import { useNuxtApp, useRouter } from '#app'
+import { useRouter } from 'vue-router'
 import { useAppStore } from '@/stores/app';
 
 const appStore = useAppStore()

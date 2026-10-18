@@ -1,6 +1,6 @@
 <script setup>
 import { computed, onMounted } from 'vue'
-import { useRoute } from '#app'
+import { useRoute } from 'vue-router'
 import { useArticleStore } from '@/stores/article'
 import Category from '@/pages/category/[slug].vue'
 import { useAppStore } from '@/stores/app'
@@ -8,10 +8,6 @@ import { useAppStore } from '@/stores/app'
 const route = useRoute()
 const articleStore = useArticleStore()
 
-definePageMeta({
-  index: 0,
-  title: '首页',
-})
 
 // computed
 const isHome = computed(() => route.path === '/')

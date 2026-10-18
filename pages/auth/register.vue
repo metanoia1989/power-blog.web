@@ -75,9 +75,9 @@
         </div>
       </form>
       <div class="text-center">
-        <NuxtLink to="/auth/login" class="text-sm text-primary hover:text-primary-dark">
+        <RouterLink to="/auth/login" class="text-sm text-primary hover:text-primary-dark">
           已有账户？立即登录
-        </NuxtLink>
+        </RouterLink>
       </div>
     </div>
   </div>
@@ -87,14 +87,10 @@
 import { ref, shallowRef } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { sendActiveCode, register } from '@/api/account'
+import { useRouter } from 'vue-router'
+import $message from '@/components/message/plugin'
+const router = useRouter()
 
-definePageMeta({
-  layout: 'blank',
-  index: 300,
-  title: '注册',
-})
-
-const { $message } = useNuxtApp()
 
 const userStore = useUserStore()
 const nickname = ref('')
@@ -130,7 +126,7 @@ const handleRegister = async () => {
     })
 
     setTimeout(() => {
-      navigateTo('/')
+      router.push('/')
     }, 800)
   } catch (error) {
     console.log(error)

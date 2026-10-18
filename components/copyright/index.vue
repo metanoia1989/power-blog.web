@@ -21,7 +21,7 @@ const year = computed(() => {
     </div>
     <div class="recommend-site">
       <p>
-        <NuxtLink to="/about" class="travel"><SvgIcon name="travel" /> About Me</NuxtLink>
+        <RouterLink to="/about" class="travel"><SvgIcon name="travel" /> About Me</RouterLink>
         <a :href="config.github" target="_blank" class="github"><SvgIcon name="github" /> My GitHub</a>
         <a href="//github.com/wallleap/ethereal" target="_blank" class="theme"><SvgIcon name="theme" /> ethereal</a>
       </p>

@@ -120,7 +120,7 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, computed } from 'vue'
-import { useRoute, useRouter } from '#app'
+import { useRoute, useRouter } from 'vue-router'
 import { useNovelStore } from '@/stores/novel'
 import { useReadStore } from '@/stores/read'
 import { useUserStore } from '@/stores/user'

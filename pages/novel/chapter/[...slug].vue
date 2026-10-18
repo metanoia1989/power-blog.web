@@ -192,9 +192,6 @@ import { useRoute, useRouter } from 'vue-router'
 import { useReadStore } from '~/stores/read'
 import { getChapter } from '~/api/book'
 
-definePageMeta({
-  layout: 'blank',
-})
 
 const route = useRoute()
 const router = useRouter()
