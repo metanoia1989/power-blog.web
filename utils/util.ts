@@ -1,3 +1,5 @@
+import { isEmpty } from './validate'
+
 /**
  * @description 添加单位
  * @param {String | Number} value 值 100
@@ -67,31 +69,16 @@ export function objectToQuery(params: Record<string, any>): string {
  * @return {Boolean}
  */
 export function isWeixin() {
-    let ua;
-    if (import.meta.client) {
-        ua = navigator.userAgent.toLowerCase()
-    } else {
-        const headers = useRequestHeaders(['user-agent'])
-        ua = headers['user-agent']?.toLowerCase() ?? ''
-    }
-    if (ua.match(/MicroMessenger/i)?.[0]?.toLowerCase() === "micromessenger") {
-        return true;
-    }
-    return false
-}  
+    const ua = (navigator?.userAgent ?? '').toLowerCase()
+    return ua.match(/MicroMessenger/i)?.[0]?.toLowerCase() === 'micromessenger'
+}
 
 /**
  * @description 判断是否是手机访问
  * @return {Boolean}
  */
 export function isMobile() {
-    let ua;
-    if (import.meta.client) {
-        ua = navigator.userAgent.toLowerCase()
-    } else {
-        const headers = useRequestHeaders(['user-agent'])
-        ua = headers['user-agent']?.toLowerCase() ?? ''
-    }
+    const ua = (navigator?.userAgent ?? '').toLowerCase()
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua)
 }
 

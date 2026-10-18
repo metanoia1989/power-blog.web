@@ -1,4 +1,4 @@
-import { useRoute, useRouter } from '#app'
+import { useRoute, useRouter } from 'vue-router'
 import { useAppStore } from '~/stores/app'
 
 export default function usePagination() {
