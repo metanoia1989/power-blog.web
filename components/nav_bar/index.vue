@@ -20,7 +20,9 @@ const menus = [
   { id: 0, title: '首页', path: '/', icon: 'home' },
   { id: 1, title: '归档', path: '/archives', icon: 'archives' },
   { id: 2, title: '灵感', path: '/weibo', icon: 'inspire' },
-  { id: 3, title: '小说', path: '/novel', icon: 'tongxun' },
+  // 小说入口暂时隐藏：后端 power_books / power_book_chapters 缺 is_show 字段，
+  // /book/* 接口全部 500。等后端修好后把下面这行放开即可（路由一直保留着）。
+  // { id: 3, title: '小说', path: '/novel', icon: 'tongxun' },
   // { id: 4, title: '关于', path: '/about', icon: 'about' },
 ]
 
