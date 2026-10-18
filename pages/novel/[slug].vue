@@ -53,6 +53,10 @@
               <div class="qrcode-arrow"></div>
             </div>
           </div>
+          <button class="novel-control-button write-chapter" @click="handleWriteChapter">
+             <Icon name="solar:pen-2-outline" /> 
+             更新章节
+          </button>
         </div>
       </div>
     </div>
@@ -298,6 +302,15 @@ const sortedVolumes = computed(() => {
 const handleEdit = () => {
   if (isLogin.value && novel.value?.id) {
     router.push(`/novel/edit?id=${novel.value.id}`)
+  } else {
+    router.push('/auth/login')
+  }
+}
+
+// 更新章节
+const handleWriteChapter = () => {
+  if (isLogin.value && novel.value?.id) {
+    router.push(`/novel/write?id=${novel.value.id}`)
   } else {
     router.push('/auth/login')
   }
