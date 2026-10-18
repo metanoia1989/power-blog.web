@@ -1,13 +1,20 @@
 node_modules
 *.log*
-.nuxt
-.nitro
 .cache
-.output
 .vite
 .env
 .env.development
+.env.local
 .env.production
 dist
+
+# 自动生成的构建产物
+src/icons/collections.ts
+typings/auto-imports.d.ts
+typings/components.d.ts
+
+# 本地打包缓存（沙箱环境下避免写用户目录）
+.npm-cache
+.yarn-cache
 
 *.tar.gz
