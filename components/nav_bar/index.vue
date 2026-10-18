@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
-import { useRouter, useRoute } from '#app'
+import { useRouter, useRoute } from 'vue-router'
 import SvgIcon from '@/components/svg-icon/index.vue'
 import { useStyleStore } from '@/stores/style'
 import { useAppStore } from '@/stores/app'
@@ -105,19 +105,19 @@ onMounted(() => {
         <img src="/logo-center.png" alt="site logo">
       </div>
       <h1>
-        <NuxtLink class="title" to="/">
+        <RouterLink class="title" to="/">
           {{ $config.title }}
-        </NuxtLink>
+        </RouterLink>
         <span class="subtitle">{{ $config.subtitle }}</span>
       </h1>
     </div>
     <nav class="site-nav">
       <ul ref="menuWrap">
         <li v-for="menu in menus" :key="menu.id">
-          <NuxtLink :to="menu.path">
+          <RouterLink :to="menu.path">
             <SvgIcon :name="menu.icon" color="currentColor" />
              {{ menu.title }}
-          </NuxtLink>
+          </RouterLink>
         </li>
       </ul>
     </nav>

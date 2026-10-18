@@ -24,14 +24,10 @@
 
 <script setup lang="ts">
 
-import { useRoute } from '#app'
+import { useRoute } from 'vue-router'
+import $message from '@/components/message/plugin'
 
-definePageMeta({
-  layout: 'blank',
-  title: '禁止微信浏览器访问',
-})
 
-const { $message } = useNuxtApp();
 const route = useRoute()
 const targetUrl = ref(route.query.redirect as string || '/')
 

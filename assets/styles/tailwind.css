@@ -1,0 +1,7 @@
+/* Tailwind 的入口。
+   原来由 @nuxtjs/tailwindcss 模块自动注入，迁移到 Vite 后需要自己引入，
+   并且在 main.ts 中排在 assets/styles/index.scss 之前，
+   这样项目自己的 reset.scss 可以覆盖 Tailwind 的 preflight。 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

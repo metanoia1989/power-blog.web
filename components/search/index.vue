@@ -1,10 +1,9 @@
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from '#app'
+import { useRouter } from 'vue-router'
 import { useArticleStore } from '@/stores/article'
-import { useNuxtApp } from '#app'
+import $message from '@/components/message/plugin'
 
-const { $message } = useNuxtApp()
 
 const router = useRouter()
 const articleStore = useArticleStore()

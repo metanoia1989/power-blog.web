@@ -1,10 +1,11 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
     content: [
+        './index.html',
         './components/**/*.{vue,js}',
         './layouts/**/*.vue',
         './pages/**/*.vue',
-        './plugins/**/*.{js,ts}'
+        './src/**/*.{vue,js,ts}'
     ],
     darkMode: ['selector', '[data-theme="dark"]'],
     theme: {

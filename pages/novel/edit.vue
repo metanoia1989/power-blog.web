@@ -109,20 +109,14 @@ import { ref, onMounted, computed, nextTick } from 'vue'
 import { useNovelStore } from '~/stores/novel'
 import { addBook, editBook, getBookDetailsById } from '~/api/book'
 import { VisibilityMap } from '~/enums/visibilityEnums'
-import { useRouter, useNuxtApp, useRoute } from '#app'
+import { useRouter, useRoute } from 'vue-router'
 import { generateSlug } from '~/utils/write'
+import $message from '@/components/message/plugin'
 
-definePageMeta({
-    layout: 'blank',
-    index: 199,
-    title: '创建小说',
-})
 
 const route = useRoute()
 const router = useRouter()
 const novelStore = useNovelStore()
-const { $message } = useNuxtApp()
-
 const showSidebar = ref(false)
 const isLoading = ref(false)
 const formData = ref({

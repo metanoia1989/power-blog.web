@@ -12,7 +12,7 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
-import { useRoute } from '#app'
+import { useRoute } from 'vue-router'
 
 // Components
 import NavBar from '@/components/nav_bar/index.vue'

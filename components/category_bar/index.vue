@@ -1,16 +1,16 @@
 <template>
   <div class="categories-bar">
     <div class="categories">
-      <NuxtLink to="/">
+      <RouterLink to="/">
         近期文章
-      </NuxtLink>
-      <NuxtLink 
+      </RouterLink>
+      <RouterLink 
         v-for="category in categories" 
         :key="category.id" 
         :to="`/category/${category.slug}`"
       >
         {{ category.name }}
-      </NuxtLink>
+      </RouterLink>
     </div>
   </div>
 </template>
@@ -18,12 +18,10 @@
 <script setup>
 import { computed } from 'vue'
 import { useArticleStore } from '@/stores/article'
-import { useNuxtApp } from '#app'
+
 import { getCategories } from '@/api/article'
 
 const articleStore = useArticleStore()
-const { $message } = useNuxtApp()
-
 // computed
 const categories = computed(() => articleStore.categories)
 
